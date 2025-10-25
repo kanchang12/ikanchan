@@ -1,7 +1,7 @@
 import os
 import uuid
 from datetime import datetime
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, redirect
 import google.generativeai as genai
 import requests
 from supabase import create_client, Client
@@ -454,6 +454,12 @@ Give a honest 1-paragraph summary:
         return jsonify({'error': 'Request timeout. Website took too long to respond'}), 500
     except Exception as e:
         return jsonify({'error': f'Analysis failed: {str(e)}'}), 500
+
+@app.before_request
+def redirect_to_https():
+    if request.headers.get('X-Forwarded-Proto') == 'http':
+        url = request.url.replace('http://', 'https://', 1)
+        return redirect(url, code=301)
 
 @app.route('/api/contact', methods=['POST'])
 def contact():
