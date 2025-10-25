@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LaunchForge | MVP Development & Project Rescue | Leeds, UK</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Expert MVP development and project rescue services in Leeds, UK. From idea to market in days. Built 6+ production AI apps. Google Cloud certified. Starting from £2,000.">
+    <meta name="keywords" content="MVP development Leeds, software developer Leeds, AI development Leeds, project rescue, Cloud Run expert, Google Cloud Leeds, web development Leeds">
+    <meta name="author" content="Kanchan - LaunchForge">
+    
+    <!-- Local Business Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "LaunchForge",
+      "description": "MVP Development and Project Rescue Services",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Leeds",
+        "addressRegion": "West Yorkshire",
+        "addressCountry": "UK"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 53.8008,
+        "longitude": -1.5491
+      },
+      "priceRange": "££",
+      "telephone": "",
+      "areaServed": {
+        "@type": "City",
+        "name": "Leeds"
+      },
+      "serviceType": ["MVP Development", "Software Development", "AI Development", "Project Rescue"],
+      "founder": {
+        "@type": "Person",
+        "name": "Kanchan",
+        "jobTitle": "AI Developer & Business Innovation Specialist"
+      }
+    }
+    </script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">LaunchForge</div>
+                <ul class="nav-links">
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#portfolio">Portfolio</a></li>
+                    <li><a href="#carecircle">Featured Work</a></li>
+                    <li><a href="#analysis">Free Analysis</a></li>
+                    <li><a href="#contact" class="btn-nav">Get Started</a></li>
+                </ul>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg">
+            <div class="gradient-circle circle-1"></div>
+            <div class="gradient-circle circle-2"></div>
+            <div class="gradient-circle circle-3"></div>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <div class="badge">Built 6+ production AI apps | 16+ years professional experience | Google Cloud Certified</div>
+                    <h1>From Idea to Market in Days, Not Months</h1>
+                    <p class="hero-subtitle">Expert MVP development and rescue services in Leeds, UK. I build what others can't—or fix what they broke.</p>
+                    <div class="hero-buttons">
+                        <a href="#analysis" class="btn btn-primary">Get 5 Free GitHub Analyses</a>
+                        <a href="#contact" class="btn btn-secondary">Book Free 30-Min Consultation</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="floating-card card-1">
+                        <div class="card-icon">💡</div>
+                        <div class="card-text">Idea to MVP</div>
+                    </div>
+                    <div class="floating-card card-2">
+                        <div class="card-icon">🔧</div>
+                        <div class="card-text">Project Rescue</div>
+                    </div>
+                    <div class="floating-card card-3">
+                        <div class="card-icon">🚀</div>
+                        <div class="card-text">Cloud Run Expert</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="wave-divider">
+            <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-header">
+                <h2>Services</h2>
+                <p>Transforming ideas into reality and rescuing failing projects</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">💡</div>
+                    <h3>Idea to MVP</h3>
+                    <p>Got a vision? I'll build it into a working product ready for market.</p>
+                    <ul class="service-list">
+                        <li>From £2,000</li>
+                        <li>2-4 week delivery</li>
+                        <li>Full source code</li>
+                        <li>Cloud Run deployment</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-outline">Start Your MVP</a>
+                </div>
+                
+                <div class="service-card featured">
+                    <div class="service-badge">Most Popular</div>
+                    <div class="service-icon">🔧</div>
+                    <h3>Project Rescue</h3>
+                    <p>Broken app? Incomplete project? I'll fix it and get you back on track.</p>
+                    <ul class="service-list">
+                        <li>From £2,000</li>
+                        <li>Fast turnaround</li>
+                        <li>Debug & optimize</li>
+                        <li>Complete refactoring if needed</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-primary">Rescue My Project</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">🎯</div>
+                    <h3>Free Analysis</h3>
+                    <p>Get business insights: security issues, SEO problems, performance analysis, and migration assessment.</p>
+                    <ul class="service-list">
+                        <li>First 30 mins free</li>
+                        <li>GitHub: 5 critical issues with fixes</li>
+                        <li>Website: Security, SEO, Performance insights</li>
+                        <li>Follow-up: £100/session</li>
+                    </ul>
+                    <a href="#analysis" class="btn btn-outline">Get Free Analysis</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section class="portfolio" id="portfolio">
+        <div class="container">
+            <div class="section-header">
+                <h2>Portfolio</h2>
+                <p>Real solutions, real impact</p>
+            </div>
+            <div class="portfolio-grid">
+                <div class="portfolio-item">
+                    <div class="portfolio-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <!-- Add your screenshot: <img src="carecircle-screenshot.png" alt="CareCircle"> -->
+                    </div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">Healthcare</span>
+                        <h3>CareCircle</h3>
+                        <p>NHS-ready medication adherence platform with zero-data architecture and end-to-end encryption</p>
+                        <a href="https://www.carecircle.top/" target="_blank" class="portfolio-link">View Project →</a>
+                    </div>
+                </div>
+                
+                <div class="portfolio-item">
+                    <div class="portfolio-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <!-- Add your screenshot: <img src="homerule-screenshot.png" alt="HomeRule"> -->
+                    </div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">Real Estate</span>
+                        <h3>HomeRule</h3>
+                        <p>UK planning permission checker with AI-powered analysis</p>
+                        <a href="https://www.homerule.uk/" target="_blank" class="portfolio-link">View Project →</a>
+                    </div>
+                </div>
+                
+                <div class="portfolio-item">
+                    <div class="portfolio-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <!-- Add your screenshot: <img src="trueskills-screenshot.png" alt="TrueSkills"> -->
+                    </div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">Education</span>
+                        <h3>TrueSkills</h3>
+                        <p>Anti-cheating assessment platform with real-time monitoring</p>
+                        <a href="https://trueskills.uk/" target="_blank" class="portfolio-link">View Project →</a>
+                    </div>
+                </div>
+                
+                <div class="portfolio-item">
+                    <div class="portfolio-image" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                        <!-- Add your screenshot: <img src="mathtales-screenshot.png" alt="MathTales"> -->
+                    </div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">EdTech</span>
+                        <h3>MathTales</h3>
+                        <p>Fairy tale-based math learning game for children</p>
+                        <a href="https://mathtales.top/" target="_blank" class="portfolio-link">View Project →</a>
+                    </div>
+                </div>
+                
+                <div class="portfolio-item">
+                    <div class="portfolio-image" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                        <!-- Add your screenshot: <img src="findingurway-screenshot.png" alt="FindingUrWay"> -->
+                    </div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">Travel</span>
+                        <h3>FindingUrWay</h3>
+                        <p>AI-powered travel planner with affiliate integrations</p>
+                        <a href="https://findingurway.online/" target="_blank" class="portfolio-link">View Project →</a>
+                    </div>
+                </div>
+                
+                <div class="portfolio-item">
+                    <div class="portfolio-image" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">
+                        <!-- Add your screenshot: <img src="wizardstrial-screenshot.png" alt="WizardsTrial"> -->
+                    </div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">Gaming</span>
+                        <h3>WizardsTrial</h3>
+                        <p>Interactive puzzle game with AI-generated challenges</p>
+                        <a href="https://wizardstrial.space/" target="_blank" class="portfolio-link">View Project →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CareCircle Featured Section -->
+    <section class="carecircle-feature" id="carecircle">
+        <div class="container">
+            <div class="carecircle-content">
+                <div class="carecircle-text">
+                    <span class="feature-badge">Featured Work</span>
+                    <h2>CareCircle: NHS-Ready Healthcare Innovation</h2>
+                    <p class="lead">A medication reminder and health-tracking application designed to improve medication adherence and reduce caregiver anxiety.</p>
+                    
+                    <div class="feature-highlights">
+                        <div class="highlight-item">
+                            <div class="highlight-icon">🔒</div>
+                            <div>
+                                <h4>Zero Data Stored</h4>
+                                <p>End-to-end encrypted with no centralized database. Eliminates data breach liability.</p>
+                            </div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="highlight-icon">🌉</div>
+                            <div>
+                                <h4>Privacy Bridge Architecture</h4>
+                                <p>17-digit sharing code provides real-time adherence information without identity disclosure.</p>
+                            </div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="highlight-icon">📸</div>
+                            <div>
+                                <h4>AI-Based Simplicity</h4>
+                                <p>Smart photo capture automatically extracts medication details from labels.</p>
+                            </div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="highlight-icon">✅</div>
+                            <div>
+                                <h4>DTAC Aligned</h4>
+                                <p>Built with NHS Digital Technology Assessment Criteria from the outset.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-buttons">
+                        <a href="https://www.carecircle.top/" target="_blank" class="btn btn-primary">Visit CareCircle</a>
+                        <a href="https://zenodo.org/records/17440767" target="_blank" class="btn btn-outline">Read Technical Paper</a>
+                    </div>
+                </div>
+                <div class="carecircle-visual">
+                    <div class="phone-mockup">
+                        <div class="mockup-screen">
+                            <div class="mockup-app">
+                                <div class="app-header">
+                                    <div class="app-title">CareCircle</div>
+                                    <div class="app-status">Connected</div>
+                                </div>
+                                <div class="app-stats">
+                                    <div class="stat-box">
+                                        <div class="stat-number">0</div>
+                                        <div class="stat-label">Taken Today</div>
+                                    </div>
+                                    <div class="stat-box active">
+                                        <div class="stat-number">1</div>
+                                        <div class="stat-label">Total Today</div>
+                                    </div>
+                                </div>
+                                <div class="app-meds">
+                                    <div class="med-item">
+                                        <div class="med-time">7:03 PM</div>
+                                        <div class="med-name">P1</div>
+                                        <div class="med-action">Mark as Taken</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Free Analysis Section -->
+    <section class="analysis" id="analysis">
+        <div class="container">
+            <div class="section-header">
+                <h2>Get Expert Insights for Free</h2>
+                <p>Direct analysis of your code or website - security, SEO, performance, and migration assessment</p>
+            </div>
+            
+            <div class="analysis-tabs">
+                <button class="tab-btn active" data-tab="github">GitHub Analysis</button>
+                <button class="tab-btn" data-tab="website">Website Audit</button>
+            </div>
+            
+            <div class="analysis-content">
+                <!-- GitHub Tab -->
+                <div class="tab-panel active" id="github-panel">
+                    <div class="analysis-form">
+                        <h3>GitHub Repository Analysis</h3>
+                        <p>Get 5 critical issues with specific fixes across architecture, security, deployment, performance, and code quality</p>
+                        <form id="githubForm">
+                            <div class="form-group">
+                                <label for="github-url">GitHub Repository URL</label>
+                                <input type="url" id="github-url" name="github-url" placeholder="https://github.com/username/repository" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary" id="githubSubmitBtn">Analyze Repository</button>
+                        </form>
+                        <div class="analysis-result" id="github-result" style="display: none;">
+                            <h4>Analysis Results</h4>
+                            <div class="result-content" id="github-result-content"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Website Tab -->
+                <div class="tab-panel" id="website-panel">
+                    <div class="analysis-form">
+                        <h3>Live Website Audit</h3>
+                        <p>Get direct insights: top 3 critical issues, SEO problems, security vulnerabilities, performance bottlenecks, and Cloud Run migration assessment</p>
+                        <form id="websiteForm">
+                            <div class="form-group">
+                                <label for="website-url">Website URL</label>
+                                <input type="url" id="website-url" name="website-url" placeholder="https://yourwebsite.com" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary" id="websiteSubmitBtn">Analyze Website</button>
+                        </form>
+                        <div class="analysis-result" id="website-result" style="display: none;">
+                            <h4>Analysis Results</h4>
+                            <div class="result-content" id="website-result-content"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <h2>How It Works</h2>
+                <p>Simple process from consultation to launch</p>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Discover</h3>
+                    <p>Free 30-minute consultation to understand your needs</p>
+                </div>
+                <div class="step-arrow">→</div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Plan</h3>
+                    <p>Clear scope and transparent pricing</p>
+                </div>
+                <div class="step-arrow">→</div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Build</h3>
+                    <p>Rapid development with regular updates</p>
+                </div>
+                <div class="step-arrow">→</div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Launch</h3>
+                    <p>Cloud Run deployment and handover</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose -->
+    <section class="why-choose">
+        <div class="container">
+            <div class="section-header">
+                <h2>Why Choose LaunchForge</h2>
+                <p>What makes working with me different</p>
+            </div>
+            <div class="why-grid">
+                <div class="why-item">
+                    <div class="why-icon">⚡</div>
+                    <h3>Solo Founder Who Ships Fast</h3>
+                    <p>No committees, no delays. Direct communication and rapid execution.</p>
+                </div>
+                <div class="why-item">
+                    <div class="why-icon">🏥</div>
+                    <h3>Real-World Experience</h3>
+                    <p>Built production apps in healthcare, education, travel, and real estate.</p>
+                </div>
+                <div class="why-item">
+                    <div class="why-icon">☁️</div>
+                    <h3>Cloud Run Expert</h3>
+                    <p>Google Cloud certified with serverless deployment expertise.</p>
+                </div>
+                <div class="why-item">
+                    <div class="why-icon">🔐</div>
+                    <h3>Privacy-First Approach</h3>
+                    <p>End-to-end encryption and zero-data architecture when needed.</p>
+                </div>
+                <div class="why-item">
+                    <div class="why-icon">📍</div>
+                    <h3>Leeds-Based, UK-Focused</h3>
+                    <p>Local presence with understanding of UK business needs.</p>
+                </div>
+                <div class="why-item">
+                    <div class="why-icon">💼</div>
+                    <h3>16+ Years Experience</h3>
+                    <p>Professional experience across software development and business innovation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h2>Ready to Build?</h2>
+                    <p class="lead">Let's discuss your project or get started with a free consultation.</p>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <div class="contact-icon">📍</div>
+                            <div>
+                                <h4>Location</h4>
+                                <p>Leeds, West Yorkshire, UK</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">💰</div>
+                            <div>
+                                <h4>Pricing</h4>
+                                <p>MVPs from £2,000 | Consultations: First 30 mins free, then £100/session</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">⚡</div>
+                            <div>
+                                <h4>Response Time</h4>
+                                <p>Within 24 hours</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">💾</div>
+                            <div>
+                                <h4>Your Data</h4>
+                                <p>All submissions stored securely in Supabase. Check your Supabase dashboard to view responses.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form-wrapper">
+                    <form id="contactForm" class="contact-form">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="project-type">Project Type</label>
+                            <select id="project-type" name="project-type">
+                                <option value="">Select one</option>
+                                <option value="new-mvp">New MVP Development</option>
+                                <option value="rescue">Project Rescue/Fixing</option>
+                                <option value="consultation">Free Consultation</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="url">GitHub/Website URL (optional)</label>
+                            <input type="url" id="url" name="url">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Tell me about your project</label>
+                            <textarea id="message" name="message" rows="4"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" id="contactSubmitBtn">Send Message</button>
+                    </form>
+                    <div class="form-success" id="contactSuccess" style="display: none;">
+                        <div class="success-icon">✓</div>
+                        <h3>Message Sent!</h3>
+                        <p>Thank you for reaching out. I'll respond within 24 hours.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chatbot -->
+    <div class="chatbot" id="chatbot">
+        <div class="chatbot-header" id="chatbotHeader">
+            <div class="chatbot-title">
+                <span class="chatbot-avatar">💬</span>
+                <div>
+                    <div class="chatbot-name">LaunchForge Assistant</div>
+                    <div class="chatbot-status">Powered by Gemini</div>
+                </div>
+            </div>
+            <button class="chatbot-close" id="chatbotClose">×</button>
+        </div>
+        <div class="chatbot-messages" id="chatbotMessages">
+            <div class="chatbot-message bot-message">
+                <div class="message-content">
+                    <p>Hello! I'm here to help you learn about LaunchForge services.</p>
+                    <p>Ask me about:</p>
+                    <ul>
+                        <li>MVP development</li>
+                        <li>Project rescue services</li>
+                        <li>Pricing and timeline</li>
+                        <li>Portfolio work</li>
+                        <li>Booking a consultation</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <form class="chatbot-input-form" id="chatbotForm">
+            <input type="text" class="chatbot-input" id="chatbotInput" placeholder="Ask me anything...">
+            <button type="submit" class="chatbot-send">Send</button>
+        </form>
+    </div>
+    <button class="chatbot-toggle" id="chatbotToggle">
+        <span class="toggle-icon">💬</span>
+        <span class="toggle-text">Chat with me</span>
+    </button>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>LaunchForge</h3>
+                    <p>Expert MVP development and project rescue services in Leeds, UK.</p>
+                    <p class="footer-badge">Built for Cloud Run Hackathon 2025</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#services">MVP Development</a></li>
+                        <li><a href="#services">Project Rescue</a></li>
+                        <li><a href="#analysis">Free Analysis</a></li>
+                        <li><a href="#contact">Consultation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Portfolio</h4>
+                    <ul>
+                        <li><a href="https://www.carecircle.top/" target="_blank">CareCircle</a></li>
+                        <li><a href="https://www.homerule.uk/" target="_blank">HomeRule</a></li>
+                        <li><a href="https://trueskills.uk/" target="_blank">TrueSkills</a></li>
+                        <li><a href="https://mathtales.top/" target="_blank">MathTales</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Leeds, UK</h4>
+                    <p>Serving businesses across Leeds, West Yorkshire, and the UK.</p>
+                    <p>MVP Development Leeds | Software Developer Leeds | Cloud Run Expert</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 LaunchForge. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
