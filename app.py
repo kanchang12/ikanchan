@@ -28,9 +28,9 @@ if GEMINI_API_KEY:
     model = genai.GenerativeModel('gemini-2.0-flash-exp')
 
 # Sales chatbot system prompt
-SALES_CHATBOT_PROMPT = """You are a professional sales assistant for LaunchForge, an MVP development and project rescue service based in Leeds, UK.
+SALES_CHATBOT_PROMPT = """You are a professional sales assistant for ikanchan, an MVP development and project rescue service based in Leeds, UK.
 
-**About LaunchForge:**
+**About ikanchan:**
 - Owner: Kanchan - AI Developer & Business Innovation Specialist
 - Experience: 16+ years professional experience, 6+ production AI apps built
 - Location: Leeds, UK
