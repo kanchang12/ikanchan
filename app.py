@@ -228,353 +228,246 @@ Be specific and practical."""
 # REAL SECURITY SCANNER USING PUBLIC APIS
 # ============================================================================
 
+import subprocess
+import json
+import os
+
 @app.route('/api/security-scan', methods=['POST'])
 def security_scan():
-    """Real security scanner using Mozilla Observatory + HackerTarget APIs"""
-    if not GEMINI_API_KEY:
-        return jsonify({'error': 'Scanner unavailable'}), 500
+    """Real security scanner using actual open-source tools"""
     
     try:
         data = request.json
         target_url = data.get('url', '').strip()
         
-        if not target_url:
-            return jsonify({'error': 'URL required'}), 400
-        
-        if not validators.url(target_url):
+        if not target_url or not validators.url(target_url):
             return jsonify({'error': 'Invalid URL'}), 400
         
         parsed = urlparse(target_url)
         domain = parsed.netloc
         
-        logger.info(f"Starting real security scan for {domain}...")
+        logger.info(f"Scanning {domain} with open-source tools...")
         
         all_findings = []
         
         # ======================
-        # 1. MOZILLA OBSERVATORY - REAL COMPREHENSIVE SCAN
+        # 1. NIKTO WEB SCANNER
         # ======================
-        logger.info("Running Mozilla Observatory scan...")
+        logger.info("Running Nikto scan...")
         try:
-            # Start scan
-            obs_start = requests.post(
-                'https://http-observatory.security.mozilla.org/api/v1/analyze',
-                params={'host': domain, 'rescan': 'true'},
-                timeout=15
+            nikto_result = subprocess.run(
+                ['nikto', '-h', target_url, '-Format', 'json', '-output', '/tmp/nikto_output.json'],
+                timeout=300,
+                capture_output=True,
+                text=True
             )
             
-            if obs_start.status_code == 200:
-                scan_data = obs_start.json()
-                scan_id = scan_data.get('scan_id')
+            if os.path.exists('/tmp/nikto_output.json'):
+                with open('/tmp/nikto_output.json', 'r') as f:
+                    nikto_data = json.load(f)
+                    
+                    for vuln in nikto_data.get('vulnerabilities', []):
+                        all_findings.append({
+                            'title': vuln.get('msg', 'Security Issue'),
+                            'risk_level': 'HIGH',
+                            'business_impact': vuln.get('description', ''),
+                            'technical_details': f"Nikto detected: {vuln.get('uri', '')}",
+                            'official_docs': ['https://cirt.net/Nikto2'],
+                            'estimated_fix_time': '2-4 hours'
+                        })
                 
-                # Wait up to 90 seconds for scan completion
-                for attempt in range(30):
-                    time.sleep(3)
-                    
-                    check = requests.get(
-                        f'https://http-observatory.security.mozilla.org/api/v1/analyze?host={domain}',
-                        timeout=10
-                    )
-                    
-                    if check.status_code == 200:
-                        result = check.json()
-                        state = result.get('state')
-                        
-                        logger.info(f"Observatory scan state: {state} (attempt {attempt + 1}/30)")
-                        
-                        if state == 'FINISHED':
-                            # Get test results
-                            tests_url = f'https://http-observatory.security.mozilla.org/api/v1/getScanResults?scan={scan_id}'
-                            tests_resp = requests.get(tests_url, timeout=10)
-                            
-                            if tests_resp.status_code == 200:
-                                tests = tests_resp.json()
-                                
-                                # Parse each test result
-                                for test_name, test_data in tests.items():
-                                    if isinstance(test_data, dict):
-                                        passed = test_data.get('pass', True)
-                                        score = test_data.get('score_modifier', 0)
-                                        
-                                        if not passed:
-                                            severity = 'CRITICAL' if score <= -20 else 'HIGH' if score <= -10 else 'MEDIUM'
-                                            
-                                            all_findings.append({
-                                                'title': test_name.replace('-', ' ').title(),
-                                                'severity': severity,
-                                                'description': test_data.get('score_description', 'Security issue detected'),
-                                                'details': test_data.get('expectation', ''),
-                                                'source': 'Mozilla Observatory'
-                                            })
-                                
-                                # Get overall grade
-                                grade = result.get('grade', 'F')
-                                score = result.get('score', 0)
-                                
-                                logger.info(f"Observatory scan complete: Grade {grade}, Score {score}, Found {len(all_findings)} issues")
-                            break
-                        
-                        elif state in ['ABORTED', 'FAILED']:
-                            logger.error(f"Observatory scan failed: {state}")
-                            break
+                os.remove('/tmp/nikto_output.json')
         
         except Exception as e:
-            logger.error(f"Mozilla Observatory error: {e}")
+            logger.error(f"Nikto error: {e}")
         
         # ======================
-        # 2. HACKERTARGET.COM FREE APIs
+        # 2. NMAP PORT SCAN
         # ======================
-        logger.info("Running HackerTarget scans...")
-        
-        # 2a. HTTP Headers scan
+        logger.info("Running Nmap scan...")
         try:
-            headers_api = f'https://api.hackertarget.com/httpheaders/?q={domain}'
-            headers_resp = requests.get(headers_api, timeout=15)
+            nmap_result = subprocess.run(
+                ['nmap', '-sV', '--script=vuln', '-oX', '/tmp/nmap_output.xml', domain],
+                timeout=300,
+                capture_output=True,
+                text=True
+            )
             
-            if headers_resp.status_code == 200:
-                headers_text = headers_resp.text
+            if os.path.exists('/tmp/nmap_output.xml'):
+                # Parse XML output
+                import xml.etree.ElementTree as ET
+                tree = ET.parse('/tmp/nmap_output.xml')
+                root = tree.getroot()
                 
-                # Check for missing critical headers
-                critical_headers = ['strict-transport-security', 'content-security-policy', 'x-frame-options', 'x-content-type-options']
+                for port in root.findall('.//port'):
+                    state = port.find('state')
+                    if state is not None and state.get('state') == 'open':
+                        portid = port.get('portid')
+                        service = port.find('service')
+                        service_name = service.get('name', 'unknown') if service is not None else 'unknown'
+                        
+                        # Check for vulnerable services
+                        if portid in ['21', '23', '3389', '445']:
+                            all_findings.append({
+                                'title': f'Vulnerable Port {portid} Open',
+                                'risk_level': 'HIGH',
+                                'business_impact': f'{service_name} service exposed on port {portid}',
+                                'technical_details': f'Nmap detected open port: {portid}/{service_name}',
+                                'official_docs': ['https://nmap.org/'],
+                                'estimated_fix_time': '2-4 hours'
+                            })
                 
-                for header in critical_headers:
-                    if header not in headers_text.lower():
+                # Check for script results (vulnerabilities)
+                for script in root.findall('.//script'):
+                    script_id = script.get('id', '')
+                    if 'vuln' in script_id or 'cve' in script_id.lower():
                         all_findings.append({
-                            'title': f'Missing {header.replace("-", " ").title()}',
-                            'severity': 'HIGH',
-                            'description': f'{header} header not found',
-                            'details': 'Verified by HackerTarget API scan',
-                            'source': 'HackerTarget Headers'
+                            'title': script_id.replace('-', ' ').title(),
+                            'risk_level': 'HIGH',
+                            'business_impact': 'Vulnerability detected by Nmap',
+                            'technical_details': script.get('output', '')[:200],
+                            'official_docs': ['https://nmap.org/'],
+                            'estimated_fix_time': '4-8 hours'
                         })
-        
-        except Exception as e:
-            logger.error(f"HackerTarget headers error: {e}")
-        
-        # 2b. Zone transfer / DNS check
-        try:
-            dns_api = f'https://api.hackertarget.com/dnslookup/?q={domain}'
-            dns_resp = requests.get(dns_api, timeout=15)
-            
-            if dns_resp.status_code == 200:
-                logger.info("DNS lookup completed")
-        
-        except Exception as e:
-            logger.error(f"DNS check error: {e}")
-        
-        # 2c. Port scan
-        try:
-            nmap_api = f'https://api.hackertarget.com/nmap/?q={domain}'
-            nmap_resp = requests.get(nmap_api, timeout=20)
-            
-            if nmap_resp.status_code == 200:
-                nmap_results = nmap_resp.text
                 
-                # Check for common vulnerable ports
-                vulnerable_ports = {
-                    '21': 'FTP - insecure file transfer',
-                    '23': 'Telnet - unencrypted remote access',
-                    '3389': 'RDP - Remote Desktop',
-                    '445': 'SMB - file sharing'
-                }
-                
-                for port, description in vulnerable_ports.items():
-                    if f'{port}/tcp' in nmap_results and 'open' in nmap_results:
-                        all_findings.append({
-                            'title': f'Port {port} Open',
-                            'severity': 'HIGH',
-                            'description': f'Vulnerable port detected: {description}',
-                            'details': f'Port {port} is publicly accessible',
-                            'source': 'HackerTarget Nmap'
-                        })
+                os.remove('/tmp/nmap_output.xml')
         
         except Exception as e:
             logger.error(f"Nmap error: {e}")
         
         # ======================
-        # 3. IMMUNIWEB API (free tier)
+        # 3. WAPITI WEB VULNERABILITY SCANNER
         # ======================
-        logger.info("Running ImmuniWeb scan...")
+        logger.info("Running Wapiti scan...")
         try:
-            immuniweb_api = 'https://www.immuniweb.com/websec/api/v1/'
-            
-            scan_request = requests.post(
-                immuniweb_api,
-                json={'url': target_url, 'recheck': False},
-                timeout=20
+            wapiti_result = subprocess.run(
+                ['wapiti', '-u', target_url, '-f', 'json', '-o', '/tmp/wapiti_output.json', '--flush-session'],
+                timeout=600,
+                capture_output=True,
+                text=True
             )
             
-            if scan_request.status_code == 200:
-                scan_data = scan_request.json()
-                
-                # Check for vulnerabilities in response
-                if 'vulnerabilities' in scan_data:
-                    for vuln in scan_data['vulnerabilities']:
-                        all_findings.append({
-                            'title': vuln.get('title', 'Security Issue'),
-                            'severity': vuln.get('severity', 'MEDIUM').upper(),
-                            'description': vuln.get('description', ''),
-                            'details': vuln.get('solution', ''),
-                            'source': 'ImmuniWeb'
-                        })
-        
-        except Exception as e:
-            logger.error(f"ImmuniWeb error: {e}")
-        
-        # ======================
-        # 4. DIRECT TESTING - SQL INJECTION, XSS, etc.
-        # ======================
-        logger.info("Running direct vulnerability tests...")
-        
-        try:
-            # Get the actual page
-            page_resp = requests.get(target_url, timeout=10)
-            page_html = page_resp.text
-            soup = BeautifulSoup(page_html, 'html.parser')
-            
-            # Find all forms for testing
-            forms = soup.find_all('form')
-            
-            if forms:
-                # Test first form for SQL injection
-                test_form = forms[0]
-                form_action = test_form.get('action', '')
-                form_method = test_form.get('method', 'get').lower()
-                
-                # Get all input fields
-                inputs = test_form.find_all('input')
-                
-                if inputs:
-                    # SQL injection payloads
-                    sql_payloads = ["' OR '1'='1", "1' OR '1'='1' --", "admin'--"]
+            if os.path.exists('/tmp/wapiti_output.json'):
+                with open('/tmp/wapiti_output.json', 'r') as f:
+                    wapiti_data = json.load(f)
                     
-                    for payload in sql_payloads:
-                        test_data = {}
-                        for inp in inputs:
-                            inp_name = inp.get('name', '')
-                            if inp_name:
-                                test_data[inp_name] = payload
-                        
-                        try:
-                            # Construct target URL
-                            test_url = form_action if form_action.startswith('http') else f"{target_url.rstrip('/')}/{form_action.lstrip('/')}"
+                    for vuln_type, vulns in wapiti_data.get('vulnerabilities', {}).items():
+                        for vuln in vulns:
+                            severity = vuln.get('level', 1)
+                            risk = 'CRITICAL' if severity >= 3 else 'HIGH' if severity >= 2 else 'MEDIUM'
                             
-                            if form_method == 'post':
-                                test_resp = requests.post(test_url, data=test_data, timeout=5)
-                            else:
-                                test_resp = requests.get(test_url, params=test_data, timeout=5)
-                            
-                            # Check for SQL errors
-                            error_patterns = [
-                                'sql syntax', 'mysql_fetch', 'mysqli', 'postgresql', 
-                                'sqlite', 'oracle', 'odbc', 'db2', 'sybase'
-                            ]
-                            
-                            response_lower = test_resp.text.lower()
-                            
-                            if any(pattern in response_lower for pattern in error_patterns):
-                                all_findings.append({
-                                    'title': 'Potential SQL Injection Vulnerability',
-                                    'severity': 'CRITICAL',
-                                    'description': 'SQL error messages detected in response',
-                                    'details': f'Form at {test_url} may be vulnerable to SQL injection',
-                                    'source': 'Direct SQL Injection Test'
-                                })
-                                break
-                        
-                        except:
-                            continue
-                    
-                    # Test for XSS
-                    xss_payload = '<script>alert("XSS")</script>'
-                    
-                    test_data = {}
-                    for inp in inputs:
-                        inp_name = inp.get('name', '')
-                        if inp_name:
-                            test_data[inp_name] = xss_payload
-                    
-                    try:
-                        test_url = form_action if form_action.startswith('http') else f"{target_url.rstrip('/')}/{form_action.lstrip('/')}"
-                        
-                        if form_method == 'post':
-                            xss_resp = requests.post(test_url, data=test_data, timeout=5)
-                        else:
-                            xss_resp = requests.get(test_url, params=test_data, timeout=5)
-                        
-                        # Check if payload is reflected
-                        if xss_payload in xss_resp.text:
                             all_findings.append({
-                                'title': 'Cross-Site Scripting (XSS) Vulnerability',
-                                'severity': 'CRITICAL',
-                                'description': 'User input reflected without sanitization',
-                                'details': f'Form reflects unescaped input - XSS possible',
-                                'source': 'Direct XSS Test'
+                                'title': vuln_type.replace('_', ' ').title(),
+                                'risk_level': risk,
+                                'business_impact': vuln.get('info', ''),
+                                'technical_details': f"Found at: {vuln.get('path', '')}",
+                                'official_docs': ['https://wapiti-scanner.github.io/'],
+                                'estimated_fix_time': '4-8 hours'
                             })
-                    
-                    except:
-                        pass
-                    
-                    # Test for CSRF protection
-                    has_csrf_token = False
-                    for inp in inputs:
-                        inp_name = inp.get('name', '').lower()
-                        if 'csrf' in inp_name or 'token' in inp_name:
-                            has_csrf_token = True
-                            break
-                    
-                    if not has_csrf_token and form_method == 'post':
-                        all_findings.append({
-                            'title': 'Missing CSRF Protection',
-                            'severity': 'HIGH',
-                            'description': 'No CSRF token found in form',
-                            'details': 'POST forms should include CSRF tokens',
-                            'source': 'CSRF Test'
-                        })
+                
+                os.remove('/tmp/wapiti_output.json')
         
         except Exception as e:
-            logger.error(f"Direct testing error: {e}")
+            logger.error(f"Wapiti error: {e}")
         
         # ======================
-        # 5. CHECK FOR EXPOSED FILES
+        # 4. SQLMAP FOR SQL INJECTION
         # ======================
-        logger.info("Checking for exposed sensitive files...")
-        
+        logger.info("Running SQLMap scan...")
         try:
-            base_url = f"{parsed.scheme}://{domain}"
-            sensitive_files = [
-                '.env', '.git/config', 'config.php', 'wp-config.php',
-                'phpinfo.php', '.htaccess', 'composer.json', 'package.json',
-                '.DS_Store', 'web.config', 'database.yml'
-            ]
+            sqlmap_result = subprocess.run(
+                ['sqlmap', '-u', target_url, '--batch', '--crawl=2', '--level=1', '--risk=1', '--output-dir=/tmp/sqlmap'],
+                timeout=300,
+                capture_output=True,
+                text=True
+            )
             
-            exposed_files = []
-            
-            for filepath in sensitive_files:
-                try:
-                    file_url = f"{base_url}/{filepath}"
-                    file_resp = requests.get(file_url, timeout=3, allow_redirects=False)
-                    
-                    if file_resp.status_code == 200 and len(file_resp.content) > 50:
-                        content_preview = file_resp.text[:200].lower()
-                        
-                        if '404' not in content_preview and 'not found' not in content_preview and '<html' not in content_preview:
-                            exposed_files.append(filepath)
-                            logger.info(f"Exposed file found: {filepath}")
-                
-                except:
-                    continue
-            
-            if exposed_files:
+            # Check if SQLMap found vulnerabilities
+            if 'sqlmap identified the following injection point' in sqlmap_result.stdout:
                 all_findings.append({
-                    'title': 'Exposed Sensitive Files',
-                    'severity': 'CRITICAL',
-                    'description': f'{len(exposed_files)} sensitive file(s) publicly accessible',
-                    'details': f'Files: {", ".join(exposed_files)}',
-                    'source': 'File Exposure Test'
+                    'title': 'SQL Injection Vulnerability',
+                    'risk_level': 'CRITICAL',
+                    'business_impact': 'Database can be compromised - data theft possible',
+                    'technical_details': 'SQLMap detected SQL injection vulnerability',
+                    'official_docs': ['https://owasp.org/www-community/attacks/SQL_Injection'],
+                    'estimated_fix_time': '8-16 hours'
                 })
         
         except Exception as e:
-            logger.error(f"File check error: {e}")
+            logger.error(f"SQLMap error: {e}")
+        
+        # ======================
+        # 5. TESTSSL.SH FOR SSL/TLS
+        # ======================
+        if target_url.startswith('https://'):
+            logger.info("Running testssl.sh...")
+            try:
+                testssl_result = subprocess.run(
+                    ['testssl.sh', '--jsonfile', '/tmp/testssl_output.json', domain],
+                    timeout=300,
+                    capture_output=True,
+                    text=True
+                )
+                
+                if os.path.exists('/tmp/testssl_output.json'):
+                    with open('/tmp/testssl_output.json', 'r') as f:
+                        for line in f:
+                            try:
+                                ssl_data = json.loads(line)
+                                severity = ssl_data.get('severity', '')
+                                
+                                if severity in ['HIGH', 'CRITICAL', 'MEDIUM']:
+                                    all_findings.append({
+                                        'title': ssl_data.get('id', 'SSL/TLS Issue'),
+                                        'risk_level': severity,
+                                        'business_impact': ssl_data.get('finding', ''),
+                                        'technical_details': 'Detected by testssl.sh',
+                                        'official_docs': ['https://testssl.sh/'],
+                                        'estimated_fix_time': '2-4 hours'
+                                    })
+                            except:
+                                continue
+                    
+                    os.remove('/tmp/testssl_output.json')
+            
+            except Exception as e:
+                logger.error(f"testssl.sh error: {e}")
+        
+        # ======================
+        # 6. NUCLEI VULNERABILITY SCANNER
+        # ======================
+        logger.info("Running Nuclei scan...")
+        try:
+            nuclei_result = subprocess.run(
+                ['nuclei', '-u', target_url, '-json', '-o', '/tmp/nuclei_output.json'],
+                timeout=300,
+                capture_output=True,
+                text=True
+            )
+            
+            if os.path.exists('/tmp/nuclei_output.json'):
+                with open('/tmp/nuclei_output.json', 'r') as f:
+                    for line in f:
+                        try:
+                            nuclei_data = json.loads(line)
+                            
+                            severity = nuclei_data.get('info', {}).get('severity', 'medium').upper()
+                            
+                            all_findings.append({
+                                'title': nuclei_data.get('info', {}).get('name', 'Security Issue'),
+                                'risk_level': severity,
+                                'business_impact': nuclei_data.get('info', {}).get('description', ''),
+                                'technical_details': f"Template: {nuclei_data.get('template-id', '')}",
+                                'official_docs': ['https://nuclei.projectdiscovery.io/'],
+                                'estimated_fix_time': '2-4 hours'
+                            })
+                        except:
+                            continue
+                
+                os.remove('/tmp/nuclei_output.json')
+        
+        except Exception as e:
+            logger.error(f"Nuclei error: {e}")
         
         # ======================
         # RETURN RESULTS
@@ -592,62 +485,13 @@ def security_scan():
                 }
             })
         
-        # Format with Gemini
-        findings_text = "\n".join([
-            f"{i+1}. {f['title']} [{f['severity']}] - {f['description']}"
-            for i, f in enumerate(all_findings[:20])  # Top 20
-        ])
+        # Sort by severity
+        severity_order = {'CRITICAL': 0, 'HIGH': 1, 'MEDIUM': 2, 'LOW': 3}
+        all_findings.sort(key=lambda x: severity_order.get(x['risk_level'], 4))
         
-        prompt = f"""Format these REAL security vulnerabilities found by multiple scanners for {target_url}.
-
-**VERIFIED FINDINGS FROM SECURITY SCANNERS:**
-{findings_text}
-
-Select the TOP 3 MOST CRITICAL issues. Return ONLY valid JSON (no markdown):
-
-{{
-    "top_vulnerabilities": [
-        {{
-            "title": "Clear business-friendly title",
-            "risk_level": "CRITICAL/HIGH/MEDIUM/LOW",
-            "business_impact": "Why this matters",
-            "technical_details": "What was found",
-            "official_docs": ["https://owasp.org/...", "https://developer.mozilla.org/..."],
-            "estimated_fix_time": "X hours"
-        }}
-    ]
-}}
-
-Use ONLY issues from the list above. Maximum 3."""
-
-        try:
-            result = model.generate_content(prompt)
-            result_text = result.text.strip()
-            result_text = re.sub(r'```json\s*', '', result_text)
-            result_text = re.sub(r'```\s*', '', result_text)
-            
-            json_match = re.search(r'\{[\s\S]*\}', result_text)
-            if json_match:
-                result_json = json.loads(json_match.group())
-                top_vulns = result_json.get('top_vulnerabilities', [])[:3]
-            else:
-                raise ValueError("No JSON")
+        top_3 = all_findings[:3]
         
-        except Exception as e:
-            logger.error(f"Gemini error: {e}")
-            top_vulns = [
-                {
-                    'title': f['title'],
-                    'risk_level': f['severity'],
-                    'business_impact': f['description'],
-                    'technical_details': f['details'],
-                    'official_docs': ['https://owasp.org/www-project-top-ten/'],
-                    'estimated_fix_time': '2-4 hours'
-                }
-                for f in all_findings[:3]
-            ]
-        
-        # Save to database
+        # Save to DB
         scan_id = str(uuid.uuid4())
         if supabase:
             try:
@@ -655,23 +499,23 @@ Use ONLY issues from the list above. Maximum 3."""
                     'id': scan_id,
                     'target_url': target_url,
                     'vulnerabilities_found': len(all_findings),
-                    'top_3_analysis': json.dumps(top_vulns),
+                    'top_3_analysis': json.dumps(top_3),
                     'timestamp': datetime.utcnow().isoformat()
                 }).execute()
             except Exception as e:
-                logger.error(f"Database error: {e}")
+                logger.error(f"DB error: {e}")
         
-        logger.info(f"Scan complete: {len(all_findings)} total issues found")
+        logger.info(f"Scan complete: {len(all_findings)} issues found")
         
         return jsonify({
             'success': True,
-            'vulnerabilities': top_vulns,
+            'vulnerabilities': top_3,
             'total_found': len(all_findings),
             'scan_info': {
                 'url': target_url,
                 'scan_id': scan_id,
                 'timestamp': datetime.utcnow().isoformat(),
-                'scanners_used': ['Mozilla Observatory', 'HackerTarget', 'Direct Testing']
+                'tools_used': ['Nikto', 'Nmap', 'Wapiti', 'SQLMap', 'testssl.sh', 'Nuclei']
             }
         })
     
