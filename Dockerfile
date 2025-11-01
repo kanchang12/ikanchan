@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
     unzip \
     && rm -rf /var/lib/apt/lists/*
 
-RUN pip3 install wapiti3
+RUN pip3 install --break-system-packages wapiti3
 
 RUN git clone --depth 1 https://github.com/drwetter/testssl.sh.git /opt/testssl && \
     ln -s /opt/testssl/testssl.sh /usr/local/bin/testssl.sh
@@ -24,7 +24,7 @@ RUN wget https://github.com/projectdiscovery/nuclei/releases/download/v3.1.0/nuc
 WORKDIR /app
 
 COPY requirements.txt .
-RUN pip3 install --no-cache-dir -r requirements.txt
+RUN pip3 install --break-system-packages --no-cache-dir -r requirements.txt
 
 COPY . .
 
