@@ -1,6 +1,5 @@
 FROM kalilinux/kali-rolling
 
-# Install Python
 RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \
@@ -8,16 +7,15 @@ RUN apt-get update && apt-get install -y \
     nmap \
     sqlmap \
     git \
+    wget \
+    unzip \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Wapiti
 RUN pip3 install wapiti3
 
-# Install testssl.sh
 RUN git clone --depth 1 https://github.com/drwetter/testssl.sh.git /opt/testssl && \
     ln -s /opt/testssl/testssl.sh /usr/local/bin/testssl.sh
 
-# Install Nuclei
 RUN wget https://github.com/projectdiscovery/nuclei/releases/download/v3.1.0/nuclei_3.1.0_linux_amd64.zip && \
     unzip nuclei_3.1.0_linux_amd64.zip && \
     mv nuclei /usr/local/bin/ && \
