@@ -1,24 +1,17 @@
 import os
 import uuid
-import time
 from datetime import datetime
-from flask import Flask, render_template, request, jsonify, redirect, make_response
+from flask import Flask, render_template, request, jsonify, redirect
 import google.generativeai as genai
 import requests
 from supabase import create_client, Client
 from dotenv import load_dotenv
 import validators
 from bs4 import BeautifulSoup
-import re
-import json
-from urllib.parse import urlparse, urlencode
-import logging
 
 load_dotenv()
 
 app = Flask(__name__)
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
 
 # Initialize Supabase
 SUPABASE_URL = os.environ.get('SUPABASE_URL', '')
@@ -34,6 +27,7 @@ if GEMINI_API_KEY:
     genai.configure(api_key=GEMINI_API_KEY)
     model = genai.GenerativeModel('gemini-2.0-flash-exp')
 
+# Sales chatbot system prompt
 SALES_CHATBOT_PROMPT = """You are a professional sales assistant for ikanchan, an MVP development and project rescue service based in Leeds, UK.
 
 **About ikanchan:**
@@ -48,32 +42,30 @@ SALES_CHATBOT_PROMPT = """You are a professional sales assistant for ikanchan, a
 3. Free 30-minute consultation
 4. Follow-up consultations - £100/session
 
-**Portfolio:**
-- CareCircle (Healthcare) - NHS-ready medication adherence platform
+**Portfolio (mention when relevant):**
+- CareCircle (Healthcare) - NHS-ready medication adherence platform with zero-data architecture
 - HomeRule (Real Estate) - UK planning permission checker
 - TrueSkills (Education) - Anti-cheating assessment platform
-- MathTales (EdTech) - Math learning for kids
+- MathTales (EdTech) - Fairy tale-based math learning for kids
 - FindingUrWay (Travel) - AI travel planner
-- WizardsTrial (Gaming)
+- WizardsTrial (Puzzle/Gaming)
+
+**Key Differentiators:**
+- Solo founder who ships fast
+- Real healthcare, education, travel, real estate experience
+- Cloud Run and serverless expert
+- End-to-end encryption and privacy-first approach
+- Leeds-based, UK-focused
 
 **Your Goal:**
-- Understand customer's problem
-- Qualify if it's idea or broken project
+- Understand the customer's problem
+- Qualify if it's an idea needing building OR broken project needing fixing
 - Highlight relevant portfolio work
 - Book free 30-min consultation
-- Be professional and concise
+- Be professional, concise, and helpful
+- For Leeds-based clients, mention local presence
 
 **Tone:** Professional, confident, solution-focused. No emojis."""
-
-@app.after_request
-def set_security_headers(response):
-    response.headers['X-Frame-Options'] = 'SAMEORIGIN'
-    response.headers['X-Content-Type-Options'] = 'nosniff'
-    response.headers['Content-Security-Policy'] = "default-src 'self' 'unsafe-inline' 'unsafe-eval' https://fonts.googleapis.com https://fonts.gstatic.com https://generativelanguage.googleapis.com; img-src 'self' data: https:;"
-    response.headers['Referrer-Policy'] = 'strict-origin-when-cross-origin'
-    if request.is_secure:
-        response.headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains'
-    return response
 
 @app.route('/')
 def index():
@@ -81,29 +73,34 @@ def index():
 
 @app.route('/api/chat', methods=['POST'])
 def chat():
+    """Gemini-powered sales chatbot"""
     if not GEMINI_API_KEY:
         return jsonify({'error': 'Chat service unavailable'}), 500
     
     try:
         data = request.json
-        user_message = data.get('message', '').strip()
+        user_message = data.get('message', '')
         conversation_history = data.get('history', [])
-        session_id = request.cookies.get('session_id', str(uuid.uuid4()))
+        session_id = data.get('session_id', str(uuid.uuid4()))
         
-        if not user_message or len(user_message) > 5000:
-            return jsonify({'error': 'Invalid message'}), 400
+        if not user_message:
+            return jsonify({'error': 'Message required'}), 400
         
+        # Build conversation context
         chat_history = [SALES_CHATBOT_PROMPT]
-        for msg in conversation_history[-10:]:
+        for msg in conversation_history[-10:]:  # Last 10 messages for context
             role = msg.get('role', 'user')
             content = msg.get('content', '')
             chat_history.append(f"{role}: {content}")
         
         chat_history.append(f"user: {user_message}")
+        
+        # Generate response
         prompt = "\n".join(chat_history) + "\nassistant:"
         response = model.generate_content(prompt)
         bot_response = response.text
         
+        # Store in Supabase
         if supabase:
             try:
                 supabase.table('chat_logs').insert({
@@ -113,18 +110,19 @@ def chat():
                     'timestamp': datetime.utcnow().isoformat()
                 }).execute()
             except Exception as e:
-                logger.error(f"Supabase error: {e}")
+                print(f"Supabase error: {e}")
         
-        resp = make_response(jsonify({'response': bot_response, 'session_id': session_id}))
-        resp.set_cookie('session_id', session_id, httponly=True, secure=True, samesite='Lax')
-        return resp
+        return jsonify({
+            'response': bot_response,
+            'session_id': session_id
+        })
     
     except Exception as e:
-        logger.error(f"Chat error: {e}", exc_info=True)
-        return jsonify({'error': 'Service unavailable'}), 500
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/api/analyze-github', methods=['POST'])
 def analyze_github():
+    """Analyze GitHub repository"""
     if not GEMINI_API_KEY:
         return jsonify({'error': 'Analysis service unavailable'}), 500
     
@@ -135,20 +133,23 @@ def analyze_github():
         if not github_url:
             return jsonify({'error': 'GitHub URL required'}), 400
         
+        # Extract owner and repo
         parts = github_url.replace('https://github.com/', '').replace('http://github.com/', '').split('/')
         if len(parts) < 2:
             return jsonify({'error': 'Invalid GitHub URL format'}), 400
         
         owner, repo = parts[0], parts[1]
         
+        # Get repo info from GitHub API
         api_url = f'https://api.github.com/repos/{owner}/{repo}'
         response = requests.get(api_url, timeout=10)
         
         if response.status_code != 200:
-            return jsonify({'error': 'Could not fetch repository'}), 400
+            return jsonify({'error': 'Could not fetch repository. Please check the URL'}), 400
         
         repo_data = response.json()
         
+        # Get file list
         contents_url = f'https://api.github.com/repos/{owner}/{repo}/contents'
         contents = requests.get(contents_url, timeout=10)
         files = []
@@ -157,6 +158,7 @@ def analyze_github():
             if isinstance(file_data, list):
                 files = [f['name'] for f in file_data if isinstance(f, dict) and f.get('type') == 'file']
         
+        # Get README if exists
         readme_url = f'https://api.github.com/repos/{owner}/{repo}/readme'
         readme_content = ""
         readme_response = requests.get(readme_url, timeout=10)
@@ -169,31 +171,51 @@ def analyze_github():
                 except:
                     pass
         
+        # Analyze with Gemini
         prompt = f"""Analyze this GitHub repository and provide exactly 5 critical issues for improvement.
 
 **Repository Information:**
 - Name: {repo_data.get('name')}
-- Description: {repo_data.get('description', 'No description')}
-- Language: {repo_data.get('language', 'Not specified')}
+- Description: {repo_data.get('description', 'No description provided')}
+- Primary Language: {repo_data.get('language', 'Not specified')}
 - Stars: {repo_data.get('stargazers_count', 0)}
-- Files: {', '.join(files[:30])}
+- Forks: {repo_data.get('forks_count', 0)}
+- Open Issues: {repo_data.get('open_issues_count', 0)}
+- Files in root: {', '.join(files[:30])}
 
-**README:**
-{readme_content if readme_content else 'No README'}
+**README Preview:**
+{readme_content if readme_content else 'No README found'}
 
-Provide 5 issues focusing on: Architecture, Security, Deployment, Performance, Code Quality.
+**Analysis Focus Areas:**
+1. Architecture and Code Structure
+2. Security Vulnerabilities
+3. Deployment and DevOps
+4. Performance Optimization
+5. Code Quality and Testing
 
-Format:
+**Output Format (EXACTLY 5 issues):**
+
 ISSUE 1: [CATEGORY] Title
-Problem: Description
-Impact: Why it matters
-Fix: Solution
+Problem: Clear description of the problem
+Impact: Why this matters
+Fix: Specific, actionable solution
 
-Be specific and practical."""
+ISSUE 2: [CATEGORY] Title
+Problem: Clear description
+Impact: Why this matters
+Fix: Specific solution
+
+[Continue for all 5 issues]
+
+**Cloud Run Deployment Notes:**
+[Brief suggestions for deploying this to Google Cloud Run]
+
+Be specific, practical, and prioritize issues by severity."""
 
         analysis_result = model.generate_content(prompt)
         analysis_text = analysis_result.text
         
+        # Store in Supabase
         analysis_id = str(uuid.uuid4())
         if supabase:
             try:
@@ -206,7 +228,7 @@ Be specific and practical."""
                     'timestamp': datetime.utcnow().isoformat()
                 }).execute()
             except Exception as e:
-                logger.error(f"Supabase error: {e}")
+                print(f"Supabase error: {e}")
         
         return jsonify({
             'success': True,
@@ -220,171 +242,14 @@ Be specific and practical."""
             }
         })
     
+    except requests.Timeout:
+        return jsonify({'error': 'Request timeout. Please try again'}), 500
     except Exception as e:
-        logger.error(f"Analysis error: {e}", exc_info=True)
-        return jsonify({'error': 'Analysis failed'}), 500
-
-# ============================================================================
-# REAL SECURITY SCANNER USING PUBLIC APIS
-# ============================================================================
-
-import subprocess
-import json
-import os
-
-@app.route('/api/security-scan', methods=['POST'])
-def security_scan():
-    """Security scanner using Mozilla Observatory API + Nikto (FREE)"""
-    
-    try:
-        data = request.json
-        target_url = data.get('url', '').strip()
-        
-        if not target_url or not validators.url(target_url):
-            return jsonify({'error': 'Invalid URL'}), 400
-        
-        parsed = urlparse(target_url)
-        domain = parsed.netloc
-        
-        logger.info(f"Scanning {domain}...")
-        
-        all_findings = []
-        
-        # ======================
-        # 1. MOZILLA OBSERVATORY (60-90 seconds)
-        # ======================
-        logger.info("Running Mozilla Observatory...")
-        try:
-            obs_start = requests.post(
-                'https://http-observatory.security.mozilla.org/api/v1/analyze',
-                params={'host': domain, 'rescan': 'true'},
-                timeout=15
-            )
-            
-            if obs_start.status_code == 200:
-                scan_id = obs_start.json().get('scan_id')
-                
-                for attempt in range(30):
-                    time.sleep(3)
-                    
-                    check = requests.get(
-                        f'https://http-observatory.security.mozilla.org/api/v1/analyze?host={domain}',
-                        timeout=10
-                    )
-                    
-                    if check.status_code == 200:
-                        result = check.json()
-                        state = result.get('state')
-                        
-                        logger.info(f"Observatory: {state}")
-                        
-                        if state == 'FINISHED':
-                            tests = requests.get(
-                                f'https://http-observatory.security.mozilla.org/api/v1/getScanResults?scan={scan_id}',
-                                timeout=10
-                            ).json()
-                            
-                            for test_name, test_data in tests.items():
-                                if isinstance(test_data, dict) and test_data.get('pass') == False:
-                                    all_findings.append({
-                                        'title': test_name.replace('-', ' ').title(),
-                                        'risk_level': 'HIGH',
-                                        'business_impact': test_data.get('score_description', ''),
-                                        'technical_details': test_data.get('expectation', ''),
-                                        'official_docs': ['https://observatory.mozilla.org/'],
-                                        'estimated_fix_time': '2-4 hours'
-                                    })
-                            break
-                        
-                        elif state in ['ABORTED', 'FAILED']:
-                            break
-        
-        except Exception as e:
-            logger.error(f"Observatory error: {e}")
-        
-        # ======================
-        # 2. NIKTO (2-3 minutes)
-        # ======================
-        logger.info("Running Nikto...")
-        try:
-            nikto_result = subprocess.run(
-                ['nikto', '-h', target_url, '-Format', 'txt', '-Tuning', '123456789'],
-                timeout=180,
-                capture_output=True,
-                text=True
-            )
-            
-            if nikto_result.stdout:
-                for line in nikto_result.stdout.split('\n'):
-                    if line.startswith('+') and 'OSVDB' in line or 'Retrieved' in line or 'Server' in line:
-                        all_findings.append({
-                            'title': 'Nikto Vulnerability',
-                            'risk_level': 'MEDIUM',
-                            'business_impact': line.strip('+ ').strip(),
-                            'technical_details': 'Detected by Nikto scanner',
-                            'official_docs': ['https://cirt.net/Nikto2'],
-                            'estimated_fix_time': '2-4 hours'
-                        })
-        
-        except subprocess.TimeoutExpired:
-            logger.error("Nikto timeout")
-        except Exception as e:
-            logger.error(f"Nikto error: {e}")
-        
-        # ======================
-        # RETURN RESULTS
-        # ======================
-        
-        if not all_findings:
-            return jsonify({
-                'success': True,
-                'vulnerabilities': [],
-                'total_found': 0,
-                'message': 'No security issues detected',
-                'scan_info': {
-                    'url': target_url,
-                    'timestamp': datetime.utcnow().isoformat()
-                }
-            })
-        
-        severity_order = {'CRITICAL': 0, 'HIGH': 1, 'MEDIUM': 2, 'LOW': 3}
-        all_findings.sort(key=lambda x: severity_order.get(x['risk_level'], 4))
-        
-        top_3 = all_findings[:3]
-        
-        scan_id = str(uuid.uuid4())
-        if supabase:
-            try:
-                supabase.table('security_scans').insert({
-                    'id': scan_id,
-                    'target_url': target_url,
-                    'vulnerabilities_found': len(all_findings),
-                    'top_3_analysis': json.dumps(top_3),
-                    'timestamp': datetime.utcnow().isoformat()
-                }).execute()
-            except Exception as e:
-                logger.error(f"DB error: {e}")
-        
-        logger.info(f"Scan complete: {len(all_findings)} issues")
-        
-        return jsonify({
-            'success': True,
-            'vulnerabilities': top_3,
-            'total_found': len(all_findings),
-            'scan_info': {
-                'url': target_url,
-                'scan_id': scan_id,
-                'timestamp': datetime.utcnow().isoformat(),
-                'scanners_used': ['Mozilla Observatory', 'Nikto']
-            }
-        })
-    
-    except Exception as e:
-        logger.error(f"Scan failed: {e}", exc_info=True)
-        return jsonify({'error': 'Scan failed'}), 500
+        return jsonify({'error': f'Analysis failed: {str(e)}'}), 500
 
 @app.route('/api/analyze-web', methods=['POST'])
 def analyze_web():
+    """Analyze live website"""
     if not GEMINI_API_KEY:
         return jsonify({'error': 'Analysis service unavailable'}), 500
     
@@ -393,29 +258,38 @@ def analyze_web():
         web_url = data.get('url', '').strip()
         
         if not web_url:
-            return jsonify({'error': 'URL required'}), 400
+            return jsonify({'error': 'Website URL required'}), 400
         
+        # Validate URL
         if not validators.url(web_url):
-            return jsonify({'error': 'Invalid URL'}), 400
+            return jsonify({'error': 'Invalid URL format'}), 400
         
-        headers = {'User-Agent': 'Mozilla/5.0'}
+        # Fetch website content
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        }
         response = requests.get(web_url, headers=headers, timeout=15)
         
         if response.status_code != 200:
-            return jsonify({'error': f'Could not fetch website (Status: {response.status_code})'}), 400
+            return jsonify({'error': f'Could not fetch website. Status: {response.status_code}'}), 400
         
+        # Parse HTML
         soup = BeautifulSoup(response.content, 'html.parser')
         
+        # Extract information
         title = soup.title.string if soup.title else 'No title'
         meta_desc = ''
         meta_tag = soup.find('meta', attrs={'name': 'description'})
         if meta_tag:
             meta_desc = meta_tag.get('content', '')
         
+        # Get scripts and forms
+        scripts = [s.get('src') for s in soup.find_all('script', src=True)][:10]
         forms = len(soup.find_all('form'))
         links = len(soup.find_all('a'))
         images = len(soup.find_all('img'))
         
+        # Check for common frameworks
         page_text = response.text.lower()
         frameworks = []
         if 'react' in page_text:
@@ -427,31 +301,131 @@ def analyze_web():
         if 'bootstrap' in page_text:
             frameworks.append('Bootstrap')
         
-        prompt = f"""Analyze this website and provide actionable insights.
+        # Analyze with Gemini
+        prompt = f"""You are analyzing a website for business and technical insights. Give direct, actionable insights - NO CODE.
 
 **Website:** {web_url}
 **Title:** {title}
 **HTTPS:** {'Yes' if web_url.startswith('https') else 'No'}
-**Forms:** {forms}
+**Forms Found:** {forms}
 **Links:** {links}
 **Images:** {images}
-**Tech:** {', '.join(frameworks) if frameworks else 'Static HTML'}
+**Tech Stack:** {', '.join(frameworks) if frameworks else 'Static HTML/Vanilla JS'}
 
-Provide analysis covering:
-1. TOP 3 CRITICAL ISSUES (business-focused)
-2. SEO ANALYSIS (meta tags, structure)
-3. SECURITY ISSUES (headers, HTTPS)
-4. PERFORMANCE PROBLEMS (load time issues)
-5. UX ISSUES (mobile, navigation)
-6. CLOUD RUN MIGRATION NOTES
-7. QUICK WINS (3-5 easy fixes)
-8. OVERALL ASSESSMENT (honest 1-paragraph summary)
+---
 
-Be direct and specific. Focus on business impact."""
+## TOP 3 CRITICAL ISSUES
+
+Identify the 3 most important problems affecting this website. Focus on business impact.
+
+Format:
+1. **[Issue Name]**
+   - What's wrong
+   - Why it matters
+   - How to fix it (description, not code)
+
+Example:
+1. **No Security Headers**
+   - Website missing basic security protections
+   - Risk: Vulnerable to attacks, data theft
+   - Fix: Configure server security headers (HSTS, CSP, X-Frame-Options)
+
+Focus on: Security, SEO, Performance, User Experience
+
+---
+
+## SEO ANALYSIS
+
+Check for:
+- Meta description quality
+- Title tag optimization
+- Missing alt tags on images
+- Mobile responsiveness
+- Page speed issues
+- Structured data (Schema.org)
+- SSL certificate
+- Duplicate content
+
+Be specific about what's missing and why it matters for rankings.
+
+---
+
+## SECURITY ISSUES
+
+Identify security vulnerabilities:
+- HTTPS status
+- Security headers (check if HSTS, CSP, X-Frame-Options are present)
+- Exposed sensitive data
+- Insecure forms
+- Old frameworks with known vulnerabilities
+- Cookie security
+
+Explain the business risk, not just technical details.
+
+---
+
+## PERFORMANCE PROBLEMS
+
+Analyze speed and performance:
+- Large unoptimized images (list sizes if visible)
+- Too many HTTP requests
+- No caching
+- Blocking resources
+- Slow server response
+
+Give actual numbers and business impact (e.g., "2.5s load time, should be under 1s - losing 20% of visitors")
+
+---
+
+## USER EXPERIENCE ISSUES
+
+Check for:
+- Mobile responsiveness
+- Broken links
+- Confusing navigation
+- Poor accessibility
+- Missing contact information
+- Unclear calls-to-action
+
+Focus on what hurts conversions and user satisfaction.
+
+---
+
+## CLOUD RUN MIGRATION
+
+Provide insights on moving to Cloud Run:
+- Current hosting type (if detectable)
+- Complexity of migration
+- Expected monthly cost (realistic estimate for 10k requests/month)
+- Main challenges
+- Expected performance improvement
+
+---
+
+## QUICK WINS (Do These First)
+
+List 3-5 actionable improvements by priority:
+1. [Highest impact, easiest to fix]
+2. [Second priority]
+3. [Third priority]
+
+For each: What to do, expected impact, rough time/cost to fix.
+
+---
+
+## OVERALL ASSESSMENT
+
+Give a honest 1-paragraph summary:
+- Current state (poor/average/good)
+- Biggest problems
+- Recommended next steps
+
+**BE DIRECT AND HONEST.** If the site is poorly built, say so. If it's good, say so. Focus on business impact, not technical jargon."""
 
         analysis_result = model.generate_content(prompt)
         analysis_text = analysis_result.text
         
+        # Store in Supabase
         analysis_id = str(uuid.uuid4())
         if supabase:
             try:
@@ -463,7 +437,7 @@ Be direct and specific. Focus on business impact."""
                     'timestamp': datetime.utcnow().isoformat()
                 }).execute()
             except Exception as e:
-                logger.error(f"Supabase error: {e}")
+                print(f"Supabase error: {e}")
         
         return jsonify({
             'success': True,
@@ -476,9 +450,10 @@ Be direct and specific. Focus on business impact."""
             }
         })
     
+    except requests.Timeout:
+        return jsonify({'error': 'Request timeout. Website took too long to respond'}), 500
     except Exception as e:
-        logger.error(f"Web analysis error: {e}", exc_info=True)
-        return jsonify({'error': 'Analysis failed'}), 500
+        return jsonify({'error': f'Analysis failed: {str(e)}'}), 500
 
 @app.before_request
 def redirect_to_https():
@@ -488,10 +463,11 @@ def redirect_to_https():
 
 @app.route('/api/contact', methods=['POST'])
 def contact():
+    """Handle contact form submission"""
     try:
         data = request.json
-        name = data.get('name', '').strip()
-        email = data.get('email', '').strip()
+        name = data.get('name', '')
+        email = data.get('email', '')
         project_type = data.get('project_type', '')
         message = data.get('message', '')
         url = data.get('url', '')
@@ -499,6 +475,7 @@ def contact():
         if not name or not email:
             return jsonify({'error': 'Name and email required'}), 400
         
+        # Store in Supabase
         if supabase:
             try:
                 supabase.table('contact_submissions').insert({
@@ -511,7 +488,7 @@ def contact():
                     'timestamp': datetime.utcnow().isoformat()
                 }).execute()
             except Exception as e:
-                logger.error(f"Supabase error: {e}")
+                print(f"Supabase error: {e}")
         
         return jsonify({
             'success': True,
@@ -519,8 +496,7 @@ def contact():
         })
     
     except Exception as e:
-        logger.error(f"Contact error: {e}", exc_info=True)
-        return jsonify({'error': 'Submission failed'}), 500
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 80))
