@@ -1,0 +1,22 @@
+# fly.toml app configuration file generated for ikanchan
+
+app = "ikanchan"
+primary_region = "lhr"  # London Heathrow (closest to Leeds, UK)
+
+[build]
+
+[http_service]
+  internal_port = 80
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ["app"]
+
+[env]
+  PORT = "80"
+
+[[vm]]
+  cpu_kind = "shared"
+  cpus = 1
+  memory_mb = 256
