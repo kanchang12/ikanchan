@@ -49,514 +49,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    
-    <style>
-        /* Security Scanner Specific Styles */
-        .vulnerability-card {
-            background: white;
-            border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 20px;
-            border-left: 5px solid #dc2626;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        
-        .vulnerability-card.risk-critical {
-            border-left-color: #dc2626;
-        }
-        
-        .vulnerability-card.risk-high {
-            border-left-color: #ea580c;
-        }
-        
-        .vulnerability-card.risk-medium {
-            border-left-color: #f59e0b;
-        }
-        
-        .vulnerability-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 16px;
-        }
-        
-        .vulnerability-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #111827;
-            margin: 0;
-        }
-        
-        .risk-badge {
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-        
-        .risk-badge.critical {
-            background: #fee2e2;
-            color: #dc2626;
-        }
-        
-        .risk-badge.high {
-            background: #ffedd5;
-            color: #ea580c;
-        }
-        
-        .risk-badge.medium {
-            background: #fef3c7;
-            color: #f59e0b;
-        }
-        
-        .vulnerability-section {
-            margin-bottom: 16px;
-        }
-        
-        .vulnerability-section h4 {
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: #6b7280;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-        }
-        
-        .vulnerability-section p {
-            color: #374151;
-            line-height: 1.6;
-        }
-        
-        .fix-steps {
-            background: #f9fafb;
-            padding: 16px;
-            border-radius: 8px;
-            border-left: 3px solid #3b82f6;
-        }
-        
-        .fix-steps ol {
-            margin: 0;
-            padding-left: 20px;
-        }
-        
-        .fix-steps li {
-            margin-bottom: 8px;
-            color: #374151;
-        }
-        
-        .estimated-time {
-            display: inline-block;
-            background: #dbeafe;
-            color: #1e40af;
-            padding: 4px 12px;
-            border-radius: 6px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            margin-top: 8px;
-        }
-        
-        .security-contact-form {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 32px;
-            border-radius: 16px;
-            margin-top: 32px;
-            color: white;
-        }
-        
-        .security-contact-form h3 {
-            color: white;
-            margin-bottom: 12px;
-        }
-        
-        .security-contact-form p {
-            color: rgba(255,255,255,0.95);
-            margin-bottom: 24px;
-        }
-        
-        .security-contact-form .form-group label {
-            color: white;
-            font-weight: 500;
-        }
-        
-        .security-contact-form input,
-        .security-contact-form textarea {
-            background: rgba(255,255,255,0.95);
-            border: 2px solid transparent;
-        }
-        
-        .security-contact-form input:focus,
-        .security-contact-form textarea:focus {
-            background: white;
-            border-color: white;
-        }
-        
-        .scan-summary {
-            background: #f0fdf4;
-            border: 2px solid #86efac;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 24px;
-            text-align: center;
-        }
-        
-        .scan-summary.has-vulnerabilities {
-            background: #fef2f2;
-            border-color: #fca5a5;
-        }
-        
-        .scan-summary h4 {
-            margin: 0 0 8px 0;
-            color: #15803d;
-            font-size: 1.5rem;
-        }
-        
-        .scan-summary.has-vulnerabilities h4 {
-            color: #dc2626;
-        }
-        
-        .scan-summary p {
-            margin: 0;
-            color: #166534;
-        }
-        
-        .scan-summary.has-vulnerabilities p {
-            color: #991b1b;
-        }
-        
-        .no-vulnerabilities {
-            background: #f0fdf4;
-            border: 2px solid #86efac;
-            border-radius: 12px;
-            padding: 32px;
-            text-align: center;
-        }
-        
-        .no-vulnerabilities h3 {
-            color: #15803d;
-            margin-bottom: 12px;
-        }
-        
-        .no-vulnerabilities p {
-            color: #166534;
-            font-size: 1.125rem;
-        }
-    </style>
-    <style>
-/* Floating Security Scanner Button */
-.security-scan-float-btn {
-    position: fixed;
-    bottom: 100px;
-    right: 30px;
-    background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
-    color: white;
-    border: none;
-    padding: 16px 24px;
-    border-radius: 50px;
-    font-size: 1rem;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 8px 30px rgba(220, 38, 38, 0.4);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    z-index: 999;
-    transition: all 0.3s;
-    animation: pulse-security 2s infinite;
-}
-
-.security-scan-float-btn:hover {
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 12px 40px rgba(220, 38, 38, 0.6);
-}
-
-.security-float-icon {
-    font-size: 1.5rem;
-}
-
-@keyframes pulse-security {
-    0%, 100% { box-shadow: 0 8px 30px rgba(220, 38, 38, 0.4); }
-    50% { box-shadow: 0 8px 40px rgba(220, 38, 38, 0.6); }
-}
-
-/* Security Modal */
-.security-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 10000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.security-modal-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.75);
-    backdrop-filter: blur(5px);
-}
-
-.security-modal-content {
-    position: relative;
-    background: white;
-    border-radius: 20px;
-    max-width: 700px;
-    width: 90%;
-    max-height: 90vh;
-    overflow-y: auto;
-    padding: 40px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    animation: slideUp 0.3s ease-out;
-}
-
-@keyframes slideUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.security-modal-close {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: #f3f4f6;
-    border: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    font-size: 1.5rem;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.security-modal-close:hover {
-    background: #e5e7eb;
-    transform: rotate(90deg);
-}
-
-.security-modal-icon {
-    font-size: 4rem;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.security-modal-content h2 {
-    text-align: center;
-    color: #111827;
-    margin-bottom: 10px;
-}
-
-.security-modal-subtitle {
-    text-align: center;
-    color: #6b7280;
-    margin-bottom: 30px;
-}
-
-.security-disclaimer-box {
-    background: #fef2f2;
-    border: 2px solid #fecaca;
-    border-radius: 12px;
-    padding: 24px;
-    margin-bottom: 30px;
-    max-height: 400px;
-    overflow-y: auto;
-}
-
-.security-disclaimer-box h3 {
-    color: #dc2626;
-    margin-bottom: 16px;
-}
-
-.disclaimer-content p {
-    margin-bottom: 12px;
-    color: #374151;
-    line-height: 1.6;
-    font-size: 0.9rem;
-}
-
-.disclaimer-content ul {
-    list-style: none;
-    padding: 0;
-    margin: 16px 0;
-}
-
-.disclaimer-content li {
-    padding: 8px 0;
-    color: #374151;
-    font-size: 0.9rem;
-}
-
-.disclaimer-checkbox {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    margin: 20px 0;
-    padding: 16px;
-    background: white;
-    border-radius: 8px;
-    border: 2px solid #e5e7eb;
-}
-
-.disclaimer-checkbox input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
-    margin-top: 2px;
-    cursor: pointer;
-}
-
-.disclaimer-checkbox label {
-    flex: 1;
-    color: #374151;
-    cursor: pointer;
-}
-
-.security-scan-form-modal input {
-    width: 100%;
-    padding: 16px;
-    border: 2px solid #e5e7eb;
-    border-radius: 12px;
-    font-size: 1rem;
-    margin-bottom: 16px;
-}
-
-.security-scan-form-modal input:focus {
-    outline: none;
-    border-color: #dc2626;
-    box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.1);
-}
-
-.btn-scan-modal {
-    width: 100%;
-    background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
-    color: white;
-    border: none;
-    padding: 16px;
-    border-radius: 12px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.btn-scan-modal:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(220, 38, 38, 0.4);
-}
-
-.btn-scan-modal:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-/* Vulnerability Cards */
-.vulnerability-card {
-    background: white;
-    border-radius: 12px;
-    padding: 24px;
-    margin-bottom: 20px;
-    border-left: 5px solid #dc2626;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-.vulnerability-card.risk-critical { border-left-color: #dc2626; }
-.vulnerability-card.risk-high { border-left-color: #ea580c; }
-.vulnerability-card.risk-medium { border-left-color: #f59e0b; }
-
-.vulnerability-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 16px;
-}
-
-.vulnerability-title {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: #111827;
-}
-
-.risk-badge {
-    padding: 6px 16px;
-    border-radius: 20px;
-    font-size: 0.875rem;
-    font-weight: 600;
-    text-transform: uppercase;
-}
-
-.risk-badge.critical { background: #fee2e2; color: #dc2626; }
-.risk-badge.high { background: #ffedd5; color: #ea580c; }
-.risk-badge.medium { background: #fef3c7; color: #f59e0b; }
-
-.vulnerability-section {
-    margin-bottom: 16px;
-}
-
-.vulnerability-section h4 {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: #6b7280;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-}
-
-.official-docs a {
-    display: block;
-    color: #2563eb;
-    text-decoration: none;
-    padding: 8px 0;
-}
-
-.estimated-time {
-    display: inline-block;
-    background: #dbeafe;
-    color: #1e40af;
-    padding: 4px 12px;
-    border-radius: 6px;
-    font-size: 0.875rem;
-    font-weight: 600;
-}
-
-.no-vulnerabilities {
-    background: #f0fdf4;
-    border: 2px solid #86efac;
-    border-radius: 12px;
-    padding: 32px;
-    text-align: center;
-}
-
-.security-contact-cta {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 24px;
-    border-radius: 12px;
-    margin-top: 24px;
-    color: white;
-    text-align: center;
-}
-
-.btn-contact-security {
-    background: white;
-    color: #667eea;
-    padding: 12px 32px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 700;
-    display: inline-block;
-}
-
-@media (max-width: 768px) {
-    .security-scan-float-btn {
-        bottom: 80px;
-        right: 20px;
-        padding: 14px 20px;
-    }
-    .security-float-text { display: none; }
-    .security-modal-content { padding: 30px 20px; }
-}
-</style>
 </head>
 <body>
     
@@ -664,7 +156,7 @@
                     <ul class="service-list">
                         <li>First 30 mins free</li>
                         <li>GitHub: 5 critical issues with fixes</li>
-                        <li>Security: Real vulnerability scanning</li>
+                        <li>Website: Security, SEO, Performance insights</li>
                         <li>Follow-up: £100/session</li>
                     </ul>
                     <a href="#analysis" class="btn btn-outline">Get Free Analysis</a>
@@ -677,113 +169,154 @@
     <section class="portfolio" id="portfolio">
         <div class="container">
             <div class="section-header">
-                <h2>Featured Portfolio</h2>
-                <p>Real projects solving real problems</p>
+                <h2>Portfolio</h2>
+                <p>Real solutions, real impact</p>
             </div>
             <div class="portfolio-grid">
-                <div class="portfolio-card">
-                    <div class="portfolio-tag">Healthcare</div>
-                    <h3>CareCircle</h3>
-                    <p>NHS-ready medication adherence platform with zero-data architecture and AI-powered coordination</p>
-                    <div class="portfolio-tech">
-                        <span>Python</span>
-                        <span>Flask</span>
-                        <span>E2E Encryption</span>
+                <div class="portfolio-item">
+                    <div class="portfolio-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <!-- Add your screenshot: <img src="carecircle-screenshot.png" alt="CareCircle"> -->
                     </div>
-                    <a href="https://www.carecircle.top/" target="_blank" class="portfolio-link">View Project →</a>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">Healthcare</span>
+                        <h3>CareCircle</h3>
+                        <p>NHS-ready medication adherence platform with zero-data architecture and end-to-end encryption</p>
+                        <a href="https://www.carecircle.top/" target="_blank" class="portfolio-link">View Project →</a>
+                    </div>
                 </div>
                 
-                <div class="portfolio-card">
-                    <div class="portfolio-tag">Real Estate</div>
-                    <h3>HomeRule</h3>
-                    <p>UK planning permission checker with instant analysis and decision support</p>
-                    <div class="portfolio-tech">
-                        <span>React</span>
-                        <span>Gemini AI</span>
-                        <span>Cloud Run</span>
+                <div class="portfolio-item">
+                    <div class="portfolio-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <!-- Add your screenshot: <img src="homerule-screenshot.png" alt="HomeRule"> -->
                     </div>
-                    <a href="https://www.homerule.uk/" target="_blank" class="portfolio-link">View Project →</a>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">Real Estate</span>
+                        <h3>HomeRule</h3>
+                        <p>UK planning permission checker with AI-powered analysis</p>
+                        <a href="https://www.homerule.uk/" target="_blank" class="portfolio-link">View Project →</a>
+                    </div>
                 </div>
                 
-                <div class="portfolio-card">
-                    <div class="portfolio-tag">Education</div>
-                    <h3>TrueSkills</h3>
-                    <p>Anti-cheating assessment platform with AI proctoring and real-time monitoring</p>
-                    <div class="portfolio-tech">
-                        <span>Python</span>
-                        <span>Computer Vision</span>
-                        <span>WebRTC</span>
+                <div class="portfolio-item">
+                    <div class="portfolio-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <!-- Add your screenshot: <img src="trueskills-screenshot.png" alt="TrueSkills"> -->
                     </div>
-                    <a href="https://trueskills.uk/" target="_blank" class="portfolio-link">View Project →</a>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">Education</span>
+                        <h3>TrueSkills</h3>
+                        <p>Anti-cheating assessment platform with real-time monitoring</p>
+                        <a href="https://trueskills.uk/" target="_blank" class="portfolio-link">View Project →</a>
+                    </div>
                 </div>
                 
-                <div class="portfolio-card">
-                    <div class="portfolio-tag">EdTech</div>
-                    <h3>MathTales</h3>
-                    <p>Fairy tale-based math learning platform that makes education magical for kids</p>
-                    <div class="portfolio-tech">
-                        <span>React</span>
-                        <span>AI Stories</span>
-                        <span>Gamification</span>
+                <div class="portfolio-item">
+                    <div class="portfolio-image" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                        <!-- Add your screenshot: <img src="mathtales-screenshot.png" alt="MathTales"> -->
                     </div>
-                    <a href="https://mathtales.top/" target="_blank" class="portfolio-link">View Project →</a>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">EdTech</span>
+                        <h3>MathTales</h3>
+                        <p>Fairy tale-based math learning game for children</p>
+                        <a href="https://mathtales.top/" target="_blank" class="portfolio-link">View Project →</a>
+                    </div>
+                </div>
+                
+                <div class="portfolio-item">
+                    <div class="portfolio-image" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                        <!-- Add your screenshot: <img src="findingurway-screenshot.png" alt="FindingUrWay"> -->
+                    </div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">Travel</span>
+                        <h3>FindingUrWay</h3>
+                        <p>AI-powered travel planner with affiliate integrations</p>
+                        <a href="https://findingurway.online/" target="_blank" class="portfolio-link">View Project →</a>
+                    </div>
+                </div>
+                
+                <div class="portfolio-item">
+                    <div class="portfolio-image" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">
+                        <!-- Add your screenshot: <img src="wizardstrial-screenshot.png" alt="WizardsTrial"> -->
+                    </div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">Gaming</span>
+                        <h3>WizardsTrial</h3>
+                        <p>Interactive puzzle game with AI-generated challenges</p>
+                        <a href="https://wizardstrial.space/" target="_blank" class="portfolio-link">View Project →</a>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- CareCircle Section -->
-    <section class="carecircle" id="carecircle">
+    <!-- CareCircle Featured Section -->
+    <section class="carecircle-feature" id="carecircle">
         <div class="container">
             <div class="carecircle-content">
                 <div class="carecircle-text">
-                    <div class="badge">Featured Project</div>
-                    <h2>CareCircle: NHS-Ready Healthcare Platform</h2>
-                    <p class="lead">Zero-data architecture meets AI-powered medication management</p>
-                    <div class="carecircle-features">
-                        <div class="feature-item">
-                            <div class="feature-icon">🔐</div>
+                    <span class="feature-badge">Featured Work</span>
+                    <h2>CareCircle: NHS-Ready Healthcare Innovation</h2>
+                    <p class="lead">A medication reminder and health-tracking application designed to improve medication adherence and reduce caregiver anxiety.</p>
+                    
+                    <div class="feature-highlights">
+                        <div class="highlight-item">
+                            <div class="highlight-icon">🔒</div>
                             <div>
-                                <h4>Zero-Knowledge Privacy</h4>
-                                <p>17-digit anonymous codes. No personal data stored.</p>
+                                <h4>Zero Data Stored</h4>
+                                <p>End-to-end encrypted with no centralized database. Eliminates data breach liability.</p>
                             </div>
                         </div>
-                        <div class="feature-item">
-                            <div class="feature-icon">🤖</div>
+                        <div class="highlight-item">
+                            <div class="highlight-icon">🌉</div>
                             <div>
-                                <h4>AI Medication Analysis</h4>
-                                <p>Gemini-powered drug interaction detection</p>
+                                <h4>Privacy Bridge Architecture</h4>
+                                <p>17-digit sharing code provides real-time adherence information without identity disclosure.</p>
                             </div>
                         </div>
-                        <div class="feature-item">
-                            <div class="feature-icon">🏥</div>
+                        <div class="highlight-item">
+                            <div class="highlight-icon">📸</div>
                             <div>
-                                <h4>NHS Digital Interest</h4>
-                                <p>Platform designed for NHS acquisition</p>
+                                <h4>AI-Based Simplicity</h4>
+                                <p>Smart photo capture automatically extracts medication details from labels.</p>
+                            </div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="highlight-icon">✅</div>
+                            <div>
+                                <h4>DTAC Aligned</h4>
+                                <p>Built with NHS Digital Technology Assessment Criteria from the outset.</p>
                             </div>
                         </div>
                     </div>
-                    <div class="carecircle-buttons">
-                        <a href="https://www.carecircle.top/" target="_blank" class="btn btn-primary">Try CareCircle</a>
-                        <a href="#contact" class="btn btn-outline">Discuss Your Healthcare App</a>
+                    
+                    <div class="feature-buttons">
+                        <a href="https://www.carecircle.top/" target="_blank" class="btn btn-primary">Visit CareCircle</a>
+                        <a href="https://zenodo.org/records/17440767" target="_blank" class="btn btn-outline">Read Technical Paper</a>
                     </div>
                 </div>
-                <div class="carecircle-image">
-                    <div class="carecircle-mockup">
+                <div class="carecircle-visual">
+                    <div class="phone-mockup">
                         <div class="mockup-screen">
-                            <div class="mockup-header">🔐 CareCircle</div>
-                            <div class="mockup-content">
-                                <div class="mockup-card">
-                                    <div class="mockup-icon">👤</div>
-                                    <div class="mockup-text">Anonymous Connection Code</div>
+                            <div class="mockup-app">
+                                <div class="app-header">
+                                    <div class="app-title">CareCircle</div>
+                                    <div class="app-status">Connected</div>
                                 </div>
-                                <div class="mockup-card">
-                                    <div class="mockup-icon">💊</div>
-                                    <div class="mockup-text">AI Medication Tracker</div>
+                                <div class="app-stats">
+                                    <div class="stat-box">
+                                        <div class="stat-number">0</div>
+                                        <div class="stat-label">Taken Today</div>
+                                    </div>
+                                    <div class="stat-box active">
+                                        <div class="stat-number">1</div>
+                                        <div class="stat-label">Total Today</div>
+                                    </div>
                                 </div>
-                                <div class="mockup-card">
-                                    <div class="mockup-icon">📊</div>
-                                    <div class="mockup-text">Family Coordination</div>
+                                <div class="app-meds">
+                                    <div class="med-item">
+                                        <div class="med-time">7:03 PM</div>
+                                        <div class="med-name">P1</div>
+                                        <div class="med-action">Mark as Taken</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -793,17 +326,17 @@
         </div>
     </section>
 
-    <!-- Analysis Section -->
+    <!-- Free Analysis Section -->
     <section class="analysis" id="analysis">
         <div class="container">
             <div class="section-header">
                 <h2>Get Expert Insights for Free</h2>
-                <p>Direct analysis of your code or website - security vulnerabilities, performance issues, and actionable fixes</p>
+                <p>Direct analysis of your code or website - security, SEO, performance, and migration assessment</p>
             </div>
             
             <div class="analysis-tabs">
                 <button class="tab-btn active" data-tab="github">GitHub Analysis</button>
-                <button class="tab-btn" data-tab="security">Security Scanner</button>
+                <button class="tab-btn" data-tab="website">Website Audit</button>
             </div>
             
             <div class="analysis-content">
@@ -826,20 +359,21 @@
                     </div>
                 </div>
                 
-                <!-- Security Scanner Tab -->
-                <div class="tab-panel" id="security-panel">
+                <!-- Website Tab -->
+                <div class="tab-panel" id="website-panel">
                     <div class="analysis-form">
-                        <h3>🔒 Free Security Vulnerability Scanner</h3>
-                        <p>Advanced security scanning powered by Groq AI - Detects XSS, SQL injection, missing security headers, exposed API keys, outdated libraries, and more</p>
-                        <form id="securityForm">
+                        <h3>Live Website Audit</h3>
+                        <p>Get direct insights: top 3 critical issues, SEO problems, security vulnerabilities, performance bottlenecks, and Cloud Run migration assessment</p>
+                        <form id="websiteForm">
                             <div class="form-group">
-                                <label for="security-url">Website URL</label>
-                                <input type="url" id="security-url" name="security-url" placeholder="https://yourwebsite.com" required>
+                                <label for="website-url">Website URL</label>
+                                <input type="url" id="website-url" name="website-url" placeholder="https://yourwebsite.com" required>
                             </div>
-                            <button type="submit" class="btn btn-primary" id="securitySubmitBtn">Scan for Vulnerabilities</button>
+                            <button type="submit" class="btn btn-primary" id="websiteSubmitBtn">Analyze Website</button>
                         </form>
-                        <div class="analysis-result" id="security-result" style="display: none;">
-                            <div id="security-result-content"></div>
+                        <div class="analysis-result" id="website-result" style="display: none;">
+                            <h4>Analysis Results</h4>
+                            <div class="result-content" id="website-result-content"></div>
                         </div>
                     </div>
                 </div>
@@ -978,7 +512,6 @@
                                 <option value="">Select one</option>
                                 <option value="new-mvp">New MVP Development</option>
                                 <option value="rescue">Project Rescue/Fixing</option>
-                                <option value="security-fix">Security Vulnerability Fix</option>
                                 <option value="consultation">Free Consultation</option>
                                 <option value="other">Other</option>
                             </select>
@@ -1040,62 +573,6 @@
         <span class="toggle-text">Chat with me</span>
     </button>
 
-    <!-- Floating Security Button -->
-<button class="security-scan-float-btn" id="securityScanFloatBtn">
-    <span class="security-float-icon">🔒</span>
-    <span class="security-float-text">Free Security Scan</span>
-</button>
-
-<!-- Security Scanner Modal -->
-<div class="security-modal" id="securityModal" style="display: none;">
-    <div class="security-modal-overlay" id="securityModalOverlay"></div>
-    <div class="security-modal-content">
-        <button class="security-modal-close" id="securityModalClose">×</button>
-        
-        <div class="security-step" id="securityDisclaimer">
-            <div class="security-modal-icon">🛡️</div>
-            <h2>Free Website Security Scanner</h2>
-            <p class="security-modal-subtitle">Powered by Mozilla Observatory & SSL Labs</p>
-            
-            <div class="security-disclaimer-box">
-                <h3>⚠️ Disclaimer & Terms of Use</h3>
-                <div class="disclaimer-content">
-                    <p><strong>By using this free service, you agree:</strong></p>
-                    <ul>
-                        <li>✓ You are the <strong>website owner or authorized representative</strong></li>
-                        <li>✓ Scan is for <strong>informational purposes only</strong></li>
-                        <li>✓ Results are <strong>not guaranteed 100% accurate</strong></li>
-                        <li>✓ <strong>No warranty</strong> provided</li>
-                        <li>✓ ikanchan is <strong>not liable</strong> for any damages</li>
-                        <li>✓ NOT a substitute for professional security audit</li>
-                        <li>✓ Uses third-party APIs (Mozilla, SSL Labs)</li>
-                    </ul>
-                    <p><strong>Privacy:</strong> URL sent to security scanners. No sensitive data stored.</p>
-                    <p><strong>Legal:</strong> Scans public information only. No exploitation attempts.</p>
-                </div>
-            </div>
-            
-            <div class="disclaimer-checkbox">
-                <input type="checkbox" id="disclaimerAgree">
-                <label for="disclaimerAgree">
-                    <strong>I agree to the terms.</strong> I'm the website owner or authorized.
-                </label>
-            </div>
-            
-            <div class="security-scan-form-modal">
-                <input type="url" id="security-modal-url" placeholder="https://yourwebsite.com" disabled>
-                <button class="btn-scan-modal" id="btnStartScan" disabled>
-                    🔍 Start Security Scan
-                </button>
-            </div>
-        </div>
-        
-        <div class="security-results-modal" id="securityResults" style="display: none;">
-            <div id="securityResultsContent"></div>
-        </div>
-    </div>
-</div>
-
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -1136,292 +613,5 @@
     </footer>
 
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-    
-    <script>
-        // Security Scanner JavaScript
-        document.getElementById('securityForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const url = document.getElementById('security-url').value;
-            const submitBtn = document.getElementById('securitySubmitBtn');
-            const resultDiv = document.getElementById('security-result');
-            const resultContent = document.getElementById('security-result-content');
-            
-            // Show loading state
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Scanning...';
-            resultDiv.style.display = 'none';
-            
-            try {
-                const response = await fetch('/api/security-scan', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ url: url })
-                });
-                
-                const data = await response.json();
-                
-                if (data.error) {
-                    resultContent.innerHTML = `
-                        <div class="scan-summary has-vulnerabilities">
-                            <h4>⚠️ Error</h4>
-                            <p>${data.error}</p>
-                        </div>
-                    `;
-                } else if (data.vulnerabilities && data.vulnerabilities.length > 0) {
-                    // Vulnerabilities found
-                    let html = `
-                        <div class="scan-summary has-vulnerabilities">
-                            <h4>⚠️ ${data.vulnerabilities.length} Critical Vulnerabilities Found</h4>
-                            <p>Your website has security issues that need immediate attention</p>
-                        </div>
-                    `;
-                    
-                    // Display each vulnerability
-                    data.vulnerabilities.forEach((vuln, index) => {
-                        const riskClass = vuln.risk_level.toLowerCase();
-                        html += `
-                            <div class="vulnerability-card risk-${riskClass}">
-                                <div class="vulnerability-header">
-                                    <h3 class="vulnerability-title">${index + 1}. ${vuln.title}</h3>
-                                    <span class="risk-badge ${riskClass}">${vuln.risk_level}</span>
-                                </div>
-                                
-                                <div class="vulnerability-section">
-                                    <h4>💼 Business Impact</h4>
-                                    <p>${vuln.business_impact}</p>
-                                </div>
-                                
-                                <div class="vulnerability-section">
-                                    <h4>🔍 Technical Details</h4>
-                                    <p>${vuln.technical_details}</p>
-                                </div>
-                                
-                                <div class="vulnerability-section">
-                                    <h4>🛠️ How to Fix</h4>
-                                    <div class="fix-steps">
-                                        <p>${vuln.how_to_fix}</p>
-                                    </div>
-                                    <span class="estimated-time">⏱️ Estimated Fix Time: ${vuln.estimated_fix_time}</span>
-                                </div>
-                            </div>
-                        `;
-                    });
-                    
-                    // Add contact form
-                    html += `
-                        <div class="security-contact-form">
-                            <h3>🚨 Need Help Fixing These Vulnerabilities?</h3>
-                            <p>I can fix these security issues quickly and professionally. Contact me for a free consultation.</p>
-                            <form id="securityContactForm">
-                                <input type="hidden" id="sec-scanned-url" value="${url}">
-                                <div class="form-group">
-                                    <label for="sec-name">Name</label>
-                                    <input type="text" id="sec-name" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="sec-email">Email</label>
-                                    <input type="email" id="sec-email" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="sec-message">Message (optional)</label>
-                                    <textarea id="sec-message" rows="3" placeholder="Tell me about your security concerns..."></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-primary" id="secContactSubmitBtn">Get Help Now</button>
-                            </form>
-                            <div id="securityContactSuccess" style="display: none; text-align: center; padding: 20px;">
-                                <h3 style="color: white;">✓ Message Sent!</h3>
-                                <p>I'll contact you within 24 hours to discuss fixing these vulnerabilities.</p>
-                            </div>
-                        </div>
-                    `;
-                    
-                    resultContent.innerHTML = html;
-                    
-                    // Add contact form handler
-                    document.getElementById('securityContactForm').addEventListener('submit', async function(e) {
-                        e.preventDefault();
-                        
-                        const secBtn = document.getElementById('secContactSubmitBtn');
-                        secBtn.disabled = true;
-                        secBtn.textContent = 'Sending...';
-                        
-                        const formData = {
-                            name: document.getElementById('sec-name').value,
-                            email: document.getElementById('sec-email').value,
-                            project_type: 'security-fix',
-                            url: document.getElementById('sec-scanned-url').value,
-                            message: `Security vulnerabilities found on ${url}. ${data.vulnerabilities.length} critical issues detected.\n\n${document.getElementById('sec-message').value}`
-                        };
-                        
-                        try {
-                            const contactResponse = await fetch('/api/contact', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify(formData)
-                            });
-                            
-                            if (contactResponse.ok) {
-                                document.getElementById('securityContactForm').style.display = 'none';
-                                document.getElementById('securityContactSuccess').style.display = 'block';
-                            }
-                        } catch (error) {
-                            alert('Error sending message. Please try again.');
-                            secBtn.disabled = false;
-                            secBtn.textContent = 'Get Help Now';
-                        }
-                    });
-                    
-                } else {
-                    // No vulnerabilities
-                    resultContent.innerHTML = `
-                        <div class="no-vulnerabilities">
-                            <h3>✅ Excellent Security!</h3>
-                            <p>No major vulnerabilities detected. Your website has good security practices in place.</p>
-                        </div>
-                    `;
-                }
-                
-                resultDiv.style.display = 'block';
-                resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                
-            } catch (error) {
-                resultContent.innerHTML = `
-                    <div class="scan-summary has-vulnerabilities">
-                        <h4>⚠️ Error</h4>
-                        <p>Failed to scan website: ${error.message}</p>
-                    </div>
-                `;
-                resultDiv.style.display = 'block';
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Scan for Vulnerabilities';
-            }
-        });
-    </script>
-    <script>
-// Security Scanner JavaScript
-const securityFloatBtn = document.getElementById('securityScanFloatBtn');
-const securityModal = document.getElementById('securityModal');
-const securityModalClose = document.getElementById('securityModalClose');
-const securityModalOverlay = document.getElementById('securityModalOverlay');
-const disclaimerAgree = document.getElementById('disclaimerAgree');
-const securityModalUrl = document.getElementById('security-modal-url');
-const btnStartScan = document.getElementById('btnStartScan');
-const securityDisclaimer = document.getElementById('securityDisclaimer');
-const securityResults = document.getElementById('securityResults');
-const securityResultsContent = document.getElementById('securityResultsContent');
-
-// Open modal
-securityFloatBtn.addEventListener('click', () => {
-    securityModal.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-});
-
-// Close modal
-function closeSecurityModal() {
-    securityModal.style.display = 'none';
-    document.body.style.overflow = 'auto';
-    securityDisclaimer.style.display = 'block';
-    securityResults.style.display = 'none';
-    disclaimerAgree.checked = false;
-    securityModalUrl.value = '';
-    securityModalUrl.disabled = true;
-    btnStartScan.disabled = true;
-}
-
-securityModalClose.addEventListener('click', closeSecurityModal);
-securityModalOverlay.addEventListener('click', closeSecurityModal);
-
-// Enable form when agreed
-disclaimerAgree.addEventListener('change', (e) => {
-    securityModalUrl.disabled = !e.target.checked;
-    btnStartScan.disabled = !e.target.checked;
-});
-
-// Start scan
-btnStartScan.addEventListener('click', async () => {
-    const url = securityModalUrl.value.trim();
-    if (!url) {
-        alert('Please enter a website URL');
-        return;
-    }
-    
-    btnStartScan.disabled = true;
-    btnStartScan.textContent = '🔄 Scanning... (30-60 sec)';
-    
-    try {
-        const response = await fetch('/api/security-scan', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ url: url })
-        });
-        
-        const data = await response.json();
-        
-        if (data.error) {
-            securityResultsContent.innerHTML = `<div class="no-vulnerabilities" style="background: #fef2f2; border-color: #fecaca;"><h3 style="color: #dc2626;">⚠️ Error</h3><p style="color: #991b1b;">${data.error}</p></div>`;
-        } else if (data.vulnerabilities && data.vulnerabilities.length > 0) {
-            let html = `<h2 style="text-align: center; margin-bottom: 20px;">🔍 Security Scan Results</h2><p style="text-align: center; color: #6b7280; margin-bottom: 30px;">Found ${data.total_found} issues. TOP 3 most critical:</p>`;
-            
-            data.vulnerabilities.forEach((vuln, index) => {
-                const riskClass = vuln.risk_level.toLowerCase();
-                html += `
-                    <div class="vulnerability-card risk-${riskClass}">
-                        <div class="vulnerability-header">
-                            <h3 class="vulnerability-title">${index + 1}. ${vuln.title}</h3>
-                            <span class="risk-badge ${riskClass}">${vuln.risk_level}</span>
-                        </div>
-                        <div class="vulnerability-section">
-                            <h4>💼 Business Impact</h4>
-                            <p>${vuln.business_impact}</p>
-                        </div>
-                        <div class="vulnerability-section">
-                            <h4>🔍 Technical Details</h4>
-                            <p>${vuln.technical_details}</p>
-                        </div>
-                        <div class="vulnerability-section">
-                            <h4>📚 Official Documentation</h4>
-                            <div class="official-docs">
-                                ${vuln.official_docs.map(doc => `<a href="${doc}" target="_blank">→ ${doc}</a>`).join('')}
-                            </div>
-                        </div>
-                        <span class="estimated-time">⏱️ ${vuln.estimated_fix_time}</span>
-                    </div>
-                `;
-            });
-            
-            html += `
-                <div class="security-contact-cta">
-                    <h3>🚨 Need Help?</h3>
-                    <p>I can fix these security issues quickly and professionally.</p>
-                    <a href="#contact" class="btn-contact-security" onclick="closeSecurityModal()">Get Help Now</a>
-                </div>
-            `;
-            
-            securityResultsContent.innerHTML = html;
-        } else {
-            securityResultsContent.innerHTML = `<div class="no-vulnerabilities"><h3>✅ Excellent Security!</h3><p>No major issues detected.</p></div>`;
-        }
-        
-        securityDisclaimer.style.display = 'none';
-        securityResults.style.display = 'block';
-        
-    } catch (error) {
-        securityResultsContent.innerHTML = `<div class="no-vulnerabilities" style="background: #fef2f2; border-color: #fecaca;"><h3 style="color: #dc2626;">⚠️ Scan Failed</h3><p style="color: #991b1b;">${error.message}</p></div>`;
-        securityDisclaimer.style.display = 'none';
-        securityResults.style.display = 'block';
-    } finally {
-        btnStartScan.disabled = false;
-        btnStartScan.textContent = '🔍 Start Security Scan';
-    }
-});
-
-window.closeSecurityModal = closeSecurityModal;
-</script>
 </body>
 </html>
