@@ -247,6 +247,360 @@ Be specific, practical, and prioritize issues by severity."""
     except Exception as e:
         return jsonify({'error': f'Analysis failed: {str(e)}'}), 500
 
+# ============================================================================
+# ADD THIS ROUTE TO YOUR EXISTING app.py
+# Insert this AFTER the @app.route('/api/analyze-github') route (after line 248)
+# and BEFORE the @app.route('/api/analyze-web') route (before line 250)
+# ============================================================================
+
+@app.route('/api/security-scan', methods=['POST'])
+def security_scan():
+    """Advanced security scanner with real vulnerability checks using Gemini AI"""
+    if not GEMINI_API_KEY:
+        return jsonify({'error': 'Security scanner unavailable'}), 500
+    
+    try:
+        data = request.json
+        target_url = data.get('url', '').strip()
+        
+        if not target_url:
+            return jsonify({'error': 'URL required'}), 400
+        
+        if not validators.url(target_url):
+            return jsonify({'error': 'Invalid URL format'}), 400
+        
+        # Fetch website content
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        }
+        response = requests.get(target_url, headers=headers, timeout=15, allow_redirects=True)
+        
+        if response.status_code != 200:
+            return jsonify({'error': f'Could not fetch website. Status: {response.status_code}'}), 400
+        
+        # Parse HTML
+        soup = BeautifulSoup(response.content, 'html.parser')
+        page_text = response.text
+        
+        # ======================
+        # REAL VULNERABILITY CHECKS
+        # ======================
+        vulnerabilities = []
+        
+        # 1. Check Security Headers
+        security_headers = {
+            'Strict-Transport-Security': 'HSTS',
+            'Content-Security-Policy': 'CSP',
+            'X-Frame-Options': 'Clickjacking Protection',
+            'X-Content-Type-Options': 'MIME Sniffing Protection',
+            'X-XSS-Protection': 'XSS Protection',
+            'Referrer-Policy': 'Referrer Policy',
+            'Permissions-Policy': 'Permissions Policy'
+        }
+        
+        missing_headers = []
+        for header, description in security_headers.items():
+            if header not in response.headers:
+                missing_headers.append(f"{description} ({header})")
+        
+        if missing_headers:
+            vulnerabilities.append({
+                'type': 'Missing Security Headers',
+                'severity': 'HIGH',
+                'details': f"Missing {len(missing_headers)} critical security headers: {', '.join(missing_headers[:3])}",
+                'impact': 'Vulnerable to XSS, clickjacking, MIME sniffing attacks',
+                'evidence': f"Response headers check: {len(missing_headers)} headers missing"
+            })
+        
+        # 2. Check for Exposed Sensitive Information
+        exposed_patterns = {
+            'API Keys': [
+                r'api[_-]?key[\s]*[=:]["\']\w{20,}',
+                r'apikey[\s]*[=:]["\']\w{20,}',
+                r'AKIA[0-9A-Z]{16}',  # AWS Access Key
+            ],
+            'Private Keys': [
+                r'-----BEGIN (RSA |PRIVATE |PGP )KEY-----',
+            ],
+            'Tokens': [
+                r'(access[_-]?token|bearer[\s]*[=:]["\']\w{20,})',
+                r'ghp_[a-zA-Z0-9]{36}',  # GitHub Personal Access Token
+                r'sk_live_[0-9a-zA-Z]{24,}',  # Stripe Secret Key
+            ],
+            'Email Addresses': [
+                r'[\w\.-]+@[\w\.-]+\.\w+'
+            ],
+            'Internal IPs': [
+                r'(?:10\.|172\.(?:1[6-9]|2[0-9]|3[01])\.|192\.168\.)\d{1,3}\.\d{1,3}'
+            ]
+        }
+        
+        exposed_data = []
+        for data_type, patterns in exposed_patterns.items():
+            for pattern in patterns:
+                matches = re.findall(pattern, page_text, re.IGNORECASE)
+                if matches:
+                    exposed_data.append(f"{data_type} ({len(matches)} found)")
+                    break
+        
+        if exposed_data:
+            vulnerabilities.append({
+                'type': 'Exposed Sensitive Information',
+                'severity': 'CRITICAL',
+                'details': f"Found exposed sensitive data: {', '.join(exposed_data[:2])}",
+                'impact': 'Data breach risk, credential theft, unauthorized access',
+                'evidence': f"Pattern matching found: {len(exposed_data)} types of sensitive data"
+            })
+        
+        # 3. Check for XSS Vulnerabilities
+        xss_indicators = []
+        
+        # Check forms without CSRF protection
+        forms = soup.find_all('form')
+        vulnerable_forms = 0
+        for form in forms:
+            csrf_token = form.find('input', {'name': re.compile(r'csrf|token', re.I)})
+            if not csrf_token:
+                vulnerable_forms += 1
+        
+        if vulnerable_forms > 0:
+            xss_indicators.append(f"{vulnerable_forms} forms without CSRF tokens")
+        
+        # Check for inline JavaScript
+        inline_scripts = len(soup.find_all('script', src=False))
+        if inline_scripts > 5:
+            xss_indicators.append(f"{inline_scripts} inline scripts (high XSS risk)")
+        
+        # Check for eval() usage
+        if 'eval(' in page_text:
+            xss_indicators.append("eval() function detected")
+        
+        # Check for innerHTML usage
+        if 'innerHTML' in page_text or 'document.write' in page_text:
+            xss_indicators.append("innerHTML/document.write detected")
+        
+        if xss_indicators:
+            vulnerabilities.append({
+                'type': 'XSS (Cross-Site Scripting) Vulnerability',
+                'severity': 'HIGH',
+                'details': f"Potential XSS vectors: {', '.join(xss_indicators[:2])}",
+                'impact': 'Attackers can inject malicious scripts, steal cookies, hijack sessions',
+                'evidence': f"{len(xss_indicators)} XSS risk indicators found"
+            })
+        
+        # 4. Check for SQL Injection Vulnerabilities
+        sql_indicators = []
+        
+        # Check URL parameters
+        if '?' in target_url and any(param in target_url.lower() for param in ['id=', 'user=', 'query=', 'search=']):
+            sql_indicators.append("URL parameters detected")
+        
+        # Check forms with database-related field names
+        for form in forms:
+            inputs = form.find_all('input')
+            for inp in inputs:
+                name = inp.get('name', '').lower()
+                if any(db_term in name for db_term in ['id', 'user', 'query', 'search', 'login', 'email']):
+                    sql_indicators.append("Database-query field names in forms")
+                    break
+        
+        # Check for SQL error messages in page
+        sql_errors = ['SQL syntax', 'mysql_fetch', 'mysqli', 'postgresql', 'sqlite', 'ORA-', 'SQLSTATE']
+        if any(error in page_text for error in sql_errors):
+            sql_indicators.append("SQL error messages exposed")
+        
+        if sql_indicators:
+            vulnerabilities.append({
+                'type': 'SQL Injection Vulnerability',
+                'severity': 'CRITICAL',
+                'details': f"SQL injection risks: {', '.join(sql_indicators[:2])}",
+                'impact': 'Database breach, data theft, unauthorized access, data manipulation',
+                'evidence': f"{len(sql_indicators)} SQL injection indicators"
+            })
+        
+        # 5. Check for Outdated Libraries/Frameworks
+        outdated_tech = []
+        
+        # Check JavaScript libraries
+        scripts = soup.find_all('script', src=True)
+        old_versions = {
+            'jquery-1.': 'jQuery 1.x (outdated, use 3.x)',
+            'jquery-2.': 'jQuery 2.x (outdated, use 3.x)',
+            'angular.js/1.': 'AngularJS 1.x (EOL)',
+            'react@15': 'React 15 (outdated)',
+            'react@16': 'React 16 (outdated)',
+            'bootstrap/3': 'Bootstrap 3 (EOL)',
+        }
+        
+        for script in scripts:
+            src = script.get('src', '').lower()
+            for old_ver, description in old_versions.items():
+                if old_ver in src:
+                    outdated_tech.append(description)
+        
+        # Check for HTTP instead of HTTPS
+        if not target_url.startswith('https://'):
+            outdated_tech.append("No HTTPS (using insecure HTTP)")
+        
+        if outdated_tech:
+            vulnerabilities.append({
+                'type': 'Outdated Libraries & Frameworks',
+                'severity': 'MEDIUM',
+                'details': f"Outdated technologies detected: {', '.join(outdated_tech[:2])}",
+                'impact': 'Known vulnerabilities, security exploits, compliance issues',
+                'evidence': f"{len(outdated_tech)} outdated components found"
+            })
+        
+        # 6. Check Cookie Security
+        cookie_issues = []
+        cookies = response.cookies
+        
+        for cookie in cookies:
+            if not cookie.secure:
+                cookie_issues.append(f"Cookie '{cookie.name}' missing Secure flag")
+            if not cookie.has_nonstandard_attr('HttpOnly'):
+                cookie_issues.append(f"Cookie '{cookie.name}' missing HttpOnly flag")
+        
+        if cookie_issues:
+            vulnerabilities.append({
+                'type': 'Insecure Cookie Configuration',
+                'severity': 'MEDIUM',
+                'details': f"Cookie security issues: {cookie_issues[0]}",
+                'impact': 'Session hijacking, CSRF attacks, cookie theft',
+                'evidence': f"{len(cookie_issues)} cookie security issues"
+            })
+        
+        # If no vulnerabilities found
+        if not vulnerabilities:
+            return jsonify({
+                'success': True,
+                'vulnerabilities': [],
+                'message': 'Great news! No major security vulnerabilities detected.',
+                'scan_info': {
+                    'url': target_url,
+                    'checks_performed': 6,
+                    'timestamp': datetime.utcnow().isoformat()
+                }
+            })
+        
+        # Use Gemini AI to analyze and prioritize TOP 3 vulnerabilities
+        vulnerability_text = "\n\n".join([
+            f"**{v['type']}** (Severity: {v['severity']})\n"
+            f"Details: {v['details']}\n"
+            f"Impact: {v['impact']}\n"
+            f"Evidence: {v['evidence']}"
+            for v in vulnerabilities
+        ])
+        
+        gemini_prompt = f"""You are a cybersecurity expert analyzing website vulnerabilities.
+
+**Website Scanned:** {target_url}
+
+**Vulnerabilities Found:**
+{vulnerability_text}
+
+**Your Task:**
+Analyze these vulnerabilities and return EXACTLY the TOP 3 MOST CRITICAL issues that pose the greatest business risk.
+
+For each of the TOP 3 vulnerabilities, provide:
+1. **Title**: Clear, business-friendly name
+2. **Risk Level**: CRITICAL, HIGH, or MEDIUM
+3. **Business Impact**: Explain the real-world consequences (data breach, revenue loss, legal issues, reputation damage)
+4. **Technical Details**: What's wrong technically
+5. **How to Fix**: Specific, actionable steps to fix this issue (numbered steps)
+6. **Estimated Fix Time**: Realistic time estimate (e.g., "1-2 hours", "1 day", "2-3 days")
+
+**Output Format (MUST be valid JSON):**
+{{
+    "top_vulnerabilities": [
+        {{
+            "title": "Missing Critical Security Headers",
+            "risk_level": "HIGH",
+            "business_impact": "Your website is vulnerable to...",
+            "technical_details": "The following headers are missing...",
+            "how_to_fix": "Step 1: Configure your web server\\nStep 2: Add security headers\\nStep 3: Test the implementation",
+            "estimated_fix_time": "2-3 hours"
+        }}
+    ]
+}}
+
+**CRITICAL REQUIREMENTS:**
+- Return ONLY valid JSON, no markdown, no code blocks, no extra text
+- Exactly 3 vulnerabilities in the array
+- Prioritize by business risk, not just technical severity
+- Be specific and actionable in the "how_to_fix" field
+- Use \\n for line breaks in multi-line text
+"""
+
+        # Call Gemini API
+        gemini_response = model.generate_content(gemini_prompt)
+        analysis_text = gemini_response.text
+        
+        # Extract JSON from response (handle markdown code blocks)
+        # Remove markdown code blocks if present
+        analysis_text = re.sub(r'```json\s*', '', analysis_text)
+        analysis_text = re.sub(r'```\s*', '', analysis_text)
+        analysis_text = analysis_text.strip()
+        
+        # Find JSON object
+        json_match = re.search(r'\{[\s\S]*\}', analysis_text)
+        if json_match:
+            analysis_json = json.loads(json_match.group())
+        else:
+            # Fallback if JSON parsing fails
+            analysis_json = {
+                "top_vulnerabilities": [
+                    {
+                        "title": vuln['type'],
+                        "risk_level": vuln['severity'],
+                        "business_impact": vuln['impact'],
+                        "technical_details": vuln['details'],
+                        "how_to_fix": vuln['evidence'],
+                        "estimated_fix_time": "Varies"
+                    }
+                    for vuln in vulnerabilities[:3]
+                ]
+            }
+        
+        top_3_vulnerabilities = analysis_json.get('top_vulnerabilities', [])[:3]
+        
+        # Store in Supabase
+        scan_id = str(uuid.uuid4())
+        if supabase:
+            try:
+                supabase.table('security_scans').insert({
+                    'id': scan_id,
+                    'target_url': target_url,
+                    'vulnerabilities_found': len(vulnerabilities),
+                    'top_3_analysis': json.dumps(top_3_vulnerabilities),
+                    'timestamp': datetime.utcnow().isoformat()
+                }).execute()
+            except Exception as e:
+                print(f"Supabase error: {e}")
+        
+        return jsonify({
+            'success': True,
+            'vulnerabilities': top_3_vulnerabilities,
+            'total_found': len(vulnerabilities),
+            'scan_info': {
+                'url': target_url,
+                'scan_id': scan_id,
+                'timestamp': datetime.utcnow().isoformat()
+            }
+        })
+    
+    except requests.Timeout:
+        return jsonify({'error': 'Request timeout. Website took too long to respond'}), 500
+    except json.JSONDecodeError as e:
+        return jsonify({'error': f'Failed to parse AI analysis: {str(e)}'}), 500
+    except Exception as e:
+        return jsonify({'error': f'Security scan failed: {str(e)}'}), 500
+
+# ============================================================================
+# END OF NEW ROUTE
+# Continue with your existing routes below...
+# ============================================================================
+
 @app.route('/api/analyze-web', methods=['POST'])
 def analyze_web():
     """Analyze live website"""
