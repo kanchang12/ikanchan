@@ -8,6 +8,8 @@ from supabase import create_client, Client
 from dotenv import load_dotenv
 import validators
 from bs4 import BeautifulSoup
+import re
+import json
 
 load_dotenv()
 
