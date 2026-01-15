@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Vault | Privacy-First AI Execution Layer</title>
+  <meta name="description" content="The Vault is a privacy-first AI execution layer for fintech and regulated industries. Use public AI without exposing sensitive data.">
+  <meta name="keywords" content="privacy-first AI, fintech AI compliance, secure LLM architecture, zero-PII AI systems, GDPR compliant AI, anonymous authentication AI">
+  <meta name="author" content="The Vault">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #0B0B0D;
+      --gold: #D4AF37;
+      --gold-muted: #9E8A3C;
+      --text: #F5F5F5;
+      --muted: #B0B0B0;
+      --border: rgba(212, 175, 55, 0.2);
+      --panel: #111114;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "IBM Plex Sans", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: min(1200px, 92vw);
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(11, 11, 13, 0.96);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(6px);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 0;
+      gap: 24px;
+    }
+
+    .brand {
+      font-size: 18px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 22px;
+      border-radius: 2px;
+      font-weight: 600;
+      letter-spacing: 0.4px;
+      border: 1px solid var(--gold);
+      color: var(--bg);
+      background: var(--gold);
+    }
+
+    .cta.secondary {
+      background: transparent;
+      color: var(--gold);
+    }
+
+    .hero {
+      position: relative;
+      padding: 110px 0 90px;
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320' viewBox='0 0 320 320'%3E%3Crect width='320' height='320' fill='%230B0B0D'/%3E%3Cg stroke='rgba(212,175,55,0.15)' stroke-width='1'%3E%3Cpath d='M10 40 H310'/%3E%3Cpath d='M10 120 H310'/%3E%3Cpath d='M10 200 H310'/%3E%3Cpath d='M10 280 H310'/%3E%3Cpath d='M40 10 V310'/%3E%3Cpath d='M120 10 V310'/%3E%3Cpath d='M200 10 V310'/%3E%3Cpath d='M280 10 V310'/%3E%3C/g%3E%3C/svg%3E");
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 50px;
+      align-items: center;
+    }
+
+    .hero-side {
+      display: grid;
+      gap: 20px;
+    }
+
+    .hero h1 {
+      font-size: clamp(36px, 5vw, 64px);
+      line-height: 1.1;
+      letter-spacing: -0.5px;
+      margin-bottom: 18px;
+    }
+
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: 12px;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: var(--muted);
+      margin-bottom: 28px;
+      max-width: 520px;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 18px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .hero-panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      padding: 28px;
+    }
+
+    .hero-panel h3 {
+      color: var(--gold);
+      font-size: 16px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+    }
+
+    .hero-panel ul {
+      list-style: none;
+      display: grid;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .hero-media {
+      border: 1px solid var(--border);
+      background: #0B0B0D;
+      padding: 10px;
+    }
+
+    .hero-media img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .section {
+      padding: 90px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-title {
+      font-size: clamp(28px, 3.8vw, 44px);
+      margin-bottom: 16px;
+    }
+
+    .section-subtitle {
+      color: var(--muted);
+      max-width: 720px;
+      margin-bottom: 40px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      padding: 24px;
+    }
+
+    .card h3 {
+      color: var(--gold);
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .bullet-list {
+      list-style: none;
+      display: grid;
+      gap: 12px;
+      color: var(--muted);
+    }
+
+    .bullet-list li {
+      padding-left: 18px;
+      position: relative;
+    }
+
+    .bullet-list li::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--gold);
+      position: absolute;
+      left: 0;
+      top: 10px;
+    }
+
+    .diagram {
+      margin-top: 20px;
+      border: 1px solid var(--border);
+      background: #0B0B0D;
+      padding: 20px;
+    }
+
+    .diagram svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .code-block {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 13px;
+      background: #0E0E10;
+      border: 1px solid var(--border);
+      padding: 16px;
+      color: var(--gold);
+      margin-top: 18px;
+      white-space: pre-wrap;
+    }
+
+    .link-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .link-row a {
+      color: var(--gold);
+      border-bottom: 1px solid transparent;
+    }
+
+    .link-row a:hover {
+      border-color: var(--gold);
+    }
+
+    .case-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px;
+    }
+
+    .case-card {
+      border: 1px solid var(--border);
+      padding: 22px;
+      background: var(--panel);
+    }
+
+    .case-card h3 {
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .qr-wrap {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(100px, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .qr {
+      border: 1px solid var(--border);
+      padding: 12px;
+      display: grid;
+      place-items: center;
+      min-height: 110px;
+      background: #0B0B0D;
+    }
+
+    .qr span {
+      font-size: 11px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .qr img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .qr-label {
+      font-size: 11px;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
+
+    .trust-item {
+      border-left: 2px solid var(--gold);
+      padding-left: 16px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .monetisation {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 32px;
+      align-items: center;
+    }
+
+    .footer {
+      padding: 40px 0 60px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 12px;
+    }
+
+    .footer-links a {
+      color: var(--gold-muted);
+    }
+
+    @media (max-width: 720px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 80px;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <div class="brand">The Vault</div>
+      <div class="nav-links">
+        <a href="#problem">Problem</a>
+        <a href="#vault">The Vault</a>
+        <a href="/research">Research</a>
+        <a href="/case-studies">Case Studies</a>
+        <a href="#monetisation">Monetisation</a>
+      </div>
+      <a class="cta" href="#contact">Request Vault Access</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="container hero-content">
+      <div>
+        <div class="eyebrow">Privacy-First Execution Layer</div>
+        <h1>Use Public AI Without Exposing Sensitive Data</h1>
+        <p>A privacy-first AI execution layer enabling fintech and regulated organizations to safely use public-domain LLMs.</p>
+        <div class="hero-meta">
+          <span>Zero PII by design</span>
+          <span>Anonymous auth only</span>
+          <span>Audit-first architecture</span>
+        </div>
+        <div class="hero-actions">
+          <a class="cta" href="#contact">Request Vault Access</a>
+          <a class="cta secondary" href="/case-studies">View Case Studies</a>
+        </div>
+      </div>
+      <div class="hero-side">
+        <div class="hero-panel">
+          <h3>Built for Regulators</h3>
+          <ul>
+            <li>Zero data retention by design</li>
+            <li>Anonymous authentication flow</li>
+            <li>Cryptographic controls at every boundary</li>
+            <li>Audit-ready architecture and evidence</li>
+          </ul>
+        </div>
+        <div class="hero-media">
+          <picture>
+            <source media="(max-width: 720px)" srcset="assets/vault-hero-square.png">
+            <img src="assets/vault-hero-wide.png" alt="The Vault secure storage visual">
+          </picture>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="section" id="problem">
+    <div class="container">
+      <h2 class="section-title">Public AI Is Powerful. Regulated Data Makes It Dangerous.</h2>
+      <p class="section-subtitle">Trust-based AI usage fails under regulatory scrutiny. The Vault isolates context, removes identity, and enforces encryption at every boundary.</p>
+      <ul class="bullet-list">
+        <li>PII exposure risk across prompts, logs, and third-party telemetry</li>
+        <li>Regulatory failure modes when controls rely on user compliance</li>
+        <li>On-prem LLMs are costly, brittle, and difficult to validate</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="vault">
+    <div class="container">
+      <h2 class="section-title">The Vault: Privacy-First Execution Layer</h2>
+      <p class="section-subtitle">Engineered to let teams use public LLMs without exposing identities or regulated data. No accounts. No contact details. No retention.</p>
+      <div class="grid">
+        <div class="card">
+          <h3>Anonymous Access</h3>
+          <p>No user accounts. No emails or phone numbers. Authentication uses cryptographically secure random codes.</p>
+        </div>
+        <div class="card">
+          <h3>One-Way Identity</h3>
+          <p>SHA-256 hashing enforces one-way identity binding without storing identity data.</p>
+        </div>
+        <div class="card">
+          <h3>Encryption Boundaries</h3>
+          <p>Strong symmetric encryption protects payloads in transit and at rest.</p>
+        </div>
+        <div class="card">
+          <h3>Zero Retention</h3>
+          <p>Data expires automatically. Logs store only operational metadata.</p>
+        </div>
+      </div>
+
+      <div class="code-block">
+        vault.session = secureRandom(32)
+        vault.identity = sha256(session + deviceSalt)
+        payload = encryptAES256(request)
+        send(payload) // zero retention
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="research">
+    <div class="container">
+      <h2 class="section-title">Technical and Academic Validation</h2>
+      <p class="section-subtitle">Independent evidence, production deployments, and peer-reviewed research. Read more on the dedicated research page.</p>
+      <div class="grid">
+        <div class="card">
+          <h3>Privacy-First Healthcare Coordination</h3>
+          <p>Anonymous Authentication Patterns in Digital Health.</p>
+          <p>Eliminates PII entirely. Validated in production. Under discussion with NHS Digital. GDPR and HIPAA compliance by design.</p>
+          <div class="link-row">
+            <a href="https://zenodo.org/records/17440767?token=eyJhbGciOiJIUzUxMiIsImlhdCI6MTc2MTM4NDY0NywiZXhwIjoxNzY3MTM5MTk5fQ.eyJpZCI6ImI3MTZiY2QwLWVmM2EtNDBmOC1iMGRmLTdjMThjYTY5ODQzMiIsImRhdGEiOnt9LCJyYW5kb20iOiIzOTk3MDAwNDkxNTMxNDY4YzZjYzE0MmY0MjYwYjBiNyJ9.AzMCDwtr6ydEmBrVttOdYe1-fEXSs7Op5du47AgWGIe6zUInY400bKf1WDzgUxSf8RYeCTOsbyJFBRvn6jS7OQ" target="_blank" rel="noreferrer">View Research</a>
+          </div>
+        </div>
+        <div class="card">
+          <h3>TrueSkills: AI-Resistant Assessment</h3>
+          <p>Proof of context-isolated, misuse-resistant AI system design.</p>
+          <div class="link-row">
+            <a href="https://ssrn.com/abstract=5674130" target="_blank" rel="noreferrer">SSRN Paper</a>
+            <a href="/research">Research Index</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="case-studies">
+    <div class="container">
+      <h2 class="section-title">Case Studies</h2>
+      <p class="section-subtitle">Evidence-based deployments across healthcare, GovTech, and commercial AI platforms. Full details on the case studies page.</p>
+      <div class="case-grid">
+        <div class="case-card">
+          <h3>LoveuAD</h3>
+          <p>NHS Innovation Hub ecosystem. Hospital automation. Privacy-first coordination.</p>
+          <div class="qr-wrap">
+            <div class="qr">
+              <img src="assets/loveuad-android.png" alt="LoveuAD Android QR code">
+              <div class="qr-label">LoveuAD Android</div>
+            </div>
+            <div class="qr">
+              <img src="assets/loveuad-ios.png" alt="LoveuAD iOS QR code">
+              <div class="qr-label">LoveuAD iOS</div>
+            </div>
+          </div>
+        </div>
+        <div class="case-card">
+          <h3>HomeRule</h3>
+          <p>UK regulatory intelligence. Compliance-aware AI. Real users.</p>
+          <div class="link-row">
+            <a href="https://homerule.uk/" target="_blank" rel="noreferrer">Visit HomeRule</a>
+          </div>
+        </div>
+        <div class="case-card">
+          <h3>FindingUrWay</h3>
+          <p>Commercial AI platform. Monetisation and scale proof.</p>
+          <div class="link-row">
+            <a href="https://findingurway.online/" target="_blank" rel="noreferrer">Visit FindingUrWay</a>
+          </div>
+          <div class="qr-wrap">
+            <div class="qr">
+              <img src="assets/findingurway-qr.png" alt="FindingUrWay QR code">
+              <div class="qr-label">FindingUrWay</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="link-row">
+        <a href="/case-studies">View Full Case Studies</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="trust">
+    <div class="container">
+      <h2 class="section-title">Why Fintech Teams Trust The Vault</h2>
+      <div class="trust-grid">
+        <div class="trust-item">No PII ingestion across prompts, storage, or telemetry.</div>
+        <div class="trust-item">No training leakage. Vault output is transient and uncorrelated.</div>
+        <div class="trust-item">Audit-friendly controls with explicit cryptographic boundaries.</div>
+        <div class="trust-item">Public LLM compatible without special vendor constraints.</div>
+        <div class="trust-item">No vendor lock-in. Deploy on approved infrastructure.</div>
+        <div class="trust-item">Designed by a system architect with regulated-industry delivery.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="monetisation">
+    <div class="container monetisation">
+      <div>
+        <h2 class="section-title">Custom Deployment. Enterprise Terms.</h2>
+        <p class="section-subtitle">No public pricing. Engagements include architecture design, deployment, and advisory aligned to regulatory constraints.</p>
+      </div>
+      <div>
+        <a class="cta" href="#contact">Discuss a Custom Deployment</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="contact">
+    <div class="container">
+      <h2 class="section-title">Request Vault Access</h2>
+      <p class="section-subtitle">Provide a high-level brief for a tailored security and deployment assessment. No personal data required.</p>
+      <div class="link-row">
+        <a class="cta" href="mailto:kanchan@ikanchan.com">Request Vault Access</a>
+        <a class="cta secondary" href="/research">Review Research</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div>The Vault is a privacy-first AI execution layer for fintech and regulated industries.</div>
+      <div class="footer-links">
+        <a href="/research">Research</a>
+        <a href="/case-studies">Case Studies</a>
+        <a href="#vault">The Vault</a>
+      </div>
+      <div>Keywords: privacy-first AI, fintech AI compliance, secure LLM architecture, zero-PII AI systems.</div>
+    </div>
+  </footer>
+</body>
+</html>
