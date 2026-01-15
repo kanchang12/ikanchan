@@ -67,9 +67,20 @@ SALES_CHATBOT_PROMPT = """You are a professional sales assistant for ikanchan, a
 
 **Tone:** Professional, confident, solution-focused. No emojis."""
 
-@app.route('/')
+@app.route("/")
 def index():
-    return render_template('index.html')
+    return render_template("index.html")
+
+
+@app.route("/research")
+def research():
+    return render_template("research.html")
+
+
+@app.route("/case-studies")
+def case_studies():
+    return render_template("case-studies.html")
+
 
 @app.route('/api/chat', methods=['POST'])
 def chat():
