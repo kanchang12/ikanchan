@@ -2,7 +2,7 @@ import os
 import uuid
 from datetime import datetime
 from flask import Flask, render_template, request, jsonify, redirect
-import google.generativeai as genai
+from google import genai
 import requests
 from supabase import create_client, Client
 from dotenv import load_dotenv
@@ -22,10 +22,10 @@ if SUPABASE_URL and SUPABASE_KEY:
     supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 # Initialize Gemini
-GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY', '')
-if GEMINI_API_KEY:
-    genai.configure(api_key=GEMINI_API_KEY)
-    model = genai.GenerativeModel('gemini-2.0-flash-exp')
+client = genai.Client(api_key=os.environ.get('GEMINI_API_KEY'))
+
+# Updated model for 2026
+MODEL_ID = "gemini-3-flash-preview"
 
 # Sales chatbot system prompt
 SALES_CHATBOT_PROMPT = """You are a professional sales assistant for ikanchan, an MVP development and project rescue service based in Leeds, UK.
