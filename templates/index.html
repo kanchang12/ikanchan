@@ -339,7 +339,7 @@
     <div class="c-stage">
 
       <div class="c-slide active">
-        <video src="{{ url_for('static', filename='assets/Promotion (1).mp4') }}" muted loop playsinline preload="auto"></video>
+        <video src="{{ url_for('static', filename='/static/assets/Promotion (1).mp4') }}" muted loop playsinline preload="auto"></video>
         <div class="c-overlay">
           <div class="c-meta">
             <span class="c-tag">Promotion · AI Video</span>
@@ -530,3 +530,4 @@
     const stage = document.querySelector('.c-stage');
     stage.addEventListener('touchstart', e => tx = e.touches[0].clientX, { passive: true });
     stage.addEventListener('touchend'
+
