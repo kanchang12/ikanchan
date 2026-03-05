@@ -339,7 +339,7 @@
     <div class="c-stage">
 
       <div class="c-slide active">
-        <video src="/static/assets/Promotion (1).mp4" muted loop playsinline preload="auto"></video>
+        <video src="/static/assets/Promotion%20(1).mp4" muted loop playsinline preload="auto"></video>
         <div class="c-overlay">
           <div class="c-meta">
             <span class="c-tag">Promotion · AI Video</span>
@@ -349,7 +349,7 @@
       </div>
 
       <div class="c-slide">
-        <video src="/static/assets/bike (1).mp4" muted loop playsinline preload="auto"></video>
+        <video src="/static/assets/bike%20(1).mp4" muted loop playsinline preload="auto"></video>
         <div class="c-overlay">
           <div class="c-meta">
             <span class="c-tag">Cinematic · AI Video</span>
@@ -359,7 +359,7 @@
       </div>
 
       <div class="c-slide">
-        <video src="/static/assets/home (1).mp4" muted loop playsinline preload="auto"></video>
+        <video src="/static/assets/home%20(1).mp4" muted loop playsinline preload="auto"></video>
         <div class="c-overlay">
           <div class="c-meta">
             <span class="c-tag">Lifestyle · AI Video</span>
@@ -476,7 +476,7 @@
     <div class="container">
       <h2>Got a project in <em>mind?</em></h2>
       <p>Tell me what you need. I'll tell you exactly how I'd build it.</p>
-      <a href="mailto:kanchan.g12@gmail.com" class="btn btn-primary" style="font-size:15px; padding:15px 32px;">kanchan.g12@gmail.com</a>
+      <a href="/cdn-cgi/l/email-protection#462d2728252e27286821777406212b272f2a6825292b" class="btn btn-primary" style="font-size:15px; padding:15px 32px;"><span class="__cf_email__" data-cfemail="81eae0efe2e9e0efafe6b0b3c1e6ece0e8edafe2eeec">[email&#160;protected]</span></a>
     </div>
   </div>
 
@@ -488,7 +488,7 @@
     </div>
   </footer>
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     const slides  = document.querySelectorAll('.c-slide');
     const dots    = document.querySelectorAll('.c-dot');
     const bar     = document.getElementById('cBar');
@@ -529,12 +529,4 @@
     let tx = 0;
     const stage = document.querySelector('.c-stage');
     stage.addEventListener('touchstart', e => tx = e.touches[0].clientX, { passive: true });
-    stage.addEventListener('touchend',   e => { if (Math.abs(tx - e.changedTouches[0].clientX) > 48) goTo(tx > e.changedTouches[0].clientX ? cur + 1 : cur - 1); });
-
-    // Init
-    slides[0].querySelector('video').play().catch(() => {});
-    startBar();
-  </script>
-
-</body>
-</html>
+    stage.addEventListener('touchend'
