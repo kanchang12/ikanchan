@@ -293,7 +293,7 @@
     <div class="container nav-inner">
       <div class="nav-name">Kanchan<span>.</span></div>
       <div class="nav-links">
-        <a href="#reel">Showreel</a>
+        
         <a href="#videos">Videos</a>
         <a href="#about">About</a>
         <a href="#services">Services</a>
@@ -327,69 +327,7 @@
     </div>
   </header>
 
-  <!-- SHOWREEL CAROUSEL -->
-  <section class="showreel" id="reel">
-    <div class="container">
-      <div class="showreel-top">
-        <span class="showreel-label">Showreel</span>
-        <span class="showreel-count"><b id="cNum">01</b> / 03</span>
-      </div>
-    </div>
-
-    <div class="c-stage">
-
-      <div class="c-slide active">
-        <video src="{{ url_for('static', filename='/static/assets/Promotion (1).mp4') }}" muted loop playsinline preload="auto"></video>
-        <div class="c-overlay">
-          <div class="c-meta">
-            <span class="c-tag">Promotion · AI Video</span>
-            <h3 class="c-title">Brand Promo Reel</h3>
-          </div>
-        </div>
-      </div>
-
-      <div class="c-slide">
-        <video src="{{ url_for('static', filename='assets/bike (1).mp4') }}" muted loop playsinline preload="auto"></video>
-        <div class="c-overlay">
-          <div class="c-meta">
-            <span class="c-tag">Cinematic · AI Video</span>
-            <h3 class="c-title">Bike Story</h3>
-          </div>
-        </div>
-      </div>
-
-      <div class="c-slide">
-        <video src="{{ url_for('static', filename='assets/home (1).mp4') }}" muted loop playsinline preload="auto"></video>
-        <div class="c-overlay">
-          <div class="c-meta">
-            <span class="c-tag">Lifestyle · AI Video</span>
-            <h3 class="c-title">Home Reel</h3>
-          </div>
-        </div>
-      </div>
-
-      <button class="c-arrow c-prev" id="cPrev">
-        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-          <path d="M11 4L6 9L11 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </button>
-      <button class="c-arrow c-next" id="cNext">
-        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-          <path d="M7 4L12 9L7 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </button>
-
-    </div>
-
-    <div class="container">
-      <div class="c-bottom">
-        <button class="c-dot active" data-i="0"></button>
-        <button class="c-dot" data-i="1"></button>
-        <button class="c-dot" data-i="2"></button>
-        <div class="c-progress"><div class="c-bar" id="cBar"></div></div>
-      </div>
-    </div>
-  </section>
+  
 
   <!-- MORE VIDEOS -->
   <section class="section" id="videos">
@@ -530,4 +468,5 @@
     const stage = document.querySelector('.c-stage');
     stage.addEventListener('touchstart', e => tx = e.touches[0].clientX, { passive: true });
     stage.addEventListener('touchend'
+
 
