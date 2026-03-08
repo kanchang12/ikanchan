@@ -19,6 +19,7 @@
       --rust-light: #F0E8E1;
       --muted: #7A7368;
       --border:#E2D9CC;
+      --dark: #0f0e0b;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -42,189 +43,456 @@
     .nav-cta { background: var(--rust); color: #fff; padding: 10px 20px; font-size: 14px; font-weight: 500; border-radius: 3px; }
     .nav-cta:hover { opacity: 0.88; }
 
-    /* HERO */
-    .hero { padding: 80px 0 64px; border-bottom: 1px solid var(--border); }
-    .hero-layout { display: grid; grid-template-columns: 1fr 1.15fr; gap: 64px; align-items: center; }
-    .hero-tag {
-      display: inline-block;
-      background: var(--rust-light); color: var(--rust);
-      font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase;
-      padding: 5px 12px; border-radius: 2px; margin-bottom: 22px;
-      animation: fadeUp .5s ease both;
-    }
-    .hero h1 {
-      font-family: "Playfair Display", serif;
-      font-size: clamp(38px, 5vw, 68px); line-height: 1.08;
-      letter-spacing: -1px; margin-bottom: 20px;
-      animation: fadeUp .5s .1s ease both;
-    }
-    .hero h1 em { font-style: italic; color: var(--rust); }
-    .hero p { font-size: 17px; color: var(--muted); max-width: 420px; margin-bottom: 30px; line-height: 1.75; animation: fadeUp .5s .2s ease both; }
-    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; animation: fadeUp .5s .3s ease both; }
-    .btn { padding: 13px 24px; font-size: 14px; font-weight: 500; border-radius: 3px; transition: all .15s; display: inline-block; }
-    .btn-primary { background: var(--rust); color: #fff; }
-    .btn-primary:hover { background: #a33e12; }
-    .btn-outline { border: 1.5px solid var(--border); color: var(--ink); }
-    .btn-outline:hover { border-color: var(--ink); }
-
-    .vid-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--rust); font-weight: 500; margin-bottom: 10px; }
-    .vid-wrap { position: relative; width: 100%; padding-bottom: 56.25%; border-radius: 5px; overflow: hidden; box-shadow: 0 20px 60px rgba(26,23,16,0.13); animation: fadeUp .6s .15s ease both; }
-    .vid-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; display: block; }
-
     /* ══════════════════════════════
-       SHOWREEL CAROUSEL
+       CINEMATIC HERO IMAGE BAND
     ══════════════════════════════ */
-    .showreel {
-      background: #0f0e0b;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .showreel-top {
+    .hero-visual {
+      position: relative;
+      width: 100%;
+      height: 88vh;
+      min-height: 540px;
+      max-height: 860px;
+      overflow: hidden;
+      background: #0a0806;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 28px 0 16px;
+      justify-content: center;
     }
 
-    .showreel-label {
+    /* Layered cinematic background */
+    .hero-visual::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 65% 40%, rgba(196,80,26,0.22) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 80% at 20% 70%, rgba(255,180,80,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse 100% 100% at 50% 50%, #1a100600 0%, #0a0806 100%);
+      z-index: 1;
+    }
+
+    /* Film grain texture */
+    .hero-visual::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
+      background-size: 180px;
+      z-index: 2;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    /* Animated light streaks */
+    .hero-streak {
+      position: absolute;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .streak-1 {
+      width: 1px;
+      height: 40%;
+      top: 10%;
+      left: 55%;
+      background: linear-gradient(to bottom, transparent, rgba(196,80,26,0.6), transparent);
+      animation: streakFade 4s ease-in-out infinite;
+    }
+    .streak-2 {
+      width: 1px;
+      height: 30%;
+      top: 30%;
+      left: 62%;
+      background: linear-gradient(to bottom, transparent, rgba(255,160,60,0.3), transparent);
+      animation: streakFade 4s 1.5s ease-in-out infinite;
+    }
+    .streak-3 {
+      width: 400px;
+      height: 1px;
+      top: 52%;
+      right: 0;
+      background: linear-gradient(to left, transparent, rgba(196,80,26,0.15), transparent);
+      animation: streakH 6s ease-in-out infinite;
+    }
+
+    @keyframes streakFade {
+      0%, 100% { opacity: 0; transform: scaleY(0.6); }
+      50% { opacity: 1; transform: scaleY(1); }
+    }
+    @keyframes streakH {
+      0%, 100% { opacity: 0; }
+      50% { opacity: 1; }
+    }
+
+    /* Big decorative text behind */
+    .hero-bg-text {
+      position: absolute;
+      z-index: 1;
+      font-family: "Playfair Display", serif;
+      font-size: clamp(120px, 18vw, 260px);
+      font-weight: 900;
+      font-style: italic;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(196,80,26,0.12);
+      letter-spacing: -8px;
+      line-height: 1;
+      right: -2%;
+      top: 50%;
+      transform: translateY(-50%);
+      user-select: none;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    /* Content inside hero */
+    .hero-content {
+      position: relative;
+      z-index: 5;
+      width: min(1160px, 92vw);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .hero-text-side {
+      animation: heroFadeUp 0.9s ease both;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .hero-eyebrow-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--rust);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.7); }
+    }
+    .hero-eyebrow-text {
       font-size: 11px;
-      letter-spacing: 2.5px;
+      letter-spacing: 3px;
       text-transform: uppercase;
       color: var(--rust);
       font-weight: 500;
     }
 
-    .showreel-count {
+    .hero-h1 {
       font-family: "Playfair Display", serif;
-      font-size: 13px;
-      letter-spacing: 2px;
-      color: rgba(255,255,255,0.3);
+      font-size: clamp(44px, 5.5vw, 80px);
+      line-height: 1.04;
+      letter-spacing: -2px;
+      color: #fff;
+      margin-bottom: 24px;
+      animation: heroFadeUp 0.9s 0.1s ease both;
     }
-    .showreel-count b { color: var(--rust); font-weight: 700; }
+    .hero-h1 em {
+      font-style: italic;
+      color: var(--rust);
+    }
 
-    .c-stage {
+    .hero-sub {
+      font-size: 17px;
+      color: rgba(255,255,255,0.5);
+      max-width: 400px;
+      line-height: 1.75;
+      margin-bottom: 36px;
+      animation: heroFadeUp 0.9s 0.2s ease both;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      animation: heroFadeUp 0.9s 0.3s ease both;
+    }
+
+    .btn { padding: 13px 24px; font-size: 14px; font-weight: 500; border-radius: 3px; transition: all .15s; display: inline-block; }
+    .btn-primary { background: var(--rust); color: #fff; }
+    .btn-primary:hover { background: #a33e12; }
+    .btn-ghost {
+      border: 1px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.7);
+    }
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.5); color: #fff; }
+
+    /* Decorative side panel in hero */
+    .hero-side-panel {
       position: relative;
-      width: 100%;
-      height: 74vh;
-      min-height: 400px;
-      max-height: 700px;
-      background: #111;
-      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      animation: heroFadeUp 0.9s 0.2s ease both;
     }
 
-    .c-slide {
+    .hero-stat-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 4px;
+      padding: 18px 22px;
+      backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: background 0.3s;
+    }
+    .hero-stat-card:hover { background: rgba(255,255,255,0.07); }
+    .hero-stat-icon {
+      width: 36px; height: 36px;
+      border-radius: 3px;
+      background: rgba(196,80,26,0.15);
+      border: 1px solid rgba(196,80,26,0.3);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .hero-stat-icon svg { width: 16px; height: 16px; stroke: var(--rust); fill: none; }
+    .hero-stat-label { font-size: 12px; color: rgba(255,255,255,0.35); margin-bottom: 2px; letter-spacing: 0.5px; }
+    .hero-stat-val { font-family: "Playfair Display", serif; font-size: 20px; font-weight: 700; color: #fff; line-height: 1; }
+    .hero-stat-val span { font-size: 12px; color: var(--rust); font-family: "DM Sans", sans-serif; margin-left: 4px; }
+
+    /* Dividing line at bottom of hero */
+    .hero-bottom-bar {
       position: absolute;
-      inset: 0;
-      z-index: 0;
-      opacity: 0;
-      transition: opacity 0.7s ease;
+      bottom: 0; left: 0; right: 0;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      padding: 0 calc((100% - min(1160px, 92vw)) / 2);
     }
-    .c-slide.active {
-      opacity: 1;
-      z-index: 2;
+    .hero-scroll-hint {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 18px 0;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+      cursor: pointer;
+    }
+    .scroll-arrow {
+      width: 22px; height: 22px;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      animation: bounceDown 2s ease-in-out infinite;
+    }
+    @keyframes bounceDown {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(4px); }
     }
 
-    .c-slide video {
+    @keyframes heroFadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ══════════════════════════════
+       FEATURED SONG SECTION
+    ══════════════════════════════ */
+    .song-feature {
+      background: #0f0e0b;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 80px 0;
+    }
+
+    .song-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .song-text-side {}
+
+    .song-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(196,80,26,0.12);
+      border: 1px solid rgba(196,80,26,0.3);
+      color: var(--rust);
+      font-size: 10px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 2px;
+      margin-bottom: 24px;
+    }
+    .song-badge::before {
+      content: '♪';
+      font-size: 12px;
+    }
+
+    .song-title {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(28px, 3.5vw, 46px);
+      font-weight: 700;
+      font-style: italic;
+      color: #fff;
+      line-height: 1.1;
+      margin-bottom: 16px;
+      letter-spacing: -1px;
+    }
+
+    .song-desc {
+      font-size: 15px;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.75;
+      margin-bottom: 28px;
+      max-width: 400px;
+    }
+
+    .song-meta-row {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+    .song-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .song-meta-label {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+    }
+    .song-meta-val {
+      font-size: 14px;
+      color: rgba(255,255,255,0.75);
+      font-weight: 500;
+    }
+
+    .song-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .song-btn-watch {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--rust);
+      color: #fff;
+      padding: 12px 22px;
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: 3px;
+      transition: background 0.15s;
+    }
+    .song-btn-watch:hover { background: #a33e12; }
+    .song-btn-watch svg { width: 14px; height: 14px; fill: #fff; }
+
+    .song-btn-ff {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.6);
+      padding: 12px 22px;
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: 3px;
+      transition: all 0.15s;
+    }
+    .song-btn-ff:hover { border-color: rgba(255,255,255,0.4); color: #fff; }
+
+    /* Video embed side */
+    .song-video-side {
+      position: relative;
+    }
+
+    .song-video-glow {
+      position: absolute;
+      inset: -20px;
+      background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(196,80,26,0.2), transparent 70%);
+      pointer-events: none;
+      border-radius: 8px;
+    }
+
+    .song-vid-frame {
+      position: relative;
+      padding-bottom: 56.25%;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(196,80,26,0.2),
+        0 32px 80px rgba(0,0,0,0.6);
+    }
+    .song-vid-frame iframe {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      z-index: 1;
+      border: none;
     }
 
-    .c-overlay {
-      position: absolute;
-      inset: 0;
-      z-index: 2;
-      background: linear-gradient(to top, rgba(15,14,11,0.8) 0%, rgba(15,14,11,0.1) 40%, transparent 65%);
-      pointer-events: none;
-      display: flex;
-      align-items: flex-end;
-      padding: 32px 40px;
-    }
-
-    .c-meta {
-      opacity: 0;
-      transform: translateY(12px);
-      transition: opacity 0.5s 0.3s ease, transform 0.5s 0.3s ease;
-    }
-    .c-slide.active .c-meta { opacity: 1; transform: translateY(0); }
-
-    .c-tag {
-      display: inline-block;
-      font-size: 10px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--rust);
-      border: 1px solid rgba(196,80,26,0.5);
-      padding: 3px 10px;
-      border-radius: 2px;
-      margin-bottom: 8px;
-    }
-
-    .c-title {
-      font-family: "Playfair Display", serif;
-      font-style: italic;
-      font-size: clamp(1.8rem, 4vw, 3.2rem);
-      color: #fff;
-      font-weight: 700;
-      line-height: 1.1;
-    }
-
-    /* Arrows */
-    .c-arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 10;
-      width: 44px; height: 44px;
-      background: rgba(15,14,11,0.6);
-      border: 1px solid rgba(255,255,255,0.15);
-      color: #fff;
-      border-radius: 2px;
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      transition: background 0.2s, border-color 0.2s;
-      outline: none;
-    }
-    .c-arrow:hover { background: var(--rust); border-color: var(--rust); }
-    .c-prev { left: 16px; }
-    .c-next { right: 16px; }
-
-    /* Bottom bar */
-    .c-bottom {
+    /* Film festival ribbon */
+    .ff-ribbon {
+      margin-top: 16px;
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 18px 0 28px;
+      padding: 10px 14px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 3px;
     }
+    .ff-ribbon-icon {
+      width: 28px; height: 28px;
+      background: rgba(196,80,26,0.15);
+      border-radius: 2px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .ff-ribbon-icon svg { width: 14px; height: 14px; fill: var(--rust); }
+    .ff-ribbon-text { font-size: 12px; color: rgba(255,255,255,0.35); }
+    .ff-ribbon-text strong { color: rgba(255,255,255,0.65); font-weight: 500; }
+    .ff-ribbon-link {
+      margin-left: auto;
+      font-size: 11px;
+      color: var(--rust);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-weight: 500;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+    .ff-ribbon-link:hover { opacity: 1; }
 
-    .c-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.2);
-      border: none;
-      cursor: pointer;
-      padding: 0;
-      transition: background 0.3s, width 0.3s, border-radius 0.3s;
+    /* HERO (original smaller hero below visual) */
+    .hero-info { padding: 56px 0 48px; border-bottom: 1px solid var(--border); }
+    .hero-info-layout { display: grid; grid-template-columns: 1fr 1.15fr; gap: 64px; align-items: center; }
+    .hero-tag {
+      display: inline-block;
+      background: var(--rust-light); color: var(--rust);
+      font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase;
+      padding: 5px 12px; border-radius: 2px; margin-bottom: 22px;
     }
-    .c-dot.active { background: var(--rust); width: 20px; border-radius: 3px; }
+    .hero-info h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(32px, 4vw, 52px); line-height: 1.1;
+      letter-spacing: -1px; margin-bottom: 16px;
+    }
+    .hero-info h1 em { font-style: italic; color: var(--rust); }
+    .hero-info p { font-size: 16px; color: var(--muted); max-width: 420px; margin-bottom: 28px; line-height: 1.75; }
+    .hero-actions-2 { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn-outline { border: 1.5px solid var(--border); color: var(--ink); }
+    .btn-outline:hover { border-color: var(--ink); }
 
-    /* Progress */
-    .c-progress {
-      flex: 1;
-      height: 1px;
-      background: rgba(255,255,255,0.08);
-      position: relative;
-      overflow: hidden;
-    }
-    .c-bar {
-      position: absolute;
-      left: 0; top: 0; bottom: 0;
-      width: 0%;
-      background: var(--rust);
-    }
+    .vid-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--rust); font-weight: 500; margin-bottom: 10px; }
+    .vid-wrap { position: relative; width: 100%; padding-bottom: 56.25%; border-radius: 5px; overflow: hidden; box-shadow: 0 20px 60px rgba(26,23,16,0.13); }
+    .vid-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; display: block; }
 
     /* SECTION */
     .section { padding: 80px 0; border-bottom: 1px solid var(--border); }
@@ -233,7 +501,7 @@
 
     /* VIDEO GRID */
     .video-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; }
-    .video-card .vid-wrap { box-shadow: 0 4px 20px rgba(26,23,16,0.08); transition: transform .2s, box-shadow .2s; animation: none; }
+    .video-card .vid-wrap { box-shadow: 0 4px 20px rgba(26,23,16,0.08); transition: transform .2s, box-shadow .2s; }
     .video-card:hover .vid-wrap { transform: translateY(-4px); box-shadow: 0 14px 40px rgba(26,23,16,0.14); }
 
     /* STATS */
@@ -274,11 +542,15 @@
     @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
 
     @media (max-width:900px) {
-      .hero-layout, .about-layout { grid-template-columns:1fr; gap:40px; }
+      .hero-content { grid-template-columns: 1fr; gap: 40px; }
+      .hero-visual { height: auto; min-height: 100vh; padding: 80px 0 100px; }
+      .hero-side-panel { display: none; }
+      .hero-bg-text { font-size: 22vw; }
+      .song-inner { grid-template-columns: 1fr; gap: 40px; }
+      .hero-info-layout, .about-layout { grid-template-columns:1fr; gap:40px; }
       .video-grid { grid-template-columns:repeat(2,1fr); }
       .services-grid { grid-template-columns:1fr; }
       .stats-row { grid-template-columns:repeat(2,1fr); }
-      .c-stage { height: 55vw; min-height: 260px; }
     }
     @media (max-width:560px) {
       .nav-links { display:none; }
@@ -293,7 +565,7 @@
     <div class="container nav-inner">
       <div class="nav-name">Kanchan<span>.</span></div>
       <div class="nav-links">
-        
+        <a href="#song">Song</a>
         <a href="#videos">Videos</a>
         <a href="#about">About</a>
         <a href="#services">Services</a>
@@ -303,15 +575,183 @@
     </div>
   </nav>
 
-  <!-- HERO -->
-  <header class="hero">
-    <div class="container hero-layout">
+  <!-- ══════════════════════════
+       CINEMATIC HERO VISUAL
+  ══════════════════════════ -->
+  <div class="hero-visual">
+    <div class="hero-bg-text">Story</div>
+
+    <div class="hero-streak streak-1"></div>
+    <div class="hero-streak streak-2"></div>
+    <div class="hero-streak streak-3"></div>
+
+    <div class="hero-content">
+      <!-- Left: Text -->
+      <div class="hero-text-side">
+        <div class="hero-eyebrow">
+          <div class="hero-eyebrow-dot"></div>
+          <div class="hero-eyebrow-text">AI Developer · Video Maker · Story Writer</div>
+        </div>
+
+        <h1 class="hero-h1">
+          I turn <em>ideas</em><br>into videos<br>that sell
+        </h1>
+
+        <p class="hero-sub">
+          AI-powered video production and storytelling — built fast, priced fairly, delivered globally.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#song" class="btn btn-primary">▶ Watch My Song</a>
+          <a href="#videos" class="btn btn-ghost">See All Work</a>
+        </div>
+      </div>
+
+      <!-- Right: Stats Panel -->
+      <div class="hero-side-panel">
+        <div class="hero-stat-card">
+          <div class="hero-stat-icon">
+            <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="5 3 19 12 5 21 5 3"/>
+            </svg>
+          </div>
+          <div>
+            <div class="hero-stat-label">Latest Release</div>
+            <div class="hero-stat-val">AI Music Video <span>↗ New</span></div>
+          </div>
+        </div>
+
+        <div class="hero-stat-card">
+          <div class="hero-stat-icon">
+            <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 6v6l4 2"/>
+            </svg>
+          </div>
+          <div>
+            <div class="hero-stat-label">On FilmFreeway</div>
+            <div class="hero-stat-val">Festival Entry <span>Live</span></div>
+          </div>
+        </div>
+
+        <div class="hero-stat-card">
+          <div class="hero-stat-icon">
+            <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <div>
+            <div class="hero-stat-label">AI Apps in Production</div>
+            <div class="hero-stat-val">8+ <span>Projects</span></div>
+          </div>
+        </div>
+
+        <div class="hero-stat-card">
+          <div class="hero-stat-icon">
+            <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+          </div>
+          <div>
+            <div class="hero-stat-label">NHS Innovation Partner</div>
+            <div class="hero-stat-val">Leeds, UK</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll hint -->
+    <div class="hero-bottom-bar">
+      <a href="#song" class="hero-scroll-hint">
+        <div class="scroll-arrow">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M5 1v8M1 6l4 4 4-4"/>
+          </svg>
+        </div>
+        Scroll to explore
+      </a>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════
+       FEATURED SONG
+  ══════════════════════════ -->
+  <section class="song-feature" id="song">
+    <div class="container">
+      <div class="song-inner">
+
+        <!-- Left: Info -->
+        <div class="song-text-side">
+          <div class="song-badge">Featured Song</div>
+          <h2 class="song-title">A Song Born<br>from AI & Soul</h2>
+          <p class="song-desc">
+            A fully AI-powered original music video — written, produced, and directed by Kanchan Ghosh. Blending storytelling, voice, and visuals into something genuinely moving.
+          </p>
+
+          <div class="song-meta-row">
+            <div class="song-meta-item">
+              <span class="song-meta-label">Format</span>
+              <span class="song-meta-val">AI Music Video</span>
+            </div>
+            <div class="song-meta-item">
+              <span class="song-meta-label">Creator</span>
+              <span class="song-meta-val">Kanchan Ghosh</span>
+            </div>
+            <div class="song-meta-item">
+              <span class="song-meta-label">Status</span>
+              <span class="song-meta-val" style="color: #6fcf97;">Live on YouTube</span>
+            </div>
+          </div>
+
+          <div class="song-links">
+            <a href="https://youtu.be/Jq0eJ8JeBKE" target="_blank" class="song-btn-watch">
+              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              Watch on YouTube
+            </a>
+            <a href="https://filmfreeway.com/projects/4199054" target="_blank" class="song-btn-ff">
+              🎬 View on FilmFreeway
+            </a>
+          </div>
+        </div>
+
+        <!-- Right: Video embed -->
+        <div class="song-video-side">
+          <div class="song-video-glow"></div>
+          <div class="song-vid-frame">
+            <iframe
+              src="https://www.youtube.com/embed/Jq0eJ8JeBKE"
+              title="AI Music Video by Kanchan Ghosh"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+            </iframe>
+          </div>
+
+          <!-- FilmFreeway ribbon -->
+          <div class="ff-ribbon">
+            <div class="ff-ribbon-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <div class="ff-ribbon-text">
+              <strong>Submitted to Film Festivals</strong> via FilmFreeway
+            </div>
+            <a href="https://filmfreeway.com/projects/4199054" target="_blank" class="ff-ribbon-link">View →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- LATEST WORK -->
+  <header class="hero-info">
+    <div class="container hero-info-layout">
       <div>
         <div class="hero-tag">AI Developer · Video Maker · Story Writer</div>
         <h1>I turn <em>ideas</em> into videos that sell</h1>
         <p>AI-powered video production and storytelling — built fast, priced fairly, delivered globally.</p>
-        <div class="hero-actions">
-          <a href="#reel" class="btn btn-primary">Watch My Work</a>
+        <div class="hero-actions-2">
+          <a href="#videos" class="btn btn-primary">See All Work</a>
           <a href="#contact" class="btn btn-outline">Let's Work Together</a>
         </div>
       </div>
@@ -326,8 +766,6 @@
       </div>
     </div>
   </header>
-
-  
 
   <!-- MORE VIDEOS -->
   <section class="section" id="videos">
@@ -414,7 +852,7 @@
     <div class="container">
       <h2>Got a project in <em>mind?</em></h2>
       <p>Tell me what you need. I'll tell you exactly how I'd build it.</p>
-      <a href="/cdn-cgi/l/email-protection#462d2728252e27286821777406212b272f2a6825292b" class="btn btn-primary" style="font-size:15px; padding:15px 32px;"><span class="__cf_email__" data-cfemail="81eae0efe2e9e0efafe6b0b3c1e6ece0e8edafe2eeec">[email&#160;protected]</span></a>
+      <a href="mailto:kanchan.g12@gmail.com" class="btn btn-primary" style="font-size:15px; padding:15px 32px;">kanchan.g12@gmail.com</a>
     </div>
   </div>
 
@@ -426,47 +864,5 @@
     </div>
   </footer>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-    const slides  = document.querySelectorAll('.c-slide');
-    const dots    = document.querySelectorAll('.c-dot');
-    const bar     = document.getElementById('cBar');
-    const num     = document.getElementById('cNum');
-    const DUR     = 6000;
-    let cur = 0, timer = null;
-
-    function goTo(n) {
-      slides[cur].classList.remove('active');
-      slides[cur].querySelector('video').pause();
-      dots[cur].classList.remove('active');
-      cur = (n + slides.length) % slides.length;
-      slides[cur].classList.add('active');
-      dots[cur].classList.add('active');
-      num.textContent = String(cur + 1).padStart(2, '0');
-      const v = slides[cur].querySelector('video');
-      v.currentTime = 0;
-      v.play().catch(() => {});
-      startBar();
-    }
-
-    function startBar() {
-      clearTimeout(timer);
-      bar.style.transition = 'none';
-      bar.style.width = '0%';
-      requestAnimationFrame(() => requestAnimationFrame(() => {
-        bar.style.transition = `width ${DUR}ms linear`;
-        bar.style.width = '100%';
-      }));
-      timer = setTimeout(() => goTo(cur + 1), DUR);
-    }
-
-    document.getElementById('cPrev').onclick = () => goTo(cur - 1);
-    document.getElementById('cNext').onclick = () => goTo(cur + 1);
-    dots.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.i)));
-
-    // Swipe
-    let tx = 0;
-    const stage = document.querySelector('.c-stage');
-    stage.addEventListener('touchstart', e => tx = e.touches[0].clientX, { passive: true });
-    stage.addEventListener('touchend'
-
-
+</body>
+</html>
