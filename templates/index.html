@@ -20,6 +20,7 @@
       --muted: #7A7368;
       --border:#E2D9CC;
       --dark: #0f0e0b;
+      --spotify: #1DB954;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -59,7 +60,6 @@
       justify-content: center;
     }
 
-    /* Layered cinematic background */
     .hero-visual::before {
       content: '';
       position: absolute;
@@ -71,7 +71,6 @@
       z-index: 1;
     }
 
-    /* Film grain texture */
     .hero-visual::after {
       content: '';
       position: absolute;
@@ -83,213 +82,305 @@
       pointer-events: none;
     }
 
-    /* Animated light streaks */
-    .hero-streak {
-      position: absolute;
-      z-index: 1;
-      pointer-events: none;
-    }
-    .streak-1 {
-      width: 1px;
-      height: 40%;
-      top: 10%;
-      left: 55%;
-      background: linear-gradient(to bottom, transparent, rgba(196,80,26,0.6), transparent);
-      animation: streakFade 4s ease-in-out infinite;
-    }
-    .streak-2 {
-      width: 1px;
-      height: 30%;
-      top: 30%;
-      left: 62%;
-      background: linear-gradient(to bottom, transparent, rgba(255,160,60,0.3), transparent);
-      animation: streakFade 4s 1.5s ease-in-out infinite;
-    }
-    .streak-3 {
-      width: 400px;
-      height: 1px;
-      top: 52%;
-      right: 0;
-      background: linear-gradient(to left, transparent, rgba(196,80,26,0.15), transparent);
-      animation: streakH 6s ease-in-out infinite;
-    }
+    .hero-streak { position: absolute; z-index: 1; pointer-events: none; }
+    .streak-1 { width: 1px; height: 40%; top: 10%; left: 55%; background: linear-gradient(to bottom, transparent, rgba(196,80,26,0.6), transparent); animation: streakFade 4s ease-in-out infinite; }
+    .streak-2 { width: 1px; height: 30%; top: 30%; left: 62%; background: linear-gradient(to bottom, transparent, rgba(255,160,60,0.3), transparent); animation: streakFade 4s 1.5s ease-in-out infinite; }
+    .streak-3 { width: 400px; height: 1px; top: 52%; right: 0; background: linear-gradient(to left, transparent, rgba(196,80,26,0.15), transparent); animation: streakH 6s ease-in-out infinite; }
 
-    @keyframes streakFade {
-      0%, 100% { opacity: 0; transform: scaleY(0.6); }
-      50% { opacity: 1; transform: scaleY(1); }
-    }
-    @keyframes streakH {
-      0%, 100% { opacity: 0; }
-      50% { opacity: 1; }
-    }
+    @keyframes streakFade { 0%, 100% { opacity: 0; transform: scaleY(0.6); } 50% { opacity: 1; transform: scaleY(1); } }
+    @keyframes streakH { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
 
-    /* Big decorative text behind */
     .hero-bg-text {
-      position: absolute;
-      z-index: 1;
+      position: absolute; z-index: 1;
       font-family: "Playfair Display", serif;
       font-size: clamp(120px, 18vw, 260px);
-      font-weight: 900;
-      font-style: italic;
+      font-weight: 900; font-style: italic;
       color: transparent;
       -webkit-text-stroke: 1px rgba(196,80,26,0.12);
-      letter-spacing: -8px;
-      line-height: 1;
-      right: -2%;
-      top: 50%;
-      transform: translateY(-50%);
-      user-select: none;
-      white-space: nowrap;
-      pointer-events: none;
+      letter-spacing: -8px; line-height: 1;
+      right: -2%; top: 50%; transform: translateY(-50%);
+      user-select: none; white-space: nowrap; pointer-events: none;
     }
 
-    /* Content inside hero */
     .hero-content {
-      position: relative;
-      z-index: 5;
+      position: relative; z-index: 5;
       width: min(1160px, 92vw);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
     }
 
-    .hero-text-side {
-      animation: heroFadeUp 0.9s ease both;
-    }
+    .hero-text-side { animation: heroFadeUp 0.9s ease both; }
 
-    .hero-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 24px;
-    }
-    .hero-eyebrow-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--rust);
-      animation: pulse 2s ease-in-out infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.7); }
-    }
-    .hero-eyebrow-text {
-      font-size: 11px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--rust);
-      font-weight: 500;
-    }
+    .hero-eyebrow { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+    .hero-eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--rust); animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.7); } }
+    .hero-eyebrow-text { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--rust); font-weight: 500; }
 
-    .hero-h1 {
-      font-family: "Playfair Display", serif;
-      font-size: clamp(44px, 5.5vw, 80px);
-      line-height: 1.04;
-      letter-spacing: -2px;
-      color: #fff;
-      margin-bottom: 24px;
-      animation: heroFadeUp 0.9s 0.1s ease both;
-    }
-    .hero-h1 em {
-      font-style: italic;
-      color: var(--rust);
-    }
-
-    .hero-sub {
-      font-size: 17px;
-      color: rgba(255,255,255,0.5);
-      max-width: 400px;
-      line-height: 1.75;
-      margin-bottom: 36px;
-      animation: heroFadeUp 0.9s 0.2s ease both;
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      animation: heroFadeUp 0.9s 0.3s ease both;
-    }
+    .hero-h1 { font-family: "Playfair Display", serif; font-size: clamp(44px, 5.5vw, 80px); line-height: 1.04; letter-spacing: -2px; color: #fff; margin-bottom: 24px; animation: heroFadeUp 0.9s 0.1s ease both; }
+    .hero-h1 em { font-style: italic; color: var(--rust); }
+    .hero-sub { font-size: 17px; color: rgba(255,255,255,0.5); max-width: 400px; line-height: 1.75; margin-bottom: 36px; animation: heroFadeUp 0.9s 0.2s ease both; }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; animation: heroFadeUp 0.9s 0.3s ease both; }
 
     .btn { padding: 13px 24px; font-size: 14px; font-weight: 500; border-radius: 3px; transition: all .15s; display: inline-block; }
     .btn-primary { background: var(--rust); color: #fff; }
     .btn-primary:hover { background: #a33e12; }
-    .btn-ghost {
-      border: 1px solid rgba(255,255,255,0.2);
-      color: rgba(255,255,255,0.7);
-    }
+    .btn-ghost { border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.7); }
     .btn-ghost:hover { border-color: rgba(255,255,255,0.5); color: #fff; }
 
-    /* Decorative side panel in hero */
-    .hero-side-panel {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      animation: heroFadeUp 0.9s 0.2s ease both;
-    }
+    .hero-side-panel { position: relative; display: flex; flex-direction: column; gap: 16px; animation: heroFadeUp 0.9s 0.2s ease both; }
 
-    .hero-stat-card {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 4px;
-      padding: 18px 22px;
-      backdrop-filter: blur(12px);
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      transition: background 0.3s;
-    }
+    .hero-stat-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; padding: 18px 22px; backdrop-filter: blur(12px); display: flex; align-items: center; gap: 16px; transition: background 0.3s; }
     .hero-stat-card:hover { background: rgba(255,255,255,0.07); }
-    .hero-stat-icon {
-      width: 36px; height: 36px;
-      border-radius: 3px;
-      background: rgba(196,80,26,0.15);
-      border: 1px solid rgba(196,80,26,0.3);
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-    }
+    .hero-stat-icon { width: 36px; height: 36px; border-radius: 3px; background: rgba(196,80,26,0.15); border: 1px solid rgba(196,80,26,0.3); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .hero-stat-icon svg { width: 16px; height: 16px; stroke: var(--rust); fill: none; }
     .hero-stat-label { font-size: 12px; color: rgba(255,255,255,0.35); margin-bottom: 2px; letter-spacing: 0.5px; }
     .hero-stat-val { font-family: "Playfair Display", serif; font-size: 20px; font-weight: 700; color: #fff; line-height: 1; }
     .hero-stat-val span { font-size: 12px; color: var(--rust); font-family: "DM Sans", sans-serif; margin-left: 4px; }
 
-    /* Dividing line at bottom of hero */
-    .hero-bottom-bar {
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      z-index: 5;
-      display: flex;
-      align-items: center;
-      padding: 0 calc((100% - min(1160px, 92vw)) / 2);
-    }
-    .hero-scroll-hint {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 18px 0;
-      font-size: 11px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.25);
-      cursor: pointer;
-    }
-    .scroll-arrow {
-      width: 22px; height: 22px;
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      animation: bounceDown 2s ease-in-out infinite;
-    }
-    @keyframes bounceDown {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(4px); }
+    .hero-bottom-bar { position: absolute; bottom: 0; left: 0; right: 0; z-index: 5; display: flex; align-items: center; padding: 0 calc((100% - min(1160px, 92vw)) / 2); }
+    .hero-scroll-hint { display: flex; align-items: center; gap: 10px; padding: 18px 0; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.25); cursor: pointer; }
+    .scroll-arrow { width: 22px; height: 22px; border: 1px solid rgba(255,255,255,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; animation: bounceDown 2s ease-in-out infinite; }
+    @keyframes bounceDown { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(4px); } }
+    @keyframes heroFadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ══════════════════════════════
+       SPOTIFY ALBUM SECTION — HERO FEATURE
+    ══════════════════════════════ */
+    .spotify-feature {
+      background: #080b08;
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(29,185,84,0.12);
     }
 
-    @keyframes heroFadeUp {
-      from { opacity: 0; transform: translateY(28px); }
-      to { opacity: 1; transform: translateY(0); }
+    .spotify-feature::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 80% at 15% 50%, rgba(29,185,84,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 60% at 85% 30%, rgba(29,185,84,0.05) 0%, transparent 55%);
+      pointer-events: none;
+    }
+
+    /* Subtle grain */
+    .spotify-feature::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 180px;
+      pointer-events: none;
+    }
+
+    .spotify-inner {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 0;
+      min-height: 520px;
+    }
+
+    /* Left: editorial info panel */
+    .spotify-text-panel {
+      padding: 72px 56px 72px 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-right: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .spotify-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+    .spotify-eyebrow-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--spotify);
+      box-shadow: 0 0 10px rgba(29,185,84,0.6);
+      animation: spotifyPulse 2.5s ease-in-out infinite;
+    }
+    @keyframes spotifyPulse {
+      0%, 100% { box-shadow: 0 0 8px rgba(29,185,84,0.5); }
+      50% { box-shadow: 0 0 20px rgba(29,185,84,0.9), 0 0 40px rgba(29,185,84,0.3); }
+    }
+    .spotify-eyebrow-label {
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--spotify);
+      font-weight: 500;
+    }
+
+    .spotify-headline {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(34px, 4vw, 58px);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -2px;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+    .spotify-headline em {
+      font-style: italic;
+      color: var(--spotify);
+    }
+
+    .spotify-subtext {
+      font-size: 15px;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.75;
+      max-width: 380px;
+      margin-bottom: 36px;
+    }
+
+    /* Album detail chips */
+    .spotify-chips {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 36px;
+    }
+    .spotify-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 6px 14px;
+      border-radius: 2px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+    }
+    .spotify-chip strong { color: rgba(255,255,255,0.8); font-weight: 500; }
+
+    /* CTA buttons */
+    .spotify-ctas {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-spotify {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--spotify);
+      color: #000;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 13px 26px;
+      border-radius: 50px;
+      transition: all 0.2s;
+      letter-spacing: 0.3px;
+    }
+    .btn-spotify:hover {
+      background: #1ed760;
+      transform: scale(1.03);
+      box-shadow: 0 8px 32px rgba(29,185,84,0.35);
+    }
+    .btn-spotify svg {
+      width: 18px; height: 18px; fill: #000; flex-shrink: 0;
+    }
+
+    .btn-spotify-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      border: 1px solid rgba(29,185,84,0.3);
+      color: var(--spotify);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 13px 22px;
+      border-radius: 50px;
+      transition: all 0.2s;
+    }
+    .btn-spotify-ghost:hover {
+      border-color: var(--spotify);
+      background: rgba(29,185,84,0.06);
+    }
+
+    /* Milestone badge */
+    .spotify-milestone {
+      margin-top: 40px;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 18px;
+      background: rgba(29,185,84,0.06);
+      border: 1px solid rgba(29,185,84,0.15);
+      border-radius: 3px;
+      max-width: 380px;
+    }
+    .milestone-icon {
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+    .milestone-text { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.5; }
+    .milestone-text strong { color: rgba(255,255,255,0.8); font-weight: 500; display: block; margin-bottom: 2px; }
+
+    /* Right: embed panel */
+    .spotify-embed-panel {
+      padding: 60px 0 60px 56px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .spotify-embed-label {
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.2);
+      font-weight: 500;
+    }
+
+    .spotify-embed-wrap {
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(29,185,84,0.15),
+        0 24px 80px rgba(0,0,0,0.7),
+        0 0 80px rgba(29,185,84,0.06);
+      transition: box-shadow 0.4s;
+    }
+    .spotify-embed-wrap:hover {
+      box-shadow:
+        0 0 0 1px rgba(29,185,84,0.25),
+        0 32px 100px rgba(0,0,0,0.8),
+        0 0 100px rgba(29,185,84,0.12);
+    }
+
+    .spotify-embed-wrap iframe {
+      display: block;
+      width: 100%;
+      border: none;
+      border-radius: 12px;
+    }
+
+    /* Streaming note */
+    .streaming-note {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.2);
+    }
+    .streaming-note::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--spotify);
+      opacity: 0.6;
+      flex-shrink: 0;
     }
 
     /* ══════════════════════════════
@@ -301,189 +392,47 @@
       padding: 80px 0;
     }
 
-    .song-inner {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 64px;
-      align-items: center;
-    }
+    .song-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
 
-    .song-text-side {}
+    .song-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(196,80,26,0.12); border: 1px solid rgba(196,80,26,0.3); color: var(--rust); font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; padding: 5px 12px; border-radius: 2px; margin-bottom: 24px; }
+    .song-badge::before { content: '♪'; font-size: 12px; }
 
-    .song-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(196,80,26,0.12);
-      border: 1px solid rgba(196,80,26,0.3);
-      color: var(--rust);
-      font-size: 10px;
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
-      padding: 5px 12px;
-      border-radius: 2px;
-      margin-bottom: 24px;
-    }
-    .song-badge::before {
-      content: '♪';
-      font-size: 12px;
-    }
+    .song-title { font-family: "Playfair Display", serif; font-size: clamp(28px, 3.5vw, 46px); font-weight: 700; font-style: italic; color: #fff; line-height: 1.1; margin-bottom: 16px; letter-spacing: -1px; }
 
-    .song-title {
-      font-family: "Playfair Display", serif;
-      font-size: clamp(28px, 3.5vw, 46px);
-      font-weight: 700;
-      font-style: italic;
-      color: #fff;
-      line-height: 1.1;
-      margin-bottom: 16px;
-      letter-spacing: -1px;
-    }
+    .song-desc { font-size: 15px; color: rgba(255,255,255,0.4); line-height: 1.75; margin-bottom: 28px; max-width: 400px; }
 
-    .song-desc {
-      font-size: 15px;
-      color: rgba(255,255,255,0.4);
-      line-height: 1.75;
-      margin-bottom: 28px;
-      max-width: 400px;
-    }
+    .song-meta-row { display: flex; gap: 24px; margin-bottom: 32px; flex-wrap: wrap; }
+    .song-meta-item { display: flex; flex-direction: column; gap: 3px; }
+    .song-meta-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.25); }
+    .song-meta-val { font-size: 14px; color: rgba(255,255,255,0.75); font-weight: 500; }
 
-    .song-meta-row {
-      display: flex;
-      gap: 24px;
-      margin-bottom: 32px;
-      flex-wrap: wrap;
-    }
-    .song-meta-item {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
-    .song-meta-label {
-      font-size: 10px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.25);
-    }
-    .song-meta-val {
-      font-size: 14px;
-      color: rgba(255,255,255,0.75);
-      font-weight: 500;
-    }
+    .song-links { display: flex; gap: 10px; flex-wrap: wrap; }
 
-    .song-links {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .song-btn-watch {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--rust);
-      color: #fff;
-      padding: 12px 22px;
-      font-size: 13px;
-      font-weight: 500;
-      border-radius: 3px;
-      transition: background 0.15s;
-    }
+    .song-btn-watch { display: inline-flex; align-items: center; gap: 8px; background: var(--rust); color: #fff; padding: 12px 22px; font-size: 13px; font-weight: 500; border-radius: 3px; transition: background 0.15s; }
     .song-btn-watch:hover { background: #a33e12; }
     .song-btn-watch svg { width: 14px; height: 14px; fill: #fff; }
 
-    .song-btn-ff {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: transparent;
-      border: 1px solid rgba(255,255,255,0.15);
-      color: rgba(255,255,255,0.6);
-      padding: 12px 22px;
-      font-size: 13px;
-      font-weight: 500;
-      border-radius: 3px;
-      transition: all 0.15s;
-    }
+    .song-btn-ff { display: inline-flex; align-items: center; gap: 8px; background: transparent; border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.6); padding: 12px 22px; font-size: 13px; font-weight: 500; border-radius: 3px; transition: all 0.15s; }
     .song-btn-ff:hover { border-color: rgba(255,255,255,0.4); color: #fff; }
 
-    /* Video embed side */
-    .song-video-side {
-      position: relative;
-    }
+    .song-video-side { position: relative; }
+    .song-video-glow { position: absolute; inset: -20px; background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(196,80,26,0.2), transparent 70%); pointer-events: none; border-radius: 8px; }
+    .song-vid-frame { position: relative; padding-bottom: 56.25%; border-radius: 6px; overflow: hidden; box-shadow: 0 0 0 1px rgba(196,80,26,0.2), 0 32px 80px rgba(0,0,0,0.6); }
+    .song-vid-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
 
-    .song-video-glow {
-      position: absolute;
-      inset: -20px;
-      background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(196,80,26,0.2), transparent 70%);
-      pointer-events: none;
-      border-radius: 8px;
-    }
-
-    .song-vid-frame {
-      position: relative;
-      padding-bottom: 56.25%;
-      border-radius: 6px;
-      overflow: hidden;
-      box-shadow:
-        0 0 0 1px rgba(196,80,26,0.2),
-        0 32px 80px rgba(0,0,0,0.6);
-    }
-    .song-vid-frame iframe {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    /* Film festival ribbon */
-    .ff-ribbon {
-      margin-top: 16px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 14px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 3px;
-    }
-    .ff-ribbon-icon {
-      width: 28px; height: 28px;
-      background: rgba(196,80,26,0.15);
-      border-radius: 2px;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-    }
+    .ff-ribbon { margin-top: 16px; display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 3px; }
+    .ff-ribbon-icon { width: 28px; height: 28px; background: rgba(196,80,26,0.15); border-radius: 2px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .ff-ribbon-icon svg { width: 14px; height: 14px; fill: var(--rust); }
     .ff-ribbon-text { font-size: 12px; color: rgba(255,255,255,0.35); }
     .ff-ribbon-text strong { color: rgba(255,255,255,0.65); font-weight: 500; }
-    .ff-ribbon-link {
-      margin-left: auto;
-      font-size: 11px;
-      color: var(--rust);
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      font-weight: 500;
-      opacity: 0.8;
-      transition: opacity 0.2s;
-    }
+    .ff-ribbon-link { margin-left: auto; font-size: 11px; color: var(--rust); letter-spacing: 1px; text-transform: uppercase; font-weight: 500; opacity: 0.8; transition: opacity 0.2s; }
     .ff-ribbon-link:hover { opacity: 1; }
 
-    /* HERO (original smaller hero below visual) */
+    /* HERO INFO */
     .hero-info { padding: 56px 0 48px; border-bottom: 1px solid var(--border); }
     .hero-info-layout { display: grid; grid-template-columns: 1fr 1.15fr; gap: 64px; align-items: center; }
-    .hero-tag {
-      display: inline-block;
-      background: var(--rust-light); color: var(--rust);
-      font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase;
-      padding: 5px 12px; border-radius: 2px; margin-bottom: 22px;
-    }
-    .hero-info h1 {
-      font-family: "Playfair Display", serif;
-      font-size: clamp(32px, 4vw, 52px); line-height: 1.1;
-      letter-spacing: -1px; margin-bottom: 16px;
-    }
+    .hero-tag { display: inline-block; background: var(--rust-light); color: var(--rust); font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; padding: 5px 12px; border-radius: 2px; margin-bottom: 22px; }
+    .hero-info h1 { font-family: "Playfair Display", serif; font-size: clamp(32px, 4vw, 52px); line-height: 1.1; letter-spacing: -1px; margin-bottom: 16px; }
     .hero-info h1 em { font-style: italic; color: var(--rust); }
     .hero-info p { font-size: 16px; color: var(--muted); max-width: 420px; margin-bottom: 28px; line-height: 1.75; }
     .hero-actions-2 { display: flex; gap: 12px; flex-wrap: wrap; }
@@ -539,13 +488,14 @@
     .footer-name span { color:var(--rust); }
     footer p { font-size:13px; color:var(--muted); }
 
-    @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
-
     @media (max-width:900px) {
       .hero-content { grid-template-columns: 1fr; gap: 40px; }
       .hero-visual { height: auto; min-height: 100vh; padding: 80px 0 100px; }
       .hero-side-panel { display: none; }
       .hero-bg-text { font-size: 22vw; }
+      .spotify-inner { grid-template-columns: 1fr; }
+      .spotify-text-panel { padding: 56px 0 40px; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.05); }
+      .spotify-embed-panel { padding: 40px 0 56px; }
       .song-inner { grid-template-columns: 1fr; gap: 40px; }
       .hero-info-layout, .about-layout { grid-template-columns:1fr; gap:40px; }
       .video-grid { grid-template-columns:repeat(2,1fr); }
@@ -565,6 +515,7 @@
     <div class="container nav-inner">
       <div class="nav-name">Kanchan<span>.</span></div>
       <div class="nav-links">
+        <a href="#album">Album</a>
         <a href="#song">Song</a>
         <a href="#videos">Videos</a>
         <a href="#about">About</a>
@@ -575,58 +526,41 @@
     </div>
   </nav>
 
-  <!-- ══════════════════════════
-       CINEMATIC HERO VISUAL
-  ══════════════════════════ -->
+  <!-- CINEMATIC HERO -->
   <div class="hero-visual">
     <div class="hero-bg-text">Story</div>
-
     <div class="hero-streak streak-1"></div>
     <div class="hero-streak streak-2"></div>
     <div class="hero-streak streak-3"></div>
 
     <div class="hero-content">
-      <!-- Left: Text -->
       <div class="hero-text-side">
         <div class="hero-eyebrow">
           <div class="hero-eyebrow-dot"></div>
           <div class="hero-eyebrow-text">AI Developer · Video Maker · Story Writer</div>
         </div>
-
-        <h1 class="hero-h1">
-          I turn <em>ideas</em><br>into videos<br>that sell
-        </h1>
-
-        <p class="hero-sub">
-          AI-powered video production and storytelling — built fast, priced fairly, delivered globally.
-        </p>
-
+        <h1 class="hero-h1">I turn <em>ideas</em><br>into videos<br>that sell</h1>
+        <p class="hero-sub">AI-powered video production and storytelling — built fast, priced fairly, delivered globally.</p>
         <div class="hero-actions">
-          <a href="#song" class="btn btn-primary">▶ Watch My Song</a>
+          <a href="#album" class="btn btn-primary">♫ Listen on Spotify</a>
           <a href="#videos" class="btn btn-ghost">See All Work</a>
         </div>
       </div>
 
-      <!-- Right: Stats Panel -->
       <div class="hero-side-panel">
         <div class="hero-stat-card">
           <div class="hero-stat-icon">
-            <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <polygon points="5 3 19 12 5 21 5 3"/>
-            </svg>
+            <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
           </div>
           <div>
-            <div class="hero-stat-label">Latest Release</div>
-            <div class="hero-stat-val">AI Music Video <span>↗ New</span></div>
+            <div class="hero-stat-label">Debut Album</div>
+            <div class="hero-stat-val">Now on Spotify <span>↗ New</span></div>
           </div>
         </div>
 
         <div class="hero-stat-card">
           <div class="hero-stat-icon">
-            <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"/>
-              <path d="M12 6v6l4 2"/>
-            </svg>
+            <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
           </div>
           <div>
             <div class="hero-stat-label">On FilmFreeway</div>
@@ -636,9 +570,7 @@
 
         <div class="hero-stat-card">
           <div class="hero-stat-icon">
-            <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
-            </svg>
+            <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
           </div>
           <div>
             <div class="hero-stat-label">AI Apps in Production</div>
@@ -648,10 +580,7 @@
 
         <div class="hero-stat-card">
           <div class="hero-stat-icon">
-            <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-              <polyline points="9 22 9 12 15 12 15 22"/>
-            </svg>
+            <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
           </div>
           <div>
             <div class="hero-stat-label">NHS Innovation Partner</div>
@@ -661,9 +590,8 @@
       </div>
     </div>
 
-    <!-- Scroll hint -->
     <div class="hero-bottom-bar">
-      <a href="#song" class="hero-scroll-hint">
+      <a href="#album" class="hero-scroll-hint">
         <div class="scroll-arrow">
           <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5">
             <path d="M5 1v8M1 6l4 4 4-4"/>
@@ -674,71 +602,113 @@
     </div>
   </div>
 
-  <!-- ══════════════════════════
-       FEATURED SONG
-  ══════════════════════════ -->
-  <section class="song-feature" id="song">
+  <!-- ══════════════════════════════
+       SPOTIFY ALBUM — DEBUT FEATURE
+  ══════════════════════════════ -->
+  <section class="spotify-feature" id="album">
     <div class="container">
-      <div class="song-inner">
+      <div class="spotify-inner">
 
-        <!-- Left: Info -->
-        <div class="song-text-side">
-          <div class="song-badge">Featured Song</div>
-          <h2 class="song-title">A Song Born<br>from AI & Soul</h2>
-          <p class="song-desc">
-            A fully AI-powered original music video — written, produced, and directed by Kanchan Ghosh. Blending storytelling, voice, and visuals into something genuinely moving.
+        <!-- Left: text -->
+        <div class="spotify-text-panel">
+
+          <div class="spotify-eyebrow">
+            <div class="spotify-eyebrow-dot"></div>
+            <span class="spotify-eyebrow-label">Debut Album · Now Streaming</span>
+          </div>
+
+          <h2 class="spotify-headline">
+            My first<br><em>music album</em><br>is here
+          </h2>
+
+          <p class="spotify-subtext">
+            A debut collection born entirely from AI tools and human emotion — written, composed, and produced by Kanchan Ghosh. Stories told through sound.
           </p>
 
-          <div class="song-meta-row">
-            <div class="song-meta-item">
-              <span class="song-meta-label">Format</span>
-              <span class="song-meta-val">AI Music Video</span>
-            </div>
-            <div class="song-meta-item">
-              <span class="song-meta-label">Creator</span>
-              <span class="song-meta-val">Kanchan Ghosh</span>
-            </div>
-            <div class="song-meta-item">
-              <span class="song-meta-label">Status</span>
-              <span class="song-meta-val" style="color: #6fcf97;">Live on YouTube</span>
+          <div class="spotify-chips">
+            <div class="spotify-chip"><strong>Format</strong> &nbsp;AI Music Album</div>
+            <div class="spotify-chip"><strong>Creator</strong> &nbsp;Kanchan Ghosh</div>
+            <div class="spotify-chip"><strong>Available</strong> &nbsp;Worldwide</div>
+          </div>
+
+          <div class="spotify-ctas">
+            <a href="https://open.spotify.com/album/3GkbilHWSf12tc6dmB6W20" target="_blank" class="btn-spotify">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+              </svg>
+              Listen on Spotify
+            </a>
+            <a href="https://open.spotify.com/album/3GkbilHWSf12tc6dmB6W20" target="_blank" class="btn-spotify-ghost">
+              Open Album ↗
+            </a>
+          </div>
+
+          <div class="spotify-milestone">
+            <div class="milestone-icon">🎵</div>
+            <div class="milestone-text">
+              <strong>A creative milestone</strong>
+              AI-written and produced — this album represents where technology meets genuine storytelling.
             </div>
           </div>
 
+        </div>
+
+        <!-- Right: embed -->
+        <div class="spotify-embed-panel">
+          <div class="spotify-embed-label">Stream the full album</div>
+          <div class="spotify-embed-wrap">
+            <iframe
+              src="https://open.spotify.com/embed/album/3GkbilHWSf12tc6dmB6W20?utm_source=generator&theme=0"
+              width="100%"
+              height="420"
+              frameborder="0"
+              allowfullscreen=""
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy">
+            </iframe>
+          </div>
+          <div class="streaming-note">Available on Spotify worldwide — stream or add to your library</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED SONG -->
+  <section class="song-feature" id="song">
+    <div class="container">
+      <div class="song-inner">
+        <div class="song-text-side">
+          <div class="song-badge">Featured Song</div>
+          <h2 class="song-title">A Song Born<br>from AI & Soul</h2>
+          <p class="song-desc">A fully AI-powered original music video — written, produced, and directed by Kanchan Ghosh. Blending storytelling, voice, and visuals into something genuinely moving.</p>
+          <div class="song-meta-row">
+            <div class="song-meta-item"><span class="song-meta-label">Format</span><span class="song-meta-val">AI Music Video</span></div>
+            <div class="song-meta-item"><span class="song-meta-label">Creator</span><span class="song-meta-val">Kanchan Ghosh</span></div>
+            <div class="song-meta-item"><span class="song-meta-label">Status</span><span class="song-meta-val" style="color: #6fcf97;">Live on YouTube</span></div>
+          </div>
           <div class="song-links">
             <a href="https://youtu.be/Jq0eJ8JeBKE" target="_blank" class="song-btn-watch">
               <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
               Watch on YouTube
             </a>
-            <a href="https://filmfreeway.com/projects/4199054" target="_blank" class="song-btn-ff">
-              🎬 View on FilmFreeway
-            </a>
+            <a href="https://filmfreeway.com/projects/4199054" target="_blank" class="song-btn-ff">🎬 View on FilmFreeway</a>
           </div>
         </div>
 
-        <!-- Right: Video embed -->
         <div class="song-video-side">
           <div class="song-video-glow"></div>
           <div class="song-vid-frame">
-            <iframe
-              src="https://www.youtube.com/embed/Jq0eJ8JeBKE"
-              title="AI Music Video by Kanchan Ghosh"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen>
-            </iframe>
+            <iframe src="https://www.youtube.com/embed/Jq0eJ8JeBKE" title="AI Music Video by Kanchan Ghosh" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           </div>
-
-          <!-- FilmFreeway ribbon -->
           <div class="ff-ribbon">
             <div class="ff-ribbon-icon">
               <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
             </div>
-            <div class="ff-ribbon-text">
-              <strong>Submitted to Film Festivals</strong> via FilmFreeway
-            </div>
+            <div class="ff-ribbon-text"><strong>Submitted to Film Festivals</strong> via FilmFreeway</div>
             <a href="https://filmfreeway.com/projects/4199054" target="_blank" class="ff-ribbon-link">View →</a>
           </div>
         </div>
-
       </div>
     </div>
   </section>
@@ -758,10 +728,7 @@
       <div>
         <div class="vid-label">Latest Work</div>
         <div class="vid-wrap">
-          <iframe src="https://www.youtube.com/embed/2c3ULCUq8-0"
-            title="Featured"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen></iframe>
+          <iframe src="https://www.youtube.com/embed/2c3ULCUq8-0" title="Featured" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
       </div>
     </div>
@@ -773,24 +740,12 @@
       <h2>More Work</h2>
       <p class="section-sub">AI-generated videos, demos, and storytelling projects.</p>
       <div class="video-grid">
-        <div class="video-card"><div class="vid-wrap">
-          <iframe src="https://www.youtube.com/embed/3ANmfbwMti4" title="Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div></div>
-        <div class="video-card"><div class="vid-wrap">
-          <iframe src="https://www.youtube.com/embed/AYsfsbtwxx8" title="Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div></div>
-        <div class="video-card"><div class="vid-wrap">
-          <iframe src="https://www.youtube.com/embed/huvIjJJoBqM" title="Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div></div>
-        <div class="video-card"><div class="vid-wrap">
-          <iframe src="https://www.youtube.com/embed/hWUkVUQeiys" title="Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div></div>
-        <div class="video-card"><div class="vid-wrap">
-          <iframe src="https://www.youtube.com/embed/5h3Dm5tqyrU?start=8" title="Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div></div>
-        <div class="video-card"><div class="vid-wrap">
-          <iframe src="https://www.youtube.com/embed/8j91g6tRHNQ?start=66" title="Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div></div>
+        <div class="video-card"><div class="vid-wrap"><iframe src="https://www.youtube.com/embed/3ANmfbwMti4" title="Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div></div>
+        <div class="video-card"><div class="vid-wrap"><iframe src="https://www.youtube.com/embed/AYsfsbtwxx8" title="Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div></div>
+        <div class="video-card"><div class="vid-wrap"><iframe src="https://www.youtube.com/embed/huvIjJJoBqM" title="Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div></div>
+        <div class="video-card"><div class="vid-wrap"><iframe src="https://www.youtube.com/embed/hWUkVUQeiys" title="Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div></div>
+        <div class="video-card"><div class="vid-wrap"><iframe src="https://www.youtube.com/embed/5h3Dm5tqyrU?start=8" title="Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div></div>
+        <div class="video-card"><div class="vid-wrap"><iframe src="https://www.youtube.com/embed/8j91g6tRHNQ?start=66" title="Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div></div>
       </div>
     </div>
   </section>
