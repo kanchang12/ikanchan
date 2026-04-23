@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kanchan Ghosh — AI Video Maker & Story Writer</title>
-  <meta name="description" content="AI Developer, Video Maker & Story Writer. AI-powered videos, explainers, and content that works globally.">
+  <title>Kanchan Ghosh — Cinematic Storyteller & AI Video Maker</title>
+  <meta name="description" content="Cinematic Storyteller, AI Developer & Video Maker. AI-powered films, music, and content that works globally.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,6 +21,8 @@
       --border:#E2D9CC;
       --dark: #0f0e0b;
       --spotify: #1DB954;
+      --gold: #D4A843;
+      --gold-dim: rgba(212,168,67,0.15);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -45,7 +47,7 @@
     .nav-cta:hover { opacity: 0.88; }
 
     /* ══════════════════════════════
-       CINEMATIC HERO IMAGE BAND
+       CINEMATIC HERO
     ══════════════════════════════ */
     .hero-visual {
       position: relative;
@@ -54,7 +56,7 @@
       min-height: 540px;
       max-height: 860px;
       overflow: hidden;
-      background: #0a0806;
+      background: #080608;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -66,8 +68,8 @@
       inset: 0;
       background:
         radial-gradient(ellipse 70% 60% at 65% 40%, rgba(196,80,26,0.22) 0%, transparent 65%),
-        radial-gradient(ellipse 50% 80% at 20% 70%, rgba(255,180,80,0.08) 0%, transparent 60%),
-        radial-gradient(ellipse 100% 100% at 50% 50%, #1a100600 0%, #0a0806 100%);
+        radial-gradient(ellipse 40% 60% at 10% 80%, rgba(212,168,67,0.07) 0%, transparent 55%),
+        radial-gradient(ellipse 100% 100% at 50% 50%, #1a100600 0%, #080608 100%);
       z-index: 1;
     }
 
@@ -82,10 +84,24 @@
       pointer-events: none;
     }
 
+    /* Film grain scanline effect */
+    .hero-scanlines {
+      position: absolute; inset: 0; z-index: 3; pointer-events: none;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.03) 2px,
+        rgba(0,0,0,0.03) 4px
+      );
+    }
+
     .hero-streak { position: absolute; z-index: 1; pointer-events: none; }
     .streak-1 { width: 1px; height: 40%; top: 10%; left: 55%; background: linear-gradient(to bottom, transparent, rgba(196,80,26,0.6), transparent); animation: streakFade 4s ease-in-out infinite; }
     .streak-2 { width: 1px; height: 30%; top: 30%; left: 62%; background: linear-gradient(to bottom, transparent, rgba(255,160,60,0.3), transparent); animation: streakFade 4s 1.5s ease-in-out infinite; }
     .streak-3 { width: 400px; height: 1px; top: 52%; right: 0; background: linear-gradient(to left, transparent, rgba(196,80,26,0.15), transparent); animation: streakH 6s ease-in-out infinite; }
+    /* Gold accent streak */
+    .streak-4 { width: 1px; height: 25%; top: 20%; left: 72%; background: linear-gradient(to bottom, transparent, rgba(212,168,67,0.25), transparent); animation: streakFade 5s 2s ease-in-out infinite; }
 
     @keyframes streakFade { 0%, 100% { opacity: 0; transform: scaleY(0.6); } 50% { opacity: 1; transform: scaleY(1); } }
     @keyframes streakH { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
@@ -96,10 +112,32 @@
       font-size: clamp(120px, 18vw, 260px);
       font-weight: 900; font-style: italic;
       color: transparent;
-      -webkit-text-stroke: 1px rgba(196,80,26,0.12);
+      -webkit-text-stroke: 1px rgba(196,80,26,0.10);
       letter-spacing: -8px; line-height: 1;
       right: -2%; top: 50%; transform: translateY(-50%);
       user-select: none; white-space: nowrap; pointer-events: none;
+    }
+
+    /* Film reel decorative element */
+    .hero-film-strip {
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 48px;
+      z-index: 4;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      pointer-events: none;
+      overflow: hidden;
+      opacity: 0.25;
+    }
+    .film-hole {
+      width: 100%;
+      aspect-ratio: 1;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 3px;
+      flex-shrink: 0;
+      margin: 4px 8px;
     }
 
     .hero-content {
@@ -112,9 +150,10 @@
     .hero-text-side { animation: heroFadeUp 0.9s ease both; }
 
     .hero-eyebrow { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 24px; }
-    .hero-eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--rust); animation: pulse 2s ease-in-out infinite; }
+    .hero-eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); animation: pulseGold 2s ease-in-out infinite; }
     @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.7); } }
-    .hero-eyebrow-text { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--rust); font-weight: 500; }
+    @keyframes pulseGold { 0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(212,168,67,0.5); } 50% { opacity: 0.7; transform: scale(0.8); box-shadow: 0 0 0 4px rgba(212,168,67,0); } }
+    .hero-eyebrow-text { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); font-weight: 500; }
 
     .hero-h1 { font-family: "Playfair Display", serif; font-size: clamp(44px, 5.5vw, 80px); line-height: 1.04; letter-spacing: -2px; color: #fff; margin-bottom: 24px; animation: heroFadeUp 0.9s 0.1s ease both; }
     .hero-h1 em { font-style: italic; color: var(--rust); }
@@ -126,8 +165,40 @@
     .btn-primary:hover { background: #a33e12; }
     .btn-ghost { border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.7); }
     .btn-ghost:hover { border-color: rgba(255,255,255,0.5); color: #fff; }
+    .btn-gold { background: var(--gold); color: #000; font-weight: 700; }
+    .btn-gold:hover { background: #c49830; }
 
-    .hero-side-panel { position: relative; display: flex; flex-direction: column; gap: 16px; animation: heroFadeUp 0.9s 0.2s ease both; }
+    .hero-side-panel { position: relative; display: flex; flex-direction: column; gap: 14px; animation: heroFadeUp 0.9s 0.2s ease both; }
+
+    /* FESTIVAL HERO CARD — special */
+    .hero-festival-card {
+      background: linear-gradient(135deg, rgba(212,168,67,0.12) 0%, rgba(196,80,26,0.08) 100%);
+      border: 1px solid rgba(212,168,67,0.35);
+      border-radius: 4px;
+      padding: 18px 20px;
+      backdrop-filter: blur(12px);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-festival-card::before {
+      content: '';
+      position: absolute;
+      top: -1px; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), var(--rust), var(--gold));
+    }
+    .festival-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    .festival-badge-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: rgba(212,168,67,0.2); border: 1px solid rgba(212,168,67,0.4);
+      color: var(--gold); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 3px 9px; border-radius: 50px; font-weight: 600;
+    }
+    .festival-badge-pill::before { content: '★'; font-size: 9px; }
+    .festival-status { font-size: 10px; color: rgba(212,168,67,0.7); letter-spacing: 1px; text-transform: uppercase; }
+    .festival-card-name { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.9); line-height: 1.35; margin-bottom: 6px; }
+    .festival-card-meta { font-size: 11px; color: rgba(255,255,255,0.35); display: flex; gap: 14px; flex-wrap: wrap; }
+    .festival-card-meta span strong { color: rgba(255,255,255,0.6); font-weight: 500; }
 
     .hero-stat-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; padding: 18px 22px; backdrop-filter: blur(12px); display: flex; align-items: center; gap: 16px; transition: background 0.3s; }
     .hero-stat-card:hover { background: rgba(255,255,255,0.07); }
@@ -136,6 +207,7 @@
     .hero-stat-label { font-size: 12px; color: rgba(255,255,255,0.35); margin-bottom: 2px; letter-spacing: 0.5px; }
     .hero-stat-val { font-family: "Playfair Display", serif; font-size: 20px; font-weight: 700; color: #fff; line-height: 1; }
     .hero-stat-val span { font-size: 12px; color: var(--rust); font-family: "DM Sans", sans-serif; margin-left: 4px; }
+    .hero-stat-val .gold { color: var(--gold); }
 
     .hero-bottom-bar { position: absolute; bottom: 0; left: 0; right: 0; z-index: 5; display: flex; align-items: center; padding: 0 calc((100% - min(1160px, 92vw)) / 2); }
     .hero-scroll-hint { display: flex; align-items: center; gap: 10px; padding: 18px 0; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.25); cursor: pointer; }
@@ -144,7 +216,172 @@
     @keyframes heroFadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
 
     /* ══════════════════════════════
-       SPOTIFY ALBUM SECTION — HERO FEATURE
+       FESTIVAL FEATURE BAND
+    ══════════════════════════════ */
+    .festival-band {
+      background: #0c0a07;
+      border-bottom: 1px solid rgba(212,168,67,0.12);
+      position: relative;
+      overflow: hidden;
+    }
+    .festival-band::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 50% 80% at 0% 50%, rgba(212,168,67,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 60% at 100% 30%, rgba(196,80,26,0.07) 0%, transparent 55%);
+      pointer-events: none;
+    }
+
+    .festival-inner {
+      position: relative; z-index: 2;
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 0;
+      min-height: 480px;
+    }
+
+    .festival-text-col {
+      padding: 72px 56px 72px 0;
+      display: flex; flex-direction: column; justify-content: center;
+      border-right: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .festival-eyebrow {
+      display: inline-flex; align-items: center; gap: 10px; margin-bottom: 28px;
+    }
+    .festival-eyebrow-dot {
+      width: 8px; height: 8px; border-radius: 50%; background: var(--gold);
+      box-shadow: 0 0 12px rgba(212,168,67,0.7);
+      animation: goldPulse 2.5s ease-in-out infinite;
+    }
+    @keyframes goldPulse {
+      0%, 100% { box-shadow: 0 0 8px rgba(212,168,67,0.5); }
+      50% { box-shadow: 0 0 22px rgba(212,168,67,0.9), 0 0 44px rgba(212,168,67,0.25); }
+    }
+    .festival-eyebrow-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); font-weight: 500; }
+
+    .festival-headline {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(30px, 3.8vw, 52px);
+      font-weight: 900; line-height: 1.06;
+      letter-spacing: -1.5px; color: #fff; margin-bottom: 20px;
+    }
+    .festival-headline em { font-style: italic; color: var(--gold); }
+
+    .festival-subtext { font-size: 15px; color: rgba(255,255,255,0.4); line-height: 1.75; max-width: 380px; margin-bottom: 32px; }
+
+    /* Status pill */
+    .festival-status-row { display: flex; align-items: center; gap: 10px; margin-bottom: 32px; }
+    .status-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 14px; border-radius: 50px;
+      font-size: 12px; font-weight: 600; letter-spacing: 0.5px;
+    }
+    .status-pill.selected {
+      background: rgba(212,168,67,0.15);
+      border: 1px solid rgba(212,168,67,0.4);
+      color: var(--gold);
+    }
+    .status-pill.selected::before {
+      content: '';
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--gold);
+      animation: goldPulse 2s ease-in-out infinite;
+    }
+    .status-pill.consideration {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.4);
+      font-size: 11px;
+    }
+    .status-sep { color: rgba(255,255,255,0.15); font-size: 18px; }
+
+    /* Meta grid */
+    .festival-meta-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 32px; max-width: 380px;
+    }
+    .festival-meta-item {
+      padding: 12px 14px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 3px;
+    }
+    .festival-meta-key { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.2); margin-bottom: 4px; }
+    .festival-meta-val { font-size: 13px; color: rgba(255,255,255,0.7); font-weight: 500; }
+    .festival-meta-val.gold { color: var(--gold); }
+
+    .festival-location {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 28px;
+      font-size: 13px; color: rgba(255,255,255,0.35);
+    }
+    .festival-location svg { width: 14px; height: 14px; stroke: var(--gold); fill: none; flex-shrink: 0; }
+    .festival-location strong { color: rgba(255,255,255,0.6); font-weight: 500; }
+
+    .festival-cta-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn-festival {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--gold); color: #000;
+      font-weight: 700; font-size: 13px;
+      padding: 12px 22px; border-radius: 3px;
+      transition: all 0.2s;
+    }
+    .btn-festival:hover { background: #c49830; transform: translateY(-1px); }
+    .btn-festival-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: transparent;
+      border: 1px solid rgba(212,168,67,0.25);
+      color: rgba(212,168,67,0.8);
+      font-size: 13px; font-weight: 500;
+      padding: 12px 20px; border-radius: 3px;
+      transition: all 0.2s;
+    }
+    .btn-festival-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+    .tracking-note {
+      margin-top: 28px; padding: 10px 14px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 3px;
+      font-size: 11px; color: rgba(255,255,255,0.2);
+      letter-spacing: 0.3px;
+    }
+    .tracking-note strong { color: rgba(255,255,255,0.4); font-weight: 500; }
+
+    /* Right: 3 video panel */
+    .festival-video-col {
+      padding: 60px 0 60px 56px;
+      display: flex; flex-direction: column; gap: 16px; justify-content: center;
+    }
+    .festival-video-label {
+      font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+      color: rgba(255,255,255,0.2); font-weight: 500; margin-bottom: 4px;
+    }
+    .festival-vid-stack { display: flex; flex-direction: column; gap: 12px; }
+    .festival-vid-item {
+      position: relative;
+      border-radius: 5px; overflow: hidden;
+      box-shadow: 0 0 0 1px rgba(212,168,67,0.12), 0 8px 32px rgba(0,0,0,0.6);
+      transition: box-shadow 0.3s, transform 0.3s;
+    }
+    .festival-vid-item:hover {
+      box-shadow: 0 0 0 1px rgba(212,168,67,0.3), 0 16px 48px rgba(0,0,0,0.7);
+      transform: translateY(-2px);
+    }
+    .festival-vid-item::after {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .festival-vid-item:hover::after { opacity: 1; }
+    .festival-vid-wrap { position: relative; padding-bottom: 56.25%; }
+    .festival-vid-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+
+    /* ══════════════════════════════
+       SPOTIFY ALBUM SECTION
     ══════════════════════════════ */
     .spotify-feature {
       background: #080b08;
@@ -164,7 +401,6 @@
       pointer-events: none;
     }
 
-    /* Subtle grain */
     .spotify-feature::after {
       content: '';
       position: absolute;
@@ -175,251 +411,75 @@
     }
 
     .spotify-inner {
-      position: relative;
-      z-index: 2;
-      display: grid;
-      grid-template-columns: 1fr 1.1fr;
-      gap: 0;
-      min-height: 520px;
+      position: relative; z-index: 2;
+      display: grid; grid-template-columns: 1fr 1.1fr;
+      gap: 0; min-height: 520px;
     }
 
-    /* Left: editorial info panel */
     .spotify-text-panel {
       padding: 72px 56px 72px 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+      display: flex; flex-direction: column; justify-content: center;
       border-right: 1px solid rgba(255,255,255,0.05);
     }
 
-    .spotify-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 28px;
-    }
-    .spotify-eyebrow-dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: var(--spotify);
-      box-shadow: 0 0 10px rgba(29,185,84,0.6);
-      animation: spotifyPulse 2.5s ease-in-out infinite;
-    }
-    @keyframes spotifyPulse {
-      0%, 100% { box-shadow: 0 0 8px rgba(29,185,84,0.5); }
-      50% { box-shadow: 0 0 20px rgba(29,185,84,0.9), 0 0 40px rgba(29,185,84,0.3); }
-    }
-    .spotify-eyebrow-label {
-      font-size: 10px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--spotify);
-      font-weight: 500;
-    }
+    .spotify-eyebrow { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 28px; }
+    .spotify-eyebrow-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--spotify); box-shadow: 0 0 10px rgba(29,185,84,0.6); animation: spotifyPulse 2.5s ease-in-out infinite; }
+    @keyframes spotifyPulse { 0%, 100% { box-shadow: 0 0 8px rgba(29,185,84,0.5); } 50% { box-shadow: 0 0 20px rgba(29,185,84,0.9), 0 0 40px rgba(29,185,84,0.3); } }
+    .spotify-eyebrow-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--spotify); font-weight: 500; }
 
-    .spotify-headline {
-      font-family: "Playfair Display", serif;
-      font-size: clamp(34px, 4vw, 58px);
-      font-weight: 900;
-      line-height: 1.05;
-      letter-spacing: -2px;
-      color: #fff;
-      margin-bottom: 20px;
-    }
-    .spotify-headline em {
-      font-style: italic;
-      color: var(--spotify);
-    }
+    .spotify-headline { font-family: "Playfair Display", serif; font-size: clamp(34px, 4vw, 58px); font-weight: 900; line-height: 1.05; letter-spacing: -2px; color: #fff; margin-bottom: 20px; }
+    .spotify-headline em { font-style: italic; color: var(--spotify); }
+    .spotify-subtext { font-size: 15px; color: rgba(255,255,255,0.4); line-height: 1.75; max-width: 380px; margin-bottom: 36px; }
 
-    .spotify-subtext {
-      font-size: 15px;
-      color: rgba(255,255,255,0.4);
-      line-height: 1.75;
-      max-width: 380px;
-      margin-bottom: 36px;
-    }
-
-    /* Album detail chips */
-    .spotify-chips {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 36px;
-    }
-    .spotify-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      padding: 6px 14px;
-      border-radius: 2px;
-      font-size: 12px;
-      color: rgba(255,255,255,0.5);
-    }
+    .spotify-chips { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 36px; }
+    .spotify-chip { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); padding: 6px 14px; border-radius: 2px; font-size: 12px; color: rgba(255,255,255,0.5); }
     .spotify-chip strong { color: rgba(255,255,255,0.8); font-weight: 500; }
 
-    /* CTA buttons */
-    .spotify-ctas {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
+    .spotify-ctas { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 
-    .btn-spotify {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: var(--spotify);
-      color: #000;
-      font-weight: 700;
-      font-size: 14px;
-      padding: 13px 26px;
-      border-radius: 50px;
-      transition: all 0.2s;
-      letter-spacing: 0.3px;
-    }
-    .btn-spotify:hover {
-      background: #1ed760;
-      transform: scale(1.03);
-      box-shadow: 0 8px 32px rgba(29,185,84,0.35);
-    }
-    .btn-spotify svg {
-      width: 18px; height: 18px; fill: #000; flex-shrink: 0;
-    }
+    .btn-spotify { display: inline-flex; align-items: center; gap: 10px; background: var(--spotify); color: #000; font-weight: 700; font-size: 14px; padding: 13px 26px; border-radius: 50px; transition: all 0.2s; letter-spacing: 0.3px; }
+    .btn-spotify:hover { background: #1ed760; transform: scale(1.03); box-shadow: 0 8px 32px rgba(29,185,84,0.35); }
+    .btn-spotify svg { width: 18px; height: 18px; fill: #000; flex-shrink: 0; }
 
-    .btn-spotify-ghost {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: transparent;
-      border: 1px solid rgba(29,185,84,0.3);
-      color: var(--spotify);
-      font-size: 13px;
-      font-weight: 500;
-      padding: 13px 22px;
-      border-radius: 50px;
-      transition: all 0.2s;
-    }
-    .btn-spotify-ghost:hover {
-      border-color: var(--spotify);
-      background: rgba(29,185,84,0.06);
-    }
+    .btn-spotify-ghost { display: inline-flex; align-items: center; gap: 8px; background: transparent; border: 1px solid rgba(29,185,84,0.3); color: var(--spotify); font-size: 13px; font-weight: 500; padding: 13px 22px; border-radius: 50px; transition: all 0.2s; }
+    .btn-spotify-ghost:hover { border-color: var(--spotify); background: rgba(29,185,84,0.06); }
 
-    /* Milestone badge */
-    .spotify-milestone {
-      margin-top: 40px;
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 18px;
-      background: rgba(29,185,84,0.06);
-      border: 1px solid rgba(29,185,84,0.15);
-      border-radius: 3px;
-      max-width: 380px;
-    }
-    .milestone-icon {
-      font-size: 22px;
-      flex-shrink: 0;
-    }
+    .spotify-milestone { margin-top: 40px; display: inline-flex; align-items: center; gap: 12px; padding: 12px 18px; background: rgba(29,185,84,0.06); border: 1px solid rgba(29,185,84,0.15); border-radius: 3px; max-width: 380px; }
+    .milestone-icon { font-size: 22px; flex-shrink: 0; }
     .milestone-text { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.5; }
     .milestone-text strong { color: rgba(255,255,255,0.8); font-weight: 500; display: block; margin-bottom: 2px; }
 
-    /* Right: embed panel */
-    .spotify-embed-panel {
-      padding: 60px 0 60px 56px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 20px;
-    }
-
-    .spotify-embed-label {
-      font-size: 10px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.2);
-      font-weight: 500;
-    }
-
-    .spotify-embed-wrap {
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow:
-        0 0 0 1px rgba(29,185,84,0.15),
-        0 24px 80px rgba(0,0,0,0.7),
-        0 0 80px rgba(29,185,84,0.06);
-      transition: box-shadow 0.4s;
-    }
-    .spotify-embed-wrap:hover {
-      box-shadow:
-        0 0 0 1px rgba(29,185,84,0.25),
-        0 32px 100px rgba(0,0,0,0.8),
-        0 0 100px rgba(29,185,84,0.12);
-    }
-
-    .spotify-embed-wrap iframe {
-      display: block;
-      width: 100%;
-      border: none;
-      border-radius: 12px;
-    }
-
-    /* Streaming note */
-    .streaming-note {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 12px;
-      color: rgba(255,255,255,0.2);
-    }
-    .streaming-note::before {
-      content: '';
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--spotify);
-      opacity: 0.6;
-      flex-shrink: 0;
-    }
+    .spotify-embed-panel { padding: 60px 0 60px 56px; display: flex; flex-direction: column; justify-content: center; gap: 20px; }
+    .spotify-embed-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.2); font-weight: 500; }
+    .spotify-embed-wrap { border-radius: 12px; overflow: hidden; box-shadow: 0 0 0 1px rgba(29,185,84,0.15), 0 24px 80px rgba(0,0,0,0.7), 0 0 80px rgba(29,185,84,0.06); transition: box-shadow 0.4s; }
+    .spotify-embed-wrap:hover { box-shadow: 0 0 0 1px rgba(29,185,84,0.25), 0 32px 100px rgba(0,0,0,0.8), 0 0 100px rgba(29,185,84,0.12); }
+    .spotify-embed-wrap iframe { display: block; width: 100%; border: none; border-radius: 12px; }
+    .streaming-note { display: flex; align-items: center; gap: 8px; font-size: 12px; color: rgba(255,255,255,0.2); }
+    .streaming-note::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--spotify); opacity: 0.6; flex-shrink: 0; }
 
     /* ══════════════════════════════
        FEATURED SONG SECTION
     ══════════════════════════════ */
-    .song-feature {
-      background: #0f0e0b;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      padding: 80px 0;
-    }
-
+    .song-feature { background: #0f0e0b; border-bottom: 1px solid rgba(255,255,255,0.06); padding: 80px 0; }
     .song-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
-
     .song-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(196,80,26,0.12); border: 1px solid rgba(196,80,26,0.3); color: var(--rust); font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; padding: 5px 12px; border-radius: 2px; margin-bottom: 24px; }
     .song-badge::before { content: '♪'; font-size: 12px; }
-
     .song-title { font-family: "Playfair Display", serif; font-size: clamp(28px, 3.5vw, 46px); font-weight: 700; font-style: italic; color: #fff; line-height: 1.1; margin-bottom: 16px; letter-spacing: -1px; }
-
     .song-desc { font-size: 15px; color: rgba(255,255,255,0.4); line-height: 1.75; margin-bottom: 28px; max-width: 400px; }
-
     .song-meta-row { display: flex; gap: 24px; margin-bottom: 32px; flex-wrap: wrap; }
     .song-meta-item { display: flex; flex-direction: column; gap: 3px; }
     .song-meta-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.25); }
     .song-meta-val { font-size: 14px; color: rgba(255,255,255,0.75); font-weight: 500; }
-
     .song-links { display: flex; gap: 10px; flex-wrap: wrap; }
-
     .song-btn-watch { display: inline-flex; align-items: center; gap: 8px; background: var(--rust); color: #fff; padding: 12px 22px; font-size: 13px; font-weight: 500; border-radius: 3px; transition: background 0.15s; }
     .song-btn-watch:hover { background: #a33e12; }
     .song-btn-watch svg { width: 14px; height: 14px; fill: #fff; }
-
     .song-btn-ff { display: inline-flex; align-items: center; gap: 8px; background: transparent; border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.6); padding: 12px 22px; font-size: 13px; font-weight: 500; border-radius: 3px; transition: all 0.15s; }
     .song-btn-ff:hover { border-color: rgba(255,255,255,0.4); color: #fff; }
-
     .song-video-side { position: relative; }
     .song-video-glow { position: absolute; inset: -20px; background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(196,80,26,0.2), transparent 70%); pointer-events: none; border-radius: 8px; }
     .song-vid-frame { position: relative; padding-bottom: 56.25%; border-radius: 6px; overflow: hidden; box-shadow: 0 0 0 1px rgba(196,80,26,0.2), 0 32px 80px rgba(0,0,0,0.6); }
     .song-vid-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
-
     .ff-ribbon { margin-top: 16px; display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 3px; }
     .ff-ribbon-icon { width: 28px; height: 28px; background: rgba(196,80,26,0.15); border-radius: 2px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .ff-ribbon-icon svg { width: 14px; height: 14px; fill: var(--rust); }
@@ -438,7 +498,6 @@
     .hero-actions-2 { display: flex; gap: 12px; flex-wrap: wrap; }
     .btn-outline { border: 1.5px solid var(--border); color: var(--ink); }
     .btn-outline:hover { border-color: var(--ink); }
-
     .vid-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--rust); font-weight: 500; margin-bottom: 10px; }
     .vid-wrap { position: relative; width: 100%; padding-bottom: 56.25%; border-radius: 5px; overflow: hidden; box-shadow: 0 20px 60px rgba(26,23,16,0.13); }
     .vid-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; display: block; }
@@ -493,6 +552,9 @@
       .hero-visual { height: auto; min-height: 100vh; padding: 80px 0 100px; }
       .hero-side-panel { display: none; }
       .hero-bg-text { font-size: 22vw; }
+      .festival-inner { grid-template-columns: 1fr; }
+      .festival-text-col { padding: 56px 0 40px; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.05); }
+      .festival-video-col { padding: 40px 0 56px; }
       .spotify-inner { grid-template-columns: 1fr; }
       .spotify-text-panel { padding: 56px 0 40px; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.05); }
       .spotify-embed-panel { padding: 40px 0 56px; }
@@ -501,11 +563,13 @@
       .video-grid { grid-template-columns:repeat(2,1fr); }
       .services-grid { grid-template-columns:1fr; }
       .stats-row { grid-template-columns:repeat(2,1fr); }
+      .festival-meta-grid { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width:560px) {
       .nav-links { display:none; }
       .video-grid { grid-template-columns:1fr; }
       .stats-row { grid-template-columns:1fr; }
+      .festival-meta-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -515,11 +579,11 @@
     <div class="container nav-inner">
       <div class="nav-name">Kanchan<span>.</span></div>
       <div class="nav-links">
+        <a href="#festival">Festival</a>
         <a href="#album">Album</a>
         <a href="#song">Song</a>
         <a href="#videos">Videos</a>
         <a href="#about">About</a>
-        <a href="#services">Services</a>
         <a href="#contact">Contact</a>
       </div>
       <a href="#contact" class="nav-cta">Hire Me</a>
@@ -528,43 +592,57 @@
 
   <!-- CINEMATIC HERO -->
   <div class="hero-visual">
-    <div class="hero-bg-text">Story</div>
+    <div class="hero-bg-text">Cinema</div>
+    <div class="hero-scanlines"></div>
+    <div class="hero-film-strip" aria-hidden="true">
+      <!-- decorative film holes -->
+      <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
+      <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
+      <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
+      <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
+      <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
+    </div>
     <div class="hero-streak streak-1"></div>
     <div class="hero-streak streak-2"></div>
     <div class="hero-streak streak-3"></div>
+    <div class="hero-streak streak-4"></div>
 
     <div class="hero-content">
       <div class="hero-text-side">
         <div class="hero-eyebrow">
           <div class="hero-eyebrow-dot"></div>
-          <div class="hero-eyebrow-text">AI Developer · Video Maker · Story Writer</div>
+          <div class="hero-eyebrow-text">Cinematic Storyteller · AI Developer · Video Maker</div>
         </div>
-        <h1 class="hero-h1">I turn <em>ideas</em><br>into videos<br>that sell</h1>
-        <p class="hero-sub">AI-powered video production and storytelling — built fast, priced fairly, delivered globally.</p>
+        <h1 class="hero-h1">Stories that <em>move</em><br>people —<br>made with <em>AI</em></h1>
+        <p class="hero-sub">Cinematic AI films, music, and storytelling — selected at international festivals and streaming globally.</p>
         <div class="hero-actions">
-          <a href="#album" class="btn btn-primary">♫ Listen on Spotify</a>
+          <a href="#festival" class="btn btn-gold">★ Africa AI Film Festival</a>
           <a href="#videos" class="btn btn-ghost">See All Work</a>
         </div>
       </div>
 
       <div class="hero-side-panel">
+
+        <!-- Festival card — top priority -->
+        <div class="hero-festival-card">
+          <div class="festival-card-top">
+            <div class="festival-badge-pill">Selected</div>
+            <div class="festival-status">April 7, 2026 · Marrakech</div>
+          </div>
+          <div class="festival-card-name">Africa AI Creativity Week &amp; Awards<br>— AI Film &amp; Music Festival</div>
+          <div class="festival-card-meta">
+            <span><strong>Category</strong> AI Music Video</span>
+            <span><strong>Tracking</strong> AAICW261890</span>
+          </div>
+        </div>
+
         <div class="hero-stat-card">
           <div class="hero-stat-icon">
             <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
           </div>
           <div>
             <div class="hero-stat-label">Debut Album</div>
-            <div class="hero-stat-val">Now on Spotify <span>↗ New</span></div>
-          </div>
-        </div>
-
-        <div class="hero-stat-card">
-          <div class="hero-stat-icon">
-            <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-          </div>
-          <div>
-            <div class="hero-stat-label">On FilmFreeway</div>
-            <div class="hero-stat-val">Festival Entry <span>Live</span></div>
+            <div class="hero-stat-val">Now on Spotify <span class="gold">↗ New</span></div>
           </div>
         </div>
 
@@ -580,18 +658,19 @@
 
         <div class="hero-stat-card">
           <div class="hero-stat-icon">
-            <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
           </div>
           <div>
-            <div class="hero-stat-label">NHS Innovation Partner</div>
-            <div class="hero-stat-val">Leeds, UK</div>
+            <div class="hero-stat-label">On FilmFreeway</div>
+            <div class="hero-stat-val">Festival Live <span>↗</span></div>
           </div>
         </div>
+
       </div>
     </div>
 
     <div class="hero-bottom-bar">
-      <a href="#album" class="hero-scroll-hint">
+      <a href="#festival" class="hero-scroll-hint">
         <div class="scroll-arrow">
           <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5">
             <path d="M5 1v8M1 6l4 4 4-4"/>
@@ -603,46 +682,124 @@
   </div>
 
   <!-- ══════════════════════════════
+       AFRICA AI FILM FESTIVAL — FEATURE SECTION
+  ══════════════════════════════ -->
+  <section class="festival-band" id="festival">
+    <div class="container">
+      <div class="festival-inner">
+
+        <!-- Left: festival info -->
+        <div class="festival-text-col">
+
+          <div class="festival-eyebrow">
+            <div class="festival-eyebrow-dot"></div>
+            <span class="festival-eyebrow-label">International Film Festival · 2026</span>
+          </div>
+
+          <h2 class="festival-headline">
+            Selected at<br><em>Africa AI</em><br>Creativity Week
+          </h2>
+
+          <p class="festival-subtext">
+            My AI cinematic work has been selected for the Africa AI Creativity Week &amp; Awards — AI Film &amp; Music Festival in Marrakech, Morocco. A milestone for AI-generated cinema.
+          </p>
+
+          <div class="festival-status-row">
+            <div class="status-pill selected">★ Selected</div>
+            <div class="status-sep">/</div>
+            <div class="status-pill consideration">In Consideration</div>
+          </div>
+
+          <div class="festival-meta-grid">
+            <div class="festival-meta-item">
+              <div class="festival-meta-key">Submission Date</div>
+              <div class="festival-meta-val">March 9, 2026</div>
+            </div>
+            <div class="festival-meta-item">
+              <div class="festival-meta-key">Notification Date</div>
+              <div class="festival-meta-val gold">March 25, 2026</div>
+            </div>
+            <div class="festival-meta-item">
+              <div class="festival-meta-key">Event Date</div>
+              <div class="festival-meta-val gold">April 7, 2026</div>
+            </div>
+            <div class="festival-meta-item">
+              <div class="festival-meta-key">Category</div>
+              <div class="festival-meta-val">AI Music Video &amp; Sound</div>
+            </div>
+          </div>
+
+          <div class="festival-location">
+            <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>Place de la liberté, Avenue Hassan — <strong>Marrakech, Morocco</strong></span>
+          </div>
+
+          <div class="festival-cta-row">
+            <a href="https://filmfreeway.com/projects/4199054" target="_blank" class="btn-festival">🎬 View on FilmFreeway</a>
+            <a href="#festival-films" class="btn-festival-ghost">Watch Submitted Films ↓</a>
+          </div>
+
+          <div class="tracking-note">
+            Tracking <strong>AAICW261890</strong> &nbsp;·&nbsp; Africa AI Creativity Week &amp; Awards &nbsp;·&nbsp; Entry fee: $0.00
+          </div>
+
+        </div>
+
+        <!-- Right: 3 submitted videos -->
+        <div class="festival-video-col" id="festival-films">
+          <div class="festival-video-label">Submitted Films — Africa AI Festival 2026</div>
+          <div class="festival-vid-stack">
+
+            <div class="festival-vid-item">
+              <div class="festival-vid-wrap">
+                <iframe src="https://www.youtube.com/embed/SN31qmEnbSg" title="Festival Film 1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+            </div>
+
+            <div class="festival-vid-item">
+              <div class="festival-vid-wrap">
+                <iframe src="https://www.youtube.com/embed/3c-atcQtNzE" title="Festival Film 2" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+            </div>
+
+            <div class="festival-vid-item">
+              <div class="festival-vid-wrap">
+                <iframe src="https://www.youtube.com/embed/MrdVABGuA6U" title="Festival Film 3" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════
        SPOTIFY ALBUM — DEBUT FEATURE
   ══════════════════════════════ -->
   <section class="spotify-feature" id="album">
     <div class="container">
       <div class="spotify-inner">
-
-        <!-- Left: text -->
         <div class="spotify-text-panel">
-
           <div class="spotify-eyebrow">
             <div class="spotify-eyebrow-dot"></div>
             <span class="spotify-eyebrow-label">Debut Album · Now Streaming</span>
           </div>
-
-          <h2 class="spotify-headline">
-            My first<br><em>music album</em><br>is here
-          </h2>
-
-          <p class="spotify-subtext">
-            A debut collection born entirely from AI tools and human emotion — written, composed, and produced by Kanchan Ghosh. Stories told through sound.
-          </p>
-
+          <h2 class="spotify-headline">My first<br><em>music album</em><br>is here</h2>
+          <p class="spotify-subtext">A debut collection born entirely from AI tools and human emotion — written, composed, and produced by Kanchan Ghosh. Stories told through sound.</p>
           <div class="spotify-chips">
             <div class="spotify-chip"><strong>Format</strong> &nbsp;AI Music Album</div>
             <div class="spotify-chip"><strong>Creator</strong> &nbsp;Kanchan Ghosh</div>
             <div class="spotify-chip"><strong>Available</strong> &nbsp;Worldwide</div>
           </div>
-
           <div class="spotify-ctas">
             <a href="https://open.spotify.com/album/3GkbilHWSf12tc6dmB6W20" target="_blank" class="btn-spotify">
-              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
-              </svg>
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
               Listen on Spotify
             </a>
-            <a href="https://open.spotify.com/album/3GkbilHWSf12tc6dmB6W20" target="_blank" class="btn-spotify-ghost">
-              Open Album ↗
-            </a>
+            <a href="https://open.spotify.com/album/3GkbilHWSf12tc6dmB6W20" target="_blank" class="btn-spotify-ghost">Open Album ↗</a>
           </div>
-
           <div class="spotify-milestone">
             <div class="milestone-icon">🎵</div>
             <div class="milestone-text">
@@ -650,26 +807,14 @@
               AI-written and produced — this album represents where technology meets genuine storytelling.
             </div>
           </div>
-
         </div>
-
-        <!-- Right: embed -->
         <div class="spotify-embed-panel">
           <div class="spotify-embed-label">Stream the full album</div>
           <div class="spotify-embed-wrap">
-            <iframe
-              src="https://open.spotify.com/embed/album/3GkbilHWSf12tc6dmB6W20?utm_source=generator&theme=0"
-              width="100%"
-              height="420"
-              frameborder="0"
-              allowfullscreen=""
-              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-              loading="lazy">
-            </iframe>
+            <iframe src="https://open.spotify.com/embed/album/3GkbilHWSf12tc6dmB6W20?utm_source=generator&theme=0" width="100%" height="420" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
           </div>
           <div class="streaming-note">Available on Spotify worldwide — stream or add to your library</div>
         </div>
-
       </div>
     </div>
   </section>
@@ -680,7 +825,7 @@
       <div class="song-inner">
         <div class="song-text-side">
           <div class="song-badge">Featured Song</div>
-          <h2 class="song-title">A Song Born<br>from AI & Soul</h2>
+          <h2 class="song-title">A Song Born<br>from AI &amp; Soul</h2>
           <p class="song-desc">A fully AI-powered original music video — written, produced, and directed by Kanchan Ghosh. Blending storytelling, voice, and visuals into something genuinely moving.</p>
           <div class="song-meta-row">
             <div class="song-meta-item"><span class="song-meta-label">Format</span><span class="song-meta-val">AI Music Video</span></div>
@@ -695,7 +840,6 @@
             <a href="https://filmfreeway.com/projects/4199054" target="_blank" class="song-btn-ff">🎬 View on FilmFreeway</a>
           </div>
         </div>
-
         <div class="song-video-side">
           <div class="song-video-glow"></div>
           <div class="song-vid-frame">
@@ -717,9 +861,9 @@
   <header class="hero-info">
     <div class="container hero-info-layout">
       <div>
-        <div class="hero-tag">AI Developer · Video Maker · Story Writer</div>
-        <h1>I turn <em>ideas</em> into videos that sell</h1>
-        <p>AI-powered video production and storytelling — built fast, priced fairly, delivered globally.</p>
+        <div class="hero-tag">Cinematic Storyteller · AI Developer · Video Maker</div>
+        <h1>I turn <em>ideas</em> into stories that move</h1>
+        <p>Cinematic AI filmmaking and storytelling — built fast, priced fairly, shown at international festivals.</p>
         <div class="hero-actions-2">
           <a href="#videos" class="btn btn-primary">See All Work</a>
           <a href="#contact" class="btn btn-outline">Let's Work Together</a>
@@ -738,7 +882,7 @@
   <section class="section" id="videos">
     <div class="container">
       <h2>More Work</h2>
-      <p class="section-sub">AI-generated videos, demos, and storytelling projects.</p>
+      <p class="section-sub">AI-generated films, demos, and storytelling projects.</p>
       <div class="video-grid">
         <div class="video-card"><div class="vid-wrap"><iframe src="https://www.youtube.com/embed/3ANmfbwMti4" title="Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div></div>
         <div class="video-card"><div class="vid-wrap"><iframe src="https://www.youtube.com/embed/AYsfsbtwxx8" title="Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div></div>
@@ -755,7 +899,7 @@
     <div class="container">
       <div class="stats-row">
         <div class="stat"><div class="stat-num">8+</div><div class="stat-label">AI Apps in Production</div></div>
-        <div class="stat"><div class="stat-num">7</div><div class="stat-label">Videos Delivered</div></div>
+        <div class="stat"><div class="stat-num">★ 1</div><div class="stat-label">International Festival Selection</div></div>
         <div class="stat"><div class="stat-num">20+</div><div class="stat-label">Languages Supported</div></div>
         <div class="stat"><div class="stat-num">NHS</div><div class="stat-label">Innovation Hub Partner</div></div>
       </div>
@@ -767,20 +911,20 @@
     <div class="container about-layout">
       <div>
         <h2>Developer who <em>writes</em>.<br>Writer who <em>builds</em>.</h2>
-        <p>I'm Kanchan — an AI developer and storyteller based in Leeds, UK. I combine technical AI skills with content writing and video production to create things that actually communicate.</p>
-        <p>Most developers can't write. Most writers can't build. I do both — which means I take an idea from script to finished video, fully AI-powered, fast and affordable.</p>
+        <p>I'm Kanchan — a cinematic storyteller and AI developer based in Leeds, UK. I make films, music, and AI tools that carry real emotion and purpose.</p>
+        <p>My work has been selected for international AI film festivals. I combine technical AI skills with deep storytelling instinct — script to screen, fully AI-powered.</p>
         <div class="tags">
-          <span class="tag">AI Video</span><span class="tag">Story Writing</span>
-          <span class="tag">AI Development</span><span class="tag">Multilingual</span>
-          <span class="tag">Explainers</span><span class="tag">Voice Agents</span>
+          <span class="tag">Cinematic AI</span><span class="tag">AI Video</span>
+          <span class="tag">Story Writing</span><span class="tag">AI Development</span>
+          <span class="tag">Multilingual</span><span class="tag">Explainers</span>
           <span class="tag">Healthcare AI</span><span class="tag">E-Learning</span>
         </div>
       </div>
       <div>
-        <h2>Why <em>AI video</em> wins right now</h2>
-        <p>Traditional video production costs £3,000–£10,000 per minute. I deliver the same quality for a fraction of that — because I use AI as a tool, not a crutch.</p>
-        <p>The difference is the human behind it: someone who understands story, pacing, culture, and language. AI generates the assets. I make sure they actually work.</p>
-        <p>Product demos, explainers, social reels, multilingual training videos — built with precision, delivered on time.</p>
+        <h2>Why <em>AI cinema</em> matters now</h2>
+        <p>Traditional film production costs hundreds of thousands. I tell stories that reach international festivals for a fraction of that — because I understand both the craft and the tools.</p>
+        <p>The difference is the human behind it: someone who understands story, pacing, culture, and emotion. AI generates the assets. I make sure they mean something.</p>
+        <p>Cinematic films, product demos, explainers, social reels, multilingual training — built with precision, delivered with feeling.</p>
         <div style="margin-top:26px;"><a href="#contact" class="btn btn-primary">Start a Project</a></div>
       </div>
     </div>
@@ -792,11 +936,11 @@
       <h2>What I Do</h2>
       <p class="section-sub">From script to screen — fully AI-powered.</p>
       <div class="services-grid">
-        <div class="service-item"><div class="service-num">01</div><h3>AI Video Production</h3><p>Product demos, explainers, social reels, and brand videos — AI-generated, human-directed.</p></div>
-        <div class="service-item"><div class="service-num">02</div><h3>Story Writing & Scripts</h3><p>Compelling scripts and narratives that give your video a real voice and purpose.</p></div>
-        <div class="service-item"><div class="service-num">03</div><h3>Multilingual Localisation</h3><p>One video, 20+ languages. Accurate dubbing and subtitling using ElevenLabs and HeyGen.</p></div>
-        <div class="service-item"><div class="service-num">04</div><h3>AI App Development</h3><p>Custom AI tools, voice agents, and automation pipelines built with Python and Google Cloud.</p></div>
-        <div class="service-item"><div class="service-num">05</div><h3>Training & E-Learning</h3><p>Corporate training videos and e-learning modules at scale — accurate and affordable.</p></div>
+        <div class="service-item"><div class="service-num">01</div><h3>Cinematic AI Filmmaking</h3><p>Short films, music videos, and narrative pieces made with AI tools — with genuine cinematic quality and emotional depth.</p></div>
+        <div class="service-item"><div class="service-num">02</div><h3>AI Video Production</h3><p>Product demos, explainers, social reels, and brand videos — AI-generated, human-directed.</p></div>
+        <div class="service-item"><div class="service-num">03</div><h3>Story Writing &amp; Scripts</h3><p>Compelling scripts and narratives that give your video a real voice and purpose.</p></div>
+        <div class="service-item"><div class="service-num">04</div><h3>Multilingual Localisation</h3><p>One video, 20+ languages. Accurate dubbing and subtitling using ElevenLabs and HeyGen.</p></div>
+        <div class="service-item"><div class="service-num">05</div><h3>AI App Development</h3><p>Custom AI tools, voice agents, and automation pipelines built with Python and Google Cloud.</p></div>
         <div class="service-item"><div class="service-num">06</div><h3>Social Content Packages</h3><p>Monthly short-form video batches for LinkedIn, Instagram, and YouTube — hands-free.</p></div>
       </div>
     </div>
@@ -814,7 +958,7 @@
   <footer>
     <div class="container footer-inner">
       <div class="footer-name">Kanchan<span>.</span></div>
-      <p>AI Developer · Video Maker · Story Writer · Leeds, UK</p>
+      <p>Cinematic Storyteller · AI Developer · Video Maker · Leeds, UK</p>
       <p>© 2025 Kanchan Ghosh</p>
     </div>
   </footer>
