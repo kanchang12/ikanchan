@@ -1,9 +1,0 @@
-Flask
-gunicorn
-python-dotenv
-google-genai
-requests
-supabase
-beautifulsoup4
-validators
-urllib3
