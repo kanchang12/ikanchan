@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kanchan Ghosh — AI Developer & Filmmaker</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1a2e;
+    --mid: #4a4a6a;
+    --soft: #8888aa;
+    --accent: #c0392b;
+    --gold: #b8860b;
+    --bg: #faf9f6;
+    --warm: #f0ede6;
+    --card: #ffffff;
+    --border: #e2ddd6;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(250,249,246,0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 5vw;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+  .nav-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { text-decoration: none; color: var(--mid); font-size: 0.85rem; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    padding: 140px 5vw 100px;
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+  }
+  .hero-label {
+    font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--accent); font-weight: 500; margin-bottom: 1.2rem;
+  }
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    font-weight: 700; line-height: 1.05;
+    color: var(--ink); margin-bottom: 1.5rem;
+  }
+  .hero h1 em { font-style: italic; color: var(--accent); }
+  .hero-desc { color: var(--mid); font-size: 1.05rem; line-height: 1.8; margin-bottom: 2rem; }
+  .hero-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .tag {
+    font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase;
+    border: 1px solid var(--border); padding: 4px 12px; border-radius: 2px;
+    color: var(--mid); font-weight: 500;
+  }
+  .hero-stats {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+    padding: 2.5rem; background: var(--warm); border: 1px solid var(--border);
+  }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.8rem; font-weight: 700; color: var(--ink); line-height: 1;
+  }
+  .stat-label { font-size: 0.75rem; color: var(--soft); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
+  .stat-note { font-size: 0.7rem; color: var(--soft); margin-top: 2px; font-style: italic; }
+
+  /* SECTION */
+  section { padding: 80px 5vw; }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+  .section-header { margin-bottom: 3rem; }
+  .section-label {
+    font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent); font-weight: 500; margin-bottom: 0.8rem;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    font-weight: 600; color: var(--ink);
+  }
+
+  /* PROJECTS */
+  #projects { background: var(--bg); }
+  .project-grid { display: grid; gap: 2px; }
+
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 0;
+    overflow: hidden;
+    transition: box-shadow 0.3s;
+  }
+  .project-card:hover { box-shadow: 0 8px 40px rgba(0,0,0,0.08); }
+
+  .project-card-header {
+    display: grid; grid-template-columns: auto 1fr auto;
+    align-items: start; gap: 1.5rem;
+    padding: 2.5rem 2.5rem 0;
+    cursor: pointer;
+  }
+  .project-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem; font-weight: 600;
+    color: var(--soft); padding-top: 4px;
+  }
+  .project-title-area {}
+  .project-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem; font-weight: 600; color: var(--ink);
+    margin-bottom: 0.3rem;
+  }
+  .project-tagline { font-size: 0.85rem; color: var(--mid); }
+  .project-domain {
+    font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--accent); background: #fdf0ee; padding: 4px 10px;
+    border: 1px solid #f0c4bc; white-space: nowrap;
+  }
+
+  .project-body { padding: 1.5rem 2.5rem 2.5rem; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2rem; }
+  .project-section-title {
+    font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--accent); font-weight: 600; margin-bottom: 0.7rem;
+  }
+  .project-text { font-size: 0.9rem; color: var(--mid); line-height: 1.7; }
+  .tech-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip {
+    font-size: 0.7rem; background: var(--warm); border: 1px solid var(--border);
+    padding: 3px 9px; color: var(--mid); letter-spacing: 0.03em;
+  }
+  .achievement-list { list-style: none; }
+  .achievement-list li {
+    font-size: 0.88rem; color: var(--mid); padding: 4px 0;
+    border-bottom: 1px solid var(--border); display: flex; gap: 0.5rem; align-items: flex-start;
+  }
+  .achievement-list li:last-child { border-bottom: none; }
+  .achievement-list li::before { content: "→"; color: var(--accent); flex-shrink: 0; margin-top: 2px; font-size: 0.8rem; }
+  .project-link { display: inline-block; font-size: 0.8rem; color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent); padding-bottom: 1px; margin-top: 1.2rem; }
+
+  /* FILMS */
+  #films { background: var(--warm); }
+  .films-intro { font-size: 1rem; color: var(--mid); max-width: 640px; margin-bottom: 3rem; line-height: 1.8; }
+  .films-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 3rem; }
+  .film-card {
+    background: var(--card); border: 1px solid var(--border); padding: 2rem;
+    transition: box-shadow 0.3s;
+  }
+  .film-card:hover { box-shadow: 0 6px 30px rgba(0,0,0,0.08); }
+  .film-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; font-weight: 600; color: var(--ink); margin-bottom: 0.5rem;
+  }
+  .film-type { font-size: 0.7rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 1rem; }
+  .film-desc { font-size: 0.85rem; color: var(--mid); line-height: 1.7; }
+  .film-tools { margin-top: 1.2rem; font-size: 0.72rem; color: var(--soft); }
+
+  .youtube-cta {
+    background: var(--card); border: 1px solid var(--border);
+    padding: 2.5rem; display: flex; align-items: center; gap: 2rem;
+  }
+  .yt-icon { color: #ff0000; font-size: 3rem; flex-shrink: 0; }
+  .yt-text h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; margin-bottom: 0.4rem; }
+  .yt-text p { font-size: 0.88rem; color: var(--mid); }
+  .btn-yt {
+    margin-left: auto; background: #ff0000; color: #fff;
+    padding: 12px 28px; font-size: 0.82rem; font-weight: 500;
+    letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none;
+    border: none; cursor: pointer; flex-shrink: 0; transition: background 0.2s;
+  }
+  .btn-yt:hover { background: #cc0000; }
+
+  /* CREDENTIALS */
+  #credentials { background: var(--bg); }
+  .cred-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .cred-card {
+    border: 1px solid var(--border); padding: 2rem; background: var(--card);
+  }
+  .cred-icon { font-size: 1.8rem; margin-bottom: 1rem; }
+  .cred-title { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 600; color: var(--ink); margin-bottom: 0.5rem; }
+  .cred-detail { font-size: 0.85rem; color: var(--mid); line-height: 1.6; }
+
+  /* CONTACT */
+  #contact { background: var(--ink); }
+  #contact .section-label { color: #c0392b; }
+  #contact .section-title { color: #faf9f6; }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+  .contact-intro { color: rgba(250,249,246,0.7); font-size: 1rem; line-height: 1.8; margin-top: 1.5rem; }
+  .contact-info { margin-top: 2rem; }
+  .contact-info a { display: block; color: rgba(250,249,246,0.8); text-decoration: none; font-size: 0.9rem; margin-bottom: 0.6rem; transition: color 0.2s; }
+  .contact-info a:hover { color: #fff; }
+
+  .form-group { margin-bottom: 1.2rem; }
+  .form-group label { display: block; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(250,249,246,0.5); margin-bottom: 0.5rem; }
+  .form-group input, .form-group textarea, .form-group select {
+    width: 100%; background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: #faf9f6; font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem; padding: 12px 14px; outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-group input::placeholder, .form-group textarea::placeholder { color: rgba(250,249,246,0.3); }
+  .form-group input:focus, .form-group textarea:focus { border-color: rgba(255,255,255,0.4); }
+  .form-group textarea { height: 130px; resize: vertical; }
+  .form-group select { appearance: none; cursor: pointer; }
+  .form-group select option { background: #1a1a2e; color: #faf9f6; }
+  .btn-submit {
+    width: 100%; background: var(--accent); color: #fff;
+    border: none; padding: 14px; font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; cursor: pointer; transition: background 0.2s;
+  }
+  .btn-submit:hover { background: #a93226; }
+  .form-success { display: none; text-align: center; padding: 2rem; color: rgba(250,249,246,0.8); font-size: 0.95rem; }
+
+  /* FOOTER */
+  footer {
+    background: #111120; border-top: 1px solid rgba(255,255,255,0.05);
+    padding: 2rem 5vw; display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  footer p { font-size: 0.8rem; color: rgba(250,249,246,0.3); }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a { font-size: 0.8rem; color: rgba(250,249,246,0.4); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: rgba(250,249,246,0.8); }
+
+  /* DIVIDER */
+  .divider { height: 1px; background: var(--border); margin: 0; }
+
+  /* HIGHLIGHT BAND */
+  .highlight-band {
+    background: var(--accent); padding: 1.2rem 5vw;
+    display: flex; align-items: center; justify-content: center;
+    gap: 1.5rem; flex-wrap: wrap;
+  }
+  .highlight-band span { color: #fff; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.04em; }
+  .highlight-band .sep { color: rgba(255,255,255,0.4); }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 3rem; }
+    .project-body { grid-template-columns: 1fr; }
+    .films-grid { grid-template-columns: 1fr 1fr; }
+    .cred-grid { grid-template-columns: 1fr 1fr; }
+    .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .nav-links { display: none; }
+    .youtube-cta { flex-direction: column; }
+    .btn-yt { margin-left: 0; }
+  }
+  @media (max-width: 600px) {
+    .films-grid { grid-template-columns: 1fr; }
+    .cred-grid { grid-template-columns: 1fr; }
+    .project-card-header { grid-template-columns: 1fr; }
+    .hero-stats { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-brand">Kanchan Ghosh</a>
+  <ul class="nav-links">
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#films">Films</a></li>
+    <li><a href="#videos">Videos</a></li>
+    <li><a href="#credentials">Credentials</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="highlight-band">
+  <span>NHS Propel HealthTech Accelerator 2025</span>
+  <span class="sep">·</span>
+  <span>Africa AI Creativity Week & Awards 2026 — Marrakech</span>
+  <span class="sep">·</span>
+  <span>Published Author · AI Filmmaker · Indie Developer</span>
+</div>
+
+<div style="background:var(--bg); padding-top: 0;">
+  <div class="hero">
+    <div>
+      <p class="hero-label">AI Developer · Filmmaker · Founder</p>
+      <h1>Building <em>real things</em> with artificial intelligence.</h1>
+      <p class="hero-desc">
+        Independent AI developer and founder of LOVEUAD LTD, based in Leeds. I build production AI applications across healthcare, education, real estate, and creative media — and make short films with the same tools I ship software in.
+      </p>
+      <div class="hero-tags">
+        <span class="tag">Google Cloud Run</span>
+        <span class="tag">Gemini API</span>
+        <span class="tag">Flutter</span>
+        <span class="tag">FastAPI</span>
+        <span class="tag">Python</span>
+        <span class="tag">NHS HealthTech</span>
+        <span class="tag">AI Filmmaking</span>
+      </div>
+    </div>
+    <div>
+      <div class="hero-stats">
+        <div>
+          <div class="stat-num">15+</div>
+          <div class="stat-label">AI Products Built</div>
+          <div class="stat-note">Deployed & live</div>
+        </div>
+        <div>
+          <div class="stat-num">3</div>
+          <div class="stat-label">Short Films</div>
+          <div class="stat-note">FilmFreeway submissions</div>
+        </div>
+        <div>
+          <div class="stat-num">27</div>
+          <div class="stat-label">Pilot Sessions</div>
+          <div class="stat-note">WritenDraw assessment data</div>
+        </div>
+        <div>
+          <div class="stat-num">NHS</div>
+          <div class="stat-label">Accelerator</div>
+          <div class="stat-note">Propel HealthTech 2025</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-inner">
+    <div class="section-header">
+      <p class="section-label">Selected Work</p>
+      <h2 class="section-title">Products & Platforms</h2>
+    </div>
+
+    <div class="project-grid">
+
+      <!-- 1. loveUAD -->
+      <div class="project-card">
+        <div class="project-card-header">
+          <span class="project-num">01</span>
+          <div class="project-title-area">
+            <div class="project-name">loveUAD</div>
+            <div class="project-tagline">AI-powered dementia caregiver support app</div>
+          </div>
+          <span class="project-domain">Healthcare</span>
+        </div>
+        <div class="project-body">
+          <div>
+            <p class="project-section-title">The Problem</p>
+            <p class="project-text">Dementia caregivers have no structured digital support system. Medication management is disorganised, patient data privacy is routinely compromised, and caregivers have no access to evidence-backed AI guidance at 2am when they need it most.</p>
+          </div>
+          <div>
+            <p class="project-section-title">What I Built</p>
+            <p class="project-text">Medication reminders with prescription OCR scanning. AI dementia guidance backed by a large research paper database. Anonymous 17-digit patient codes — no name, no email, no data breach risk. Built on Google Cloud Run with PostgreSQL.</p>
+            <div class="tech-chips" style="margin-top:1rem;">
+              <span class="chip">Python</span><span class="chip">Google Cloud Run</span><span class="chip">PostgreSQL</span><span class="chip">OCR</span><span class="chip">Gemini API</span><span class="chip">Flutter</span>
+            </div>
+          </div>
+          <div>
+            <p class="project-section-title">Achieved</p>
+            <ul class="achievement-list">
+              <li>Accepted into NHS Propel HealthTech Accelerator 2025</li>
+              <li>Zero-knowledge patient data model — anonymous 17-digit codes</li>
+              <li>Privacy-first architecture designed for NHS Digital integration</li>
+              <li>Prescription OCR scanning working in production</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. WritenDraw -->
+      <div class="project-card">
+        <div class="project-card-header">
+          <span class="project-num">02</span>
+          <div class="project-title-area">
+            <div class="project-name">WritenDraw</div>
+            <div class="project-tagline">Chat-based workplace simulation assessment platform</div>
+          </div>
+          <span class="project-domain">Education / HR</span>
+        </div>
+        <div class="project-body">
+          <div>
+            <p class="project-section-title">The Problem</p>
+            <p class="project-text">Traditional online assessments can be gamed. Candidates copy-paste, cheat, or perform in ways that bear no resemblance to real workplace behaviour. Employers have no way to test how someone actually thinks on the job.</p>
+          </div>
+          <div>
+            <p class="project-section-title">What I Built</p>
+            <p class="project-text">A chat-based simulation that puts candidates inside workplace scenarios. No voice — pure conversation. The AI tracks reasoning, response patterns, and retake behaviour. Deployed on Google Cloud Run using the Gemini API.</p>
+            <div class="tech-chips" style="margin-top:1rem;">
+              <span class="chip">Gemini API</span><span class="chip">Google Cloud Run</span><span class="chip">Python</span><span class="chip">Chat Interface</span>
+            </div>
+          </div>
+          <div>
+            <p class="project-section-title">Achieved</p>
+            <ul class="achievement-list">
+              <li>Pilot: 27 sessions, 10 real candidates</li>
+              <li>44% retake rate — engagement data in the wild</li>
+              <li>16.2% average score — baseline established</li>
+              <li>0 paste attempts detected across all sessions</li>
+              <li>Submitted to Gemini Live Agent Challenge</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. CareCircle -->
+      <div class="project-card">
+        <div class="project-card-header">
+          <span class="project-num">03</span>
+          <div class="project-title-area">
+            <div class="project-name">CareCircle</div>
+            <div class="project-tagline">Zero-knowledge health notification system</div>
+          </div>
+          <span class="project-domain">Healthcare</span>
+        </div>
+        <div class="project-body">
+          <div>
+            <p class="project-section-title">The Problem</p>
+            <p class="project-text">Patient health notifications require personal data — mobile numbers, emails, real names. Every system that collects this data is a data breach waiting to happen. NHS Digital needs a model where patient privacy is structural, not policy.</p>
+          </div>
+          <div>
+            <p class="project-section-title">What I Built</p>
+            <p class="project-text">An AI-powered health notification system using zero-knowledge architecture. Patients register anonymously — no mobile number, no email, no real name. The data breach risk is eliminated by design, not by compliance documents.</p>
+            <div class="tech-chips" style="margin-top:1rem;">
+              <span class="chip">Zero-Knowledge Architecture</span><span class="chip">AI</span><span class="chip">Python</span><span class="chip">NHS Integration Patterns</span>
+            </div>
+          </div>
+          <div>
+            <p class="project-section-title">Achieved</p>
+            <ul class="achievement-list">
+              <li>Academic paper published on Zenodo</li>
+              <li>Ongoing feasibility discussion with a major UK healthcare provider</li>
+              <li>Live at carecircle.top</li>
+            </ul>
+            <a href="https://www.carecircle.top/" target="_blank" class="project-link">Visit CareCircle →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. TrueSkills -->
+      <div class="project-card">
+        <div class="project-card-header">
+          <span class="project-num">04</span>
+          <div class="project-title-area">
+            <div class="project-name">TrueSkills</div>
+            <div class="project-tagline">Anti-cheating AI assessment for education</div>
+          </div>
+          <span class="project-domain">Education</span>
+        </div>
+        <div class="project-body">
+          <div>
+            <p class="project-section-title">The Problem</p>
+            <p class="project-text">AI has made cheating trivially easy. Students submit AI-generated work as their own. Standard proctoring tools play cat-and-mouse with students instead of measuring genuine understanding.</p>
+          </div>
+          <div>
+            <p class="project-section-title">What I Built</p>
+            <p class="project-text">An assessment system that tests personalised understanding — questions tailored to each student so generic AI answers don't work. Built with advanced proctoring and detection. Also includes an AI tutoring layer for UK Year 2–6 children.</p>
+            <div class="tech-chips" style="margin-top:1rem;">
+              <span class="chip">FastAPI</span><span class="chip">Gemini API</span><span class="chip">Google Cloud Run</span><span class="chip">Neon PostgreSQL</span><span class="chip">Python</span>
+            </div>
+          </div>
+          <div>
+            <p class="project-section-title">Achieved</p>
+            <ul class="achievement-list">
+              <li>Research paper published on SSRN</li>
+              <li>Live anti-cheating assessment at trueskills.uk</li>
+              <li>Personalised question generation — AI can't just answer it for you</li>
+            </ul>
+            <a href="https://trueskills.uk/" target="_blank" class="project-link">Visit TrueSkills →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. SilentPulse -->
+      <div class="project-card">
+        <div class="project-card-header">
+          <span class="project-num">05</span>
+          <div class="project-title-area">
+            <div class="project-name">SilentPulse</div>
+            <div class="project-tagline">Safety app disguised as a clock</div>
+          </div>
+          <span class="project-domain">Social Impact</span>
+        </div>
+        <div class="project-body">
+          <div>
+            <p class="project-section-title">The Problem</p>
+            <p class="project-text">Vulnerable women in abusive situations can't safely call for help — abusers monitor their phones, check their apps, watch for anything that looks like a safety tool. A recognisable safety app is dangerous to have.</p>
+          </div>
+          <div>
+            <p class="project-section-title">What I Built</p>
+            <p class="project-text">An app that looks like a clock. Opens like a clock. Works like a clock. But underneath, it sends silent distress signals. Built in Flutter, distributed via Firebase App Distribution in partnership with West Yorkshire NGOs.</p>
+            <div class="tech-chips" style="margin-top:1rem;">
+              <span class="chip">Flutter</span><span class="chip">Firebase</span><span class="chip">Firebase App Distribution</span>
+            </div>
+          </div>
+          <div>
+            <p class="project-section-title">Achieved</p>
+            <ul class="achievement-list">
+              <li>Deployed in partnership with West Yorkshire NGOs</li>
+              <li>Disguised UI — zero visual footprint as a safety app</li>
+              <li>Silent distress signal working in production</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. HomeRule -->
+      <div class="project-card">
+        <div class="project-card-header">
+          <span class="project-num">06</span>
+          <div class="project-title-area">
+            <div class="project-name">HomeRule.uk</div>
+            <div class="project-tagline">UK planning permission checker</div>
+          </div>
+          <span class="project-domain">Real Estate</span>
+        </div>
+        <div class="project-body">
+          <div>
+            <p class="project-section-title">The Problem</p>
+            <p class="project-text">UK planning permission rules are labyrinthine. Most homeowners don't know what they can or can't build. Hiring a planning consultant costs hundreds of pounds just to get a basic answer.</p>
+          </div>
+          <div>
+            <p class="project-section-title">What I Built</p>
+            <p class="project-text">An AI-powered checker that tells homeowners whether they need planning permission — instantly. Covers permitted development rights, local variations, and common scenarios. Affiliate monetisation integrated via Awin.</p>
+            <div class="tech-chips" style="margin-top:1rem;">
+              <span class="chip">Python</span><span class="chip">AI</span><span class="chip">Awin Affiliate API</span>
+            </div>
+          </div>
+          <div>
+            <p class="project-section-title">Achieved</p>
+            <ul class="achievement-list">
+              <li>Live at homerule.uk</li>
+              <li>Affiliate monetisation integrated and running</li>
+              <li>Covers UK-wide planning permission scenarios</li>
+            </ul>
+            <a href="https://www.homerule.uk/" target="_blank" class="project-link">Visit HomeRule →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7. NarrativeLink -->
+      <div class="project-card">
+        <div class="project-card-header">
+          <span class="project-num">07</span>
+          <div class="project-title-area">
+            <div class="project-name">NarrativeLink</div>
+            <div class="project-tagline">Semantic search over historical slave narratives</div>
+          </div>
+          <span class="project-domain">History / AI</span>
+        </div>
+        <div class="project-body">
+          <div>
+            <p class="project-section-title">The Problem</p>
+            <p class="project-text">Thousands of historical slave narratives exist in archives — essential primary sources that are essentially unsearchable. Keyword search fails completely with oral history transcripts. The stories are there. Finding them is not.</p>
+          </div>
+          <div>
+            <p class="project-section-title">What I Built</p>
+            <p class="project-text">A semantic search engine that understands meaning, not just keywords. Ask a question in plain English, get back the relevant narratives. Built and deployed on Google Cloud Run for the Google Cloud Run Hackathon.</p>
+            <div class="tech-chips" style="margin-top:1rem;">
+              <span class="chip">Semantic Search</span><span class="chip">Google Cloud Run</span><span class="chip">Python</span><span class="chip">Vector Embeddings</span>
+            </div>
+          </div>
+          <div>
+            <p class="project-section-title">Achieved</p>
+            <ul class="achievement-list">
+              <li>Built and deployed for Google Cloud Run Hackathon</li>
+              <li>Semantic search working across full narrative corpus</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8. Compliance Guardian -->
+      <div class="project-card">
+        <div class="project-card-header">
+          <span class="project-num">08</span>
+          <div class="project-title-area">
+            <div class="project-name">Compliance Guardian</div>
+            <div class="project-tagline">AI regulatory compliance auditing for GitHub repos</div>
+          </div>
+          <span class="project-domain">Developer Tools</span>
+        </div>
+        <div class="project-body">
+          <div>
+            <p class="project-section-title">The Problem</p>
+            <p class="project-text">Developers ship code without knowing whether it violates GDPR, HIPAA, financial regulations, or industry compliance standards. Manual compliance auditing is slow, expensive, and catches problems after they're already in production.</p>
+          </div>
+          <div>
+            <p class="project-section-title">What I Built</p>
+            <p class="project-text">An AI tool that audits GitHub repositories for regulatory compliance issues automatically. Point it at a repo, get a structured compliance report with specific violations flagged by regulation.</p>
+            <div class="tech-chips" style="margin-top:1rem;">
+              <span class="chip">GitHub API</span><span class="chip">Python</span><span class="chip">AI Auditing</span>
+            </div>
+          </div>
+          <div>
+            <p class="project-section-title">Achieved</p>
+            <ul class="achievement-list">
+              <li>Submitted to IBM Bob hackathon</li>
+              <li>Automated compliance scanning across regulation frameworks</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FILMS -->
+<section id="films">
+  <div class="section-inner">
+    <div class="section-header">
+      <p class="section-label">Creative Work</p>
+      <h2 class="section-title">AI Filmmaking</h2>
+    </div>
+    <p class="films-intro">
+      I make short films using AI production tools — the same way I ship software. Every frame is generated, every voice is synthesised, every edit is deliberate. Selected for Africa AI Creativity Week & Awards 2026, Marrakech.
+    </p>
+
+    <div class="films-grid">
+      <div class="film-card">
+        <div class="film-type">Sci-Fi / Space</div>
+        <div class="film-title">Signal Lost</div>
+        <p class="film-desc">A lone astronaut aboard an abandoned deep space station uncovers a disturbing presence — something that was never logged, never sent, and never meant to return.</p>
+        <p class="film-tools">Runway · Kling · ElevenLabs · Midjourney · DaVinci Resolve</p>
+      </div>
+      <div class="film-card">
+        <div class="film-type">Short Film</div>
+        <div class="film-title">THREE</div>
+        <p class="film-desc">A short film submitted to international festivals via FilmFreeway. Three characters. One choice. Made entirely with AI production tools.</p>
+        <p class="film-tools">Pika · HeyGen · ElevenLabs · CapCut</p>
+      </div>
+      <div class="film-card">
+        <div class="film-type">Bengali · Drama</div>
+        <div class="film-title">পরিযায়ী</div>
+        <p class="film-desc">A Bengali-language AI film exploring migration, memory, and the distance between home and where you end up. Submitted to international film festivals.</p>
+        <p class="film-tools">Luma · HeyGen · ElevenLabs · Midjourney · DaVinci Resolve</p>
+      </div>
+    </div>
+
+    <div class="youtube-cta">
+      <div class="yt-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="#ff0000"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+      </div>
+      <div class="yt-text">
+        <h3>Smart Penny — YouTube Channel</h3>
+        <p>AI films, music videos, and creative experiments. Subscribe to watch the full catalogue.</p>
+      </div>
+      <a href="https://www.youtube.com/@kanchanghosh1319" target="_blank" class="btn-yt">Watch on YouTube</a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- VIDEOS -->
+<section id="videos" style="background: var(--bg);">
+  <div class="section-inner">
+    <div class="section-header">
+      <p class="section-label">In Action</p>
+      <h2 class="section-title">Project Demos & Films</h2>
+    </div>
+
+    <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-bottom: 1.5rem;">
+
+      <!-- WritenDraw -->
+      <div style="background:var(--card); border:1px solid var(--border); overflow:hidden;">
+        <div style="position:relative; padding-top:56.25%; background:#111;">
+          <iframe
+            src="https://www.youtube.com/embed/2c3ULCUq8-0"
+            title="WritenDraw Demo"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            style="position:absolute;top:0;left:0;width:100%;height:100%;">
+          </iframe>
+        </div>
+        <div style="padding:1.2rem 1.5rem;">
+          <div style="font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.4rem;">Project Demo · Education / HR</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--ink);">WritenDraw</div>
+          <div style="font-size:0.82rem;color:var(--mid);margin-top:0.3rem;">Chat-based workplace simulation assessment platform</div>
+        </div>
+      </div>
+
+      <!-- SOFIA -->
+      <div style="background:var(--card); border:1px solid var(--border); overflow:hidden;">
+        <div style="position:relative; padding-top:56.25%; background:#111;">
+          <iframe
+            src="https://www.youtube.com/embed/v-_JDo4TgB4"
+            title="SOFIA Demo"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            style="position:absolute;top:0;left:0;width:100%;height:100%;">
+          </iframe>
+        </div>
+        <div style="padding:1.2rem 1.5rem;">
+          <div style="font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.4rem;">Project Demo · Finance</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--ink);">SOFIA</div>
+          <div style="font-size:0.82rem;color:var(--mid);margin-top:0.3rem;">AI financial assistant for UK mothers</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;">
+
+      <!-- Voice Bot -->
+      <div style="background:var(--card); border:1px solid var(--border); overflow:hidden;">
+        <div style="position:relative; padding-top:56.25%; background:#111;">
+          <iframe
+            src="https://www.youtube.com/embed/3ANmfbwMti4"
+            title="Voice Bot Demo"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            style="position:absolute;top:0;left:0;width:100%;height:100%;">
+          </iframe>
+        </div>
+        <div style="padding:1.2rem 1.5rem;">
+          <div style="font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.4rem;">Project Demo · AI</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--ink);">Voice Bot</div>
+          <div style="font-size:0.82rem;color:var(--mid);margin-top:0.3rem;">AI voice agent demo</div>
+        </div>
+      </div>
+
+      <!-- FindingUrWay -->
+      <div style="background:var(--card); border:1px solid var(--border); overflow:hidden;">
+        <div style="position:relative; padding-top:177.78%; background:#111;">
+          <iframe
+            src="https://www.youtube.com/embed/CFNWiH_euLY"
+            title="FindingUrWay Demo"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            style="position:absolute;top:0;left:0;width:100%;height:100%;">
+          </iframe>
+        </div>
+        <div style="padding:1.2rem 1.5rem;">
+          <div style="font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.4rem;">Project Demo · Travel</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--ink);">FindingUrWay</div>
+          <div style="font-size:0.82rem;color:var(--mid);margin-top:0.3rem;">AI travel planner — hotel, flight & tour bookings</div>
+        </div>
+      </div>
+
+      <!-- Love You Always Dad -->
+      <div style="background:var(--card); border:1px solid var(--border); overflow:hidden;">
+        <div style="position:relative; padding-top:177.78%; background:#111;">
+          <iframe
+            src="https://www.youtube.com/embed/y_N4rS3J5Wg"
+            title="Love You Always Dad"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            style="position:absolute;top:0;left:0;width:100%;height:100%;">
+          </iframe>
+        </div>
+        <div style="padding:1.2rem 1.5rem;">
+          <div style="font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.4rem;">AI Short Film</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--ink);">Love You Always Dad</div>
+          <div style="font-size:0.82rem;color:var(--mid);margin-top:0.3rem;">AI short film</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CREDENTIALS -->
+<section id="credentials">
+  <div class="section-inner">
+    <div class="section-header">
+      <p class="section-label">Background</p>
+      <h2 class="section-title">Credentials & Recognition</h2>
+    </div>
+    <div class="cred-grid">
+      <div class="cred-card">
+        <div class="cred-icon">🏥</div>
+        <div class="cred-title">NHS Propel HealthTech Accelerator</div>
+        <div class="cred-detail">loveUAD accepted into the NHS Propel HealthTech Accelerator 2025. One of a small cohort of health technology companies selected from across the UK.</div>
+      </div>
+      <div class="cred-card">
+        <div class="cred-icon">🎬</div>
+        <div class="cred-title">Africa AI Creativity Week 2026</div>
+        <div class="cred-detail">Selected as an AI filmmaker for Africa AI Creativity Week & Awards 2026 in Marrakech. Three short films submitted to international festivals via FilmFreeway.</div>
+      </div>
+      <div class="cred-card">
+        <div class="cred-icon">📄</div>
+        <div class="cred-title">Published Research</div>
+        <div class="cred-detail">Research paper on AI-resistant assessment published on SSRN. Privacy-first healthcare coordination paper published on Zenodo. Manuscript submitted to a peer-reviewed journal.</div>
+      </div>
+      <div class="cred-card">
+        <div class="cred-icon">☁️</div>
+        <div class="cred-title">Google Cloud Certified</div>
+        <div class="cred-detail">Google certifications in Gemini and Vertex AI. All production applications deployed on Google Cloud Run. Winner of multiple Google and IBM hackathon challenges.</div>
+      </div>
+      <div class="cred-card">
+        <div class="cred-icon">✍️</div>
+        <div class="cred-title">Published Author</div>
+        <div class="cred-detail">Bengali author. Iti Bhalobasa published as a graphic novel on MangaPlus. The Kneeling Knight in development as an animated series. Debut AI music album on Spotify.</div>
+      </div>
+      <div class="cred-card">
+        <div class="cred-icon">🏢</div>
+        <div class="cred-title">LOVEUAD LTD</div>
+        <div class="cred-detail">Registered company in England & Wales (No. 16838046). Operating across healthcare, education, real estate, and creative media. Based in Leeds, UK.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="contact-grid">
+      <div>
+        <p class="section-label">Get in Touch</p>
+        <h2 class="section-title">Work with me.</h2>
+        <p class="contact-intro">
+          Available for AI development projects, partnerships, accelerator programmes, and creative collaborations. Based in Leeds, working remotely worldwide.
+        </p>
+        <div class="contact-info">
+          <a href="mailto:kanchan@ikanchan.com">kanchan@ikanchan.com</a>
+          <a href="https://ikanchan.com" target="_blank">ikanchan.com</a>
+          <a href="https://www.youtube.com/@kanchanghosh1319" target="_blank">YouTube — Smart Penny</a>
+        </div>
+      </div>
+      <div>
+        <form id="contactForm">
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" name="name" placeholder="Jane Smith" required>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" name="email" placeholder="jane@company.com" required>
+          </div>
+          <div class="form-group">
+            <label>Enquiry Type</label>
+            <select name="type">
+              <option value="">Select an option</option>
+              <option>Partnership / Collaboration</option>
+              <option>AI Development Project</option>
+              <option>Accelerator / Funding</option>
+              <option>Film / Creative Work</option>
+              <option>Speaking / Writing</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Message</label>
+            <textarea name="message" placeholder="Tell me about your project or idea..."></textarea>
+          </div>
+          <button type="submit" class="btn-submit">Send Message</button>
+        </form>
+        <div class="form-success" id="formSuccess">
+          ✓ Message sent. I'll be in touch shortly.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Kanchan Ghosh · LOVEUAD LTD (No. 16838046) · Leeds, UK</p>
+  <div class="footer-links">
+    <a href="https://ikanchan.com" target="_blank">Portfolio</a>
+    <a href="https://www.youtube.com/@kanchanghosh1319" target="_blank">YouTube</a>
+    <a href="mailto:kanchan@ikanchan.com">Email</a>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    this.style.display = 'none';
+    document.getElementById('formSuccess').style.display = 'block';
+  });
+</script>
+
+</body>
+</html>
