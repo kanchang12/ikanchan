@@ -142,6 +142,9 @@ html,body,#root{height:100%;margin:0;padding:0;overflow:hidden}
 .inbar input:focus{border-color:var(--ox)}
 .send{background:var(--ox);color:#fff;border:none;border-radius:10px;padding:0 18px;font-size:14px;font-weight:600;cursor:pointer}
 .send:hover{background:var(--ox2)}.send:disabled{opacity:.5;cursor:default}
+.mic{background:none;border:1px solid #cbbd9f;border-radius:10px;padding:0 14px;font-size:20px;cursor:pointer;color:var(--ink2)}
+.mic:hover{background:var(--blush)}.mic.on{background:var(--ox);color:#fff;border-color:var(--ox);animation:pulse 1s ease infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
 
 /* project modal */
 .backdrop{position:fixed;inset:0;background:rgba(20,15,12,.62);z-index:40;display:flex;align-items:center;justify-content:center;padding:18px}
@@ -226,9 +229,11 @@ export default function App(){
   const [loading,setLoad]  = useState(false);
   const [active,setActive] = useState(null);
   const [voiceOn,setVoice] = useState(true);
+  const [listening,setListening] = useState(false);
   const endRef   = useRef(null);
   const voiceRef = useRef(true);
   const audioRef = useRef(null);
+  const recogRef = useRef(null);
   useEffect(()=>{ voiceRef.current = voiceOn; },[voiceOn]);
 
   useEffect(()=>{
@@ -262,6 +267,30 @@ export default function App(){
     const res = await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({messages:history})});
     const d = await res.json();
     return d.reply || "";
+  }
+
+  function toggleMic(){
+    if(listening){
+      if(recogRef.current) recogRef.current.stop();
+      setListening(false);
+      return;
+    }
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if(!SR) return;
+    const r = new SR();
+    r.lang = "en-GB"; r.interimResults = false; r.maxAlternatives = 1;
+    r.onresult = (e) => {
+      const t = e.results[0][0].transcript;
+      if(t.trim()) send(t.trim());
+      setListening(false);
+    };
+    r.onerror = () => setListening(false);
+    r.onend = () => setListening(false);
+    recogRef.current = r;
+    // pause Bertie's voice so the mic doesn't hear him
+    if(audioRef.current){try{audioRef.current.pause();}catch(e){}}
+    r.start();
+    setListening(true);
   }
 
   async function send(text){
@@ -329,7 +358,8 @@ export default function App(){
               <button className="chip" onClick={()=>send("Is Kanchan available for work?")}>Is he available?</button>
             </div>
             <div className="inbar">
-              <input value={input} placeholder="Ask Bertie anything…"
+              <button className={"mic"+(listening?" on":"")} onClick={toggleMic} title={listening?"Stop listening":"Speak to Bertie"}>🎙</button>
+              <input value={input} placeholder={listening?"Listening…":"Ask Bertie anything…"}
                 onChange={e=>setInput(e.target.value)}
                 onKeyDown={e=>{ if(e.key==="Enter") send(input); }} />
               <button className="send" disabled={loading||!input.trim()} onClick={()=>send(input)}>Send</button>
