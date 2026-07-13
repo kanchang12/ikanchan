@@ -67,7 +67,7 @@ def chat():
             contents=contents,
             config=types.GenerateContentConfig(
                 system_instruction=SYSTEM,
-                max_output_tokens=500,
+                max_output_tokens=1500,
                 temperature=0.85,
             ),
         )
