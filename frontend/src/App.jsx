@@ -71,12 +71,24 @@ const GREETING =
   "You rang? Splendid. You came for a CV, I take it - I'm afraid the dull paper one stays in my drawer, but I keep everything up here. Ask me anything about Kanchan: his projects, his papers, whether he's free for work.";
 
 const CSS = `
+html,body,#root{height:100%;margin:0;padding:0;overflow:hidden}
 :root{--paper:#EAE1CE;--paper2:#DFD3B8;--ink:#2B2620;--ink2:#6B6152;--ox:#7C2B2B;--ox2:#9B3A3A;--blush:#F1DAD6;--room:#241f1b;--gold:#C6A24A;}
 *{box-sizing:border-box}
-.wrap{font-family:'Segoe UI',system-ui,sans-serif;color:var(--ink);background:radial-gradient(1200px 700px at 50% -10%,#3a322b 0%,#211d19 55%,#171310 100%);height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;padding:14px 14px}
-.title{text-align:center;color:#F3ECDD;font-family:Georgia,serif;font-size:22px;font-weight:600;margin:6px 0 14px;flex:0 0 auto}
-.stagearea{flex:1;min-height:0;display:flex;justify-content:center;overflow:hidden;height:0}
-.desk{position:relative;width:100%;max-width:520px;height:100%;margin:0 auto;display:flex;align-items:center;justify-content:center;overflow-y:auto}
+
+/* LOCKED TO VIEWPORT — nothing escapes */
+.wrap{font-family:'Segoe UI',system-ui,sans-serif;color:var(--ink);
+  background:radial-gradient(1200px 700px at 50% -10%,#3a322b 0%,#211d19 55%,#171310 100%);
+  position:fixed;top:0;left:0;right:0;bottom:0;
+  display:flex;flex-direction:column;overflow:hidden;padding:10px 14px 14px}
+
+.title{text-align:center;color:#F3ECDD;font-family:Georgia,serif;font-size:22px;font-weight:600;
+  margin:4px 0 10px;flex:0 0 auto}
+
+/* THIS EATS ALL REMAINING SPACE */
+.stagearea{flex:1 1 0%;display:flex;justify-content:center;overflow:hidden}
+
+/* CV reading phase */
+.desk{position:relative;width:100%;max-width:520px;height:100%;display:flex;align-items:center;justify-content:center;overflow-y:auto}
 .desk.arr .cvpaper{filter:brightness(.82)}
 .cvpaper{width:460px;max-width:92vw;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(0,0,0,.04)),var(--paper);border:1px solid #cbbd9f;border-radius:6px;padding:30px 30px 24px;position:relative;z-index:1;box-shadow:0 26px 54px rgba(0,0,0,.5)}
 .cv-name{font-family:Georgia,serif;font-size:26px;font-weight:700;margin:0}
@@ -86,6 +98,8 @@ const CSS = `
 .cv-h{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink2);font-weight:700;margin:16px 0 6px}
 .cv-p{font-size:12.7px;line-height:1.6;margin:0}.cv-p b{color:var(--ink)}
 .cv-foot{margin-top:16px;border-top:1px solid #cdbf9f;padding-top:8px;text-align:center;font-family:Georgia,serif;font-style:italic;color:var(--ink2);font-size:11.5px}
+
+/* butler entrance */
 .emerge{position:absolute;top:50%;left:50%;z-index:5;display:flex;flex-direction:column;align-items:center;transform:translate(-50%,-50%);animation:emerge .72s cubic-bezier(.34,1.56,.64,1) both}
 @keyframes emerge{0%{opacity:0;transform:translate(-50%,-42%) scale(.38)}60%{opacity:1;transform:translate(-50%,-53%) scale(1.05)}100%{opacity:1;transform:translate(-50%,-50%) scale(1)}}
 .hello{background:#fff;border:1px solid #cbbd9f;border-radius:14px;padding:8px 15px;font-family:Georgia,serif;font-size:14px;position:relative;margin-bottom:-4px;box-shadow:0 10px 20px rgba(0,0,0,.28)}
@@ -93,18 +107,25 @@ const CSS = `
 .popbutler{height:360px;max-height:52vh;filter:drop-shadow(0 24px 28px rgba(0,0,0,.6))}
 .ring{margin-top:14px;background:var(--ox);color:#fff;border:none;border-radius:999px;padding:12px 24px;font-size:14px;font-weight:600;letter-spacing:.02em;cursor:pointer;box-shadow:0 12px 24px rgba(0,0,0,.45)}
 .ring:hover{background:var(--ox2)}
-.hall{display:flex;gap:20px;width:100%;max-width:1000px;height:100%;margin:0 auto;align-items:stretch;min-height:0;overflow:hidden}
-.stagecol{flex:0 0 300px;border-radius:14px;overflow:hidden;position:relative;height:100%;min-height:0;background:radial-gradient(300px 320px at 50% 74%,var(--blush) 0%,#5a4a44 46%,var(--room) 100%);display:flex;align-items:flex-end;justify-content:center;box-shadow:inset 0 0 70px rgba(0,0,0,.5)}
+
+/* CHAT PHASE — two columns locked to remaining height */
+.hall{display:flex;gap:14px;width:100%;max-width:1000px;height:100%;margin:0 auto;overflow:hidden}
+.stagecol{flex:0 0 280px;border-radius:14px;overflow:hidden;position:relative;
+  background:radial-gradient(300px 320px at 50% 74%,var(--blush) 0%,#5a4a44 46%,var(--room) 100%);
+  display:flex;align-items:flex-end;justify-content:center;box-shadow:inset 0 0 70px rgba(0,0,0,.5)}
 .butler-idle{height:92%;filter:drop-shadow(0 20px 22px rgba(0,0,0,.45));animation:sway 5.5s ease-in-out infinite}
 @keyframes sway{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 .plate{position:absolute;top:14px;left:14px;background:rgba(20,16,13,.72);color:#F3ECDD;border:1px solid var(--gold);border-radius:8px;padding:6px 11px}
-.plate b{display:block;font-family:Georgia,serif;font-size:14px}.plate span{font-size:10px;color:var(--gold);letter-spacing:.12em;text-transform:uppercase}
+.plate b{display:block;font-family:Georgia,serif;font-size:14px}.plate span{font:10px/1 'Segoe UI',sans-serif;color:var(--gold);letter-spacing:.12em;text-transform:uppercase}
 .voicebtn{position:absolute;top:14px;right:14px;background:rgba(20,16,13,.72);color:#F3ECDD;border:1px solid var(--gold);border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer}
-.chatcol{flex:1;min-width:0;background:var(--paper);border:1px solid #cbbd9f;border-radius:14px;display:flex;flex-direction:column;overflow:hidden;height:100%;min-height:0}
-.chead{background:linear-gradient(180deg,#33291f,#241d16);color:#F3ECDD;padding:14px 18px;font-family:Georgia,serif;display:flex;align-items:center;gap:10px}
+
+/* CHAT COLUMN — flex column, msgs scroll inside */
+.chatcol{flex:1 1 0%;min-width:0;background:var(--paper);border:1px solid #cbbd9f;border-radius:14px;
+  display:flex;flex-direction:column;overflow:hidden}
+.chead{flex:0 0 auto;background:linear-gradient(180deg,#33291f,#241d16);color:#F3ECDD;padding:14px 18px;font-family:Georgia,serif;display:flex;align-items:center;gap:10px}
 .chead .dot{width:8px;height:8px;border-radius:50%;background:#7dd08e;box-shadow:0 0 8px #7dd08e}
 .chead small{color:var(--gold);letter-spacing:.1em;text-transform:uppercase;font-size:10px;font-family:'Segoe UI',sans-serif;margin-left:auto}
-.msgs{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:12px}
+.msgs{flex:1 1 0%;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:12px}
 .row{display:flex}.row.u{justify-content:flex-end}
 .bub{max-width:82%;padding:10px 14px;border-radius:14px;font-size:14px;line-height:1.5}
 .bub.a{background:#fff;border:1px solid #d9cbac;border-bottom-left-radius:4px;color:var(--ink)}
@@ -113,14 +134,16 @@ const CSS = `
 .think i{width:6px;height:6px;border-radius:50%;background:var(--ink2);animation:blink 1.2s infinite}
 .think i:nth-child(2){animation-delay:.2s}.think i:nth-child(3){animation-delay:.4s}
 @keyframes blink{0%,100%{opacity:.2}50%{opacity:1}}
-.chips{display:flex;gap:7px;overflow-x:auto;padding:10px 14px;border-top:1px solid #d9cbac;background:var(--paper2)}
+.chips{flex:0 0 auto;display:flex;gap:7px;overflow-x:auto;padding:10px 14px;border-top:1px solid #d9cbac;background:var(--paper2)}
 .chip{white-space:nowrap;background:#fff;border:1px solid #cdbf9f;border-radius:999px;padding:6px 12px;font-size:12px;color:var(--ink);cursor:pointer}
 .chip:hover{background:var(--blush);border-color:var(--ox)}
-.inbar{display:flex;gap:8px;padding:12px 14px;border-top:1px solid #d9cbac;background:var(--paper)}
+.inbar{flex:0 0 auto;display:flex;gap:8px;padding:12px 14px;border-top:1px solid #d9cbac;background:var(--paper)}
 .inbar input{flex:1;border:1px solid #cbbd9f;border-radius:10px;padding:11px 13px;font-size:14px;background:#fff;color:var(--ink);outline:none}
 .inbar input:focus{border-color:var(--ox)}
 .send{background:var(--ox);color:#fff;border:none;border-radius:10px;padding:0 18px;font-size:14px;font-weight:600;cursor:pointer}
 .send:hover{background:var(--ox2)}.send:disabled{opacity:.5;cursor:default}
+
+/* project modal */
 .backdrop{position:fixed;inset:0;background:rgba(20,15,12,.62);z-index:40;display:flex;align-items:center;justify-content:center;padding:18px}
 .card{background:var(--paper);border:1px solid #c3b393;border-radius:16px;width:640px;max-width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 30px 70px rgba(0,0,0,.5)}
 .card .vid{position:relative;width:100%;aspect-ratio:16/9;background:#000;border-radius:16px 16px 0 0;overflow:hidden}
@@ -134,8 +157,14 @@ const CSS = `
 .card .links{display:flex;gap:10px;flex-wrap:wrap}
 .card .lnk{text-decoration:none;font-size:13px;font-weight:600;padding:9px 14px;border-radius:10px;border:1px solid var(--ox);color:var(--ox)}
 .card .lnk.f{background:var(--ox);color:#fff}
-@media(max-width:760px){.hall{flex-direction:column}.stagecol{flex:0 0 34vh;min-height:0}.chatcol{flex:1;min-height:0}}
-@media (prefers-reduced-motion: reduce){.emerge{animation:none}.butler-idle{animation:none}}
+
+/* MOBILE */
+@media(max-width:760px){
+  .hall{flex-direction:column}
+  .stagecol{flex:0 0 34vh}
+  .chatcol{flex:1 1 0%}
+}
+@media(prefers-reduced-motion:reduce){.emerge{animation:none}.butler-idle{animation:none}}
 
 .wake{margin-top:14px;background:#fff;border:1px solid #d9cbac;border-radius:12px;padding:12px 14px}
 .wake-h{font-size:12.5px;color:var(--ink2);line-height:1.5;margin-bottom:10px}
