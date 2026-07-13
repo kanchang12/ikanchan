@@ -16,8 +16,8 @@ from google.genai import types
 # ── config ───────────────────────────────────────────────────────
 API_KEY    = os.environ.get("GEMINI_API_KEY")           # set this on Koyeb
 CHAT_MODEL = "gemini-3.5-flash"
-TTS_MODEL  = "gemini-2.5-flash-preview-tts"             # swap to gemini-3.1-flash-tts-preview if enabled on your key
-TTS_VOICE  = "Charon"                                    # try: Charon, Enceladus, Puck, Fenrir
+TTS_MODEL  = "gemini-3.1-flash-tts-preview"
+TTS_VOICE  = "Charon"                                    # deep, distinguished — butler voice. Others: Kore, Puck, Fenrir, Enceladus
 
 client = genai.Client(api_key=API_KEY) if API_KEY else None
 
@@ -85,18 +85,25 @@ def _pcm_to_wav(pcm, rate=24000, ch=1, bits=16):
     return header + pcm
 
 
+BUTLER_DIRECTION = (
+    "<audio_profile>Bertie is an impeccably polite English butler — warm, witty, "
+    "lightly old-world formal. Received Pronunciation accent, unhurried pace, "
+    "gentle warmth with occasional dry humour.</audio_profile>"
+)
+
 @app.route("/api/tts", methods=["POST"])
 def tts():
-    # returns 204 on any failure -> the frontend falls back to the browser voice
     if not client:
-        return ("", 204)
+        return jsonify({"error": "GEMINI_API_KEY not set"}), 500
     text = ((request.get_json(force=True) or {}).get("text") or "").strip()
     if not text:
         return ("", 204)
+    # Wrap the line with butler scene direction for richer delivery
+    directed = BUTLER_DIRECTION + "\n" + text
     try:
         resp = client.models.generate_content(
             model=TTS_MODEL,
-            contents=text,
+            contents=directed,
             config=types.GenerateContentConfig(
                 response_modalities=["AUDIO"],
                 speech_config=types.SpeechConfig(
@@ -111,8 +118,9 @@ def tts():
             pcm = base64.b64decode(pcm)
         wav = _pcm_to_wav(pcm)
         return jsonify({"audio": "data:audio/wav;base64," + base64.b64encode(wav).decode()})
-    except Exception:
-        return ("", 204)
+    except Exception as e:
+        print("TTS error:", e)
+        return jsonify({"error": str(e)}), 500
 
 
 @app.route("/api/wake", methods=["POST"])
