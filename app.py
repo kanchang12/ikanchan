@@ -101,19 +101,28 @@ def tts():
     # Wrap the line with butler scene direction for richer delivery
     directed = BUTLER_DIRECTION + "\n" + text
     try:
-        resp = client.models.generate_content(
-            model=TTS_MODEL,
-            contents=directed,
-            config=types.GenerateContentConfig(
-                response_modalities=["AUDIO"],
-                speech_config=types.SpeechConfig(
-                    voice_config=types.VoiceConfig(
-                        prebuilt_voice_config=types.PrebuiltVoiceConfig(voice_name=TTS_VOICE)
-                    )
+        pcm = None
+        for attempt in range(2):  # one retry on empty response
+            resp = client.models.generate_content(
+                model=TTS_MODEL,
+                contents=directed,
+                config=types.GenerateContentConfig(
+                    response_modalities=["AUDIO"],
+                    speech_config=types.SpeechConfig(
+                        voice_config=types.VoiceConfig(
+                            prebuilt_voice_config=types.PrebuiltVoiceConfig(voice_name=TTS_VOICE)
+                        )
+                    ),
                 ),
-            ),
-        )
-        pcm = resp.candidates[0].content.parts[0].inline_data.data
+            )
+            try:
+                pcm = resp.candidates[0].content.parts[0].inline_data.data
+                if pcm:
+                    break
+            except (IndexError, AttributeError, TypeError):
+                pass  # retry
+        if not pcm:
+            return jsonify({"error": "TTS returned empty audio"}), 500
         if isinstance(pcm, str):
             pcm = base64.b64decode(pcm)
         wav = _pcm_to_wav(pcm)

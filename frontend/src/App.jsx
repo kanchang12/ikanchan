@@ -75,7 +75,7 @@ const CSS = `
 *{box-sizing:border-box}
 .wrap{font-family:'Segoe UI',system-ui,sans-serif;color:var(--ink);background:radial-gradient(1200px 700px at 50% -10%,#3a322b 0%,#211d19 55%,#171310 100%);height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;padding:14px 14px}
 .title{text-align:center;color:#F3ECDD;font-family:Georgia,serif;font-size:22px;font-weight:600;margin:6px 0 14px;flex:0 0 auto}
-.stagearea{flex:1;min-height:0;display:flex;justify-content:center;overflow:hidden}
+.stagearea{flex:1;min-height:0;display:flex;justify-content:center;overflow:hidden;height:0}
 .desk{position:relative;width:100%;max-width:520px;height:100%;margin:0 auto;display:flex;align-items:center;justify-content:center;overflow-y:auto}
 .desk.arr .cvpaper{filter:brightness(.82)}
 .cvpaper{width:460px;max-width:92vw;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(0,0,0,.04)),var(--paper);border:1px solid #cbbd9f;border-radius:6px;padding:30px 30px 24px;position:relative;z-index:1;box-shadow:0 26px 54px rgba(0,0,0,.5)}
@@ -93,7 +93,7 @@ const CSS = `
 .popbutler{height:360px;max-height:52vh;filter:drop-shadow(0 24px 28px rgba(0,0,0,.6))}
 .ring{margin-top:14px;background:var(--ox);color:#fff;border:none;border-radius:999px;padding:12px 24px;font-size:14px;font-weight:600;letter-spacing:.02em;cursor:pointer;box-shadow:0 12px 24px rgba(0,0,0,.45)}
 .ring:hover{background:var(--ox2)}
-.hall{display:flex;gap:20px;width:100%;max-width:1000px;height:100%;margin:0 auto;align-items:stretch;min-height:0}
+.hall{display:flex;gap:20px;width:100%;max-width:1000px;height:100%;margin:0 auto;align-items:stretch;min-height:0;overflow:hidden}
 .stagecol{flex:0 0 300px;border-radius:14px;overflow:hidden;position:relative;height:100%;min-height:0;background:radial-gradient(300px 320px at 50% 74%,var(--blush) 0%,#5a4a44 46%,var(--room) 100%);display:flex;align-items:flex-end;justify-content:center;box-shadow:inset 0 0 70px rgba(0,0,0,.5)}
 .butler-idle{height:92%;filter:drop-shadow(0 20px 22px rgba(0,0,0,.45));animation:sway 5.5s ease-in-out infinite}
 @keyframes sway{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
