@@ -1,18 +1,38 @@
 [
     {
-        "title": "RAG Research Assistant",
-        "tag": "Python · Flask · Gemini · Docker",
-        "description": "Drop your documents in, run two commands, get a web app where users ask questions answered from your content with source citations. Semantic search with keyword fallback. Containerised, one-command deploy.",
-        "meta": "Flask app, document processor, embedding generator, Dockerfile, frontend",
-        "url": "#",
-        "button": "Get on Gumroad"
+        "title": "PWA Converter",
+        "tag": "Python · Gemini / OpenAI / Claude",
+        "description": "Turn any website into a Progressive Web App. Run one Python script, copy three files to your site, use Microsoft PWA Builder to generate Android APK, AAB, iOS IPA, or Windows MSIX. AI auto-detects your app name, brand colors, and description.",
+        "meta": "Converter script · AI module · Service worker · Manifest · Icon generator · Visual HTML guide",
+        "url": "https://kanchanwaves3.gumroad.com/l/aorere",
+        "button": "I want this — £20+",
+        "price": "£20+"
     },
     {
-        "title": "AI Voice Check-In System",
-        "tag": "Python · Flask · ElevenLabs · Gemini",
-        "description": "Multi-tenant automated voice calling. Phones users via ElevenLabs AI agent, receives transcripts via webhook, analyses them with Gemini for safety alerts. Dashboard, encryption, alert management built in.",
-        "meta": "Flask app, PostgreSQL schema, ElevenLabs integration, Gemini analysis, dashboard UI",
+        "title": "RAG Research Assistant Starter Kit",
+        "tag": "Python · Flask · Gemini · Docker",
+        "description": "Drop your documents into a folder, run two commands, get a web app where users ask natural-language questions answered from your content with source citations. Semantic search with keyword fallback. Containerised, one-command deploy.",
+        "meta": "Flask app · Document processor · Embedding generator · Dockerfile · Frontend UI",
+        "url": "https://kanchanwaves3.gumroad.com/l/mebwuj",
+        "button": "I want this — £25+",
+        "price": "£25+"
+    },
+    {
+        "title": "ResumeReferee: AI CV Screening & Candidate Calling",
+        "tag": "Python · Flask · ElevenLabs · Gemini / OpenAI / Claude",
+        "description": "Upload CVs in bulk, AI scores and ranks candidates against your job description, then auto-calls shortlisted candidates via ElevenLabs voice agent. Dashboard shows who answered, who's interested, who declined.",
+        "meta": "Flask app · CV parser · AI scorer · ElevenLabs integration · Candidate dashboard",
+        "url": "https://kanchanwaves3.gumroad.com/l/resumereferee",
+        "button": "I want this — £100",
+        "price": "£100"
+    },
+    {
+        "title": "OCR Data Extractor",
+        "tag": "Python · Flask · Gemini / OpenAI / Claude",
+        "description": "Upload any image or PDF — invoices, receipts, business cards, forms, tables — AI extracts structured JSON data. Save to SQLite database, view extraction history, export as CSV. Seven document type presets built in.",
+        "meta": "Flask app · AI vision module · SQLite storage · History UI · CSV export · API endpoints",
         "url": "#",
-        "button": "Get on Gumroad"
+        "button": "Coming soon",
+        "price": ""
     }
 ]

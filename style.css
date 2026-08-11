@@ -172,6 +172,21 @@ section {
 
 .btn-secondary:hover { background: var(--accent-light); }
 
+.btn-disabled {
+    display: inline-block;
+    padding: 0.6rem 1.4rem;
+    background: var(--border);
+    color: var(--muted);
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-top: 0.5rem;
+    cursor: default;
+}
+
+.product-buttons { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 0.5rem; }
+.product-buttons .btn { margin-top: 0; }
+
 /* === BLOG PREVIEWS === */
 .blog-preview {
     padding: 1.2rem 0;

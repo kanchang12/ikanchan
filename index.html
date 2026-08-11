@@ -3,15 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kanchan Ghosh — Author & AI Developer</title>
-    <meta name="description" content="Dark fantasy fiction on Amazon KDP and production-ready AI developer tools on Gumroad. Books, code, and a blog by Kanchan Ghosh.">
-    <meta name="keywords" content="Kanchan Ghosh, dark fantasy, The Channel of Power, Branchlore, AI developer tools, RAG, Flask, Gemini, indie author, Leeds">
+    <title>Kanchan Ghosh — Dark Fantasy Author & AI Developer Tools</title>
+    <meta name="description" content="Dark fantasy fiction by Kanchan Ghosh. Production-ready AI developer tools: PWA converter, RAG starter kit, OCR extractor, AI CV screening. Books on Amazon KDP, code on Gumroad.">
+    <meta name="keywords" content="Kanchan Ghosh, dark fantasy, The Channel of Power, Branchlore, PWA converter, RAG starter kit, OCR extractor, ResumeReferee, AI developer tools, Flask, Gemini, Python, indie author, Leeds UK">
     <link rel="canonical" href="https://ikanchan.com/">
-    <meta property="og:title" content="Kanchan Ghosh — Author & AI Developer">
-    <meta property="og:description" content="Dark fantasy fiction and production-ready AI developer tools.">
+
+    <meta property="og:title" content="Kanchan Ghosh — Dark Fantasy Author & AI Developer Tools">
+    <meta property="og:description" content="Dark fantasy fiction and production-ready AI developer tools. Books on Amazon, code on Gumroad.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://ikanchan.com/">
+    <meta property="og:site_name" content="Kanchan Ghosh">
 
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Kanchan Ghosh — Author & AI Developer">
+    <meta name="twitter:description" content="Dark fantasy fiction and production-ready AI developer tools.">
+
+    <!-- Person schema -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -19,9 +26,88 @@
         "name": "Kanchan Ghosh",
         "url": "https://ikanchan.com",
         "jobTitle": "Author & AI Developer",
-        "knowsAbout": ["Dark Fantasy Fiction", "AI Development", "RAG Systems", "Flask", "Python"]
+        "worksFor": {"@type": "Organization", "name": "LOVEUAD LTD"},
+        "address": {"@type": "PostalAddress", "addressLocality": "Leeds", "addressCountry": "GB"},
+        "knowsAbout": ["Dark Fantasy Fiction", "AI Development", "RAG Systems", "OCR", "Flask", "Python", "Progressive Web Apps"]
     }
     </script>
+
+    <!-- Product schema: The Channel of Power -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Book",
+        "name": "The Channel of Power",
+        "bookFormat": "EBook",
+        "author": {"@type": "Person", "name": "Kanchan Ghosh"},
+        "genre": "Dark Fantasy",
+        "numberOfPages": 120,
+        "inLanguage": "en",
+        "description": "A dark fantasy novella about colonisation told through magic. Refugees arrive on new shores, clash with indigenous people who wield power they do not have, and a ten-year-old half-blood boy must choose between two worlds.",
+        "isPartOf": {"@type": "BookSeries", "name": "The Branchlore Universe"},
+        "offers": [
+            {"@type": "Offer", "priceCurrency": "GBP", "price": "0.99", "availability": "https://schema.org/InStock", "url": "https://www.amazon.co.uk/dp/B0HDK8WLRJ"},
+            {"@type": "Offer", "priceCurrency": "GBP", "price": "4.09", "availability": "https://schema.org/InStock", "url": "https://www.amazon.co.uk/dp/B0HDK8WLRJ"}
+        ]
+    }
+    </script>
+
+    <!-- Product schema: PWA Converter -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "PWA Converter",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Any (Python 3)",
+        "description": "Turn any website into a Progressive Web App. Generate Android APK, AAB, iOS IPA using Microsoft PWA Builder. AI auto-detects app name and brand colors. Works with Gemini, OpenAI, or Claude.",
+        "author": {"@type": "Person", "name": "Kanchan Ghosh"},
+        "offers": {"@type": "Offer", "priceCurrency": "GBP", "price": "20.00", "url": "https://kanchanwaves3.gumroad.com/l/aorere"}
+    }
+    </script>
+
+    <!-- Product schema: RAG Starter Kit -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "RAG Research Assistant Starter Kit",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Any (Python 3, Docker)",
+        "description": "Production-ready RAG pipeline. Drop documents in a folder, run two commands, get a semantic search web app with AI-generated answers and source citations. Flask, Gemini, Docker.",
+        "author": {"@type": "Person", "name": "Kanchan Ghosh"},
+        "offers": {"@type": "Offer", "priceCurrency": "GBP", "price": "25.00", "url": "https://kanchanwaves3.gumroad.com/l/mebwuj"}
+    }
+    </script>
+
+    <!-- Product schema: ResumeReferee -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "ResumeReferee: AI CV Screening and Candidate Calling",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Any (Python 3)",
+        "description": "Upload CVs in bulk, AI scores and ranks candidates against your job description, then auto-calls shortlisted candidates via ElevenLabs voice agent. Dashboard tracks responses.",
+        "author": {"@type": "Person", "name": "Kanchan Ghosh"},
+        "offers": {"@type": "Offer", "priceCurrency": "GBP", "price": "100.00", "url": "https://kanchanwaves3.gumroad.com/l/resumereferee"}
+    }
+    </script>
+
+    <!-- Product schema: OCR Extractor -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "OCR Data Extractor",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Any (Python 3)",
+        "description": "Upload any image or PDF and AI extracts structured JSON data. Supports invoices, receipts, business cards, forms, and tables. Save to SQLite, view history, export CSV. Works with Gemini, OpenAI, or Claude.",
+        "author": {"@type": "Person", "name": "Kanchan Ghosh"}
+    }
+    </script>
+
+    <!-- FAQ schema for AEO -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -32,15 +118,39 @@
                 "name": "What is The Channel of Power about?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "A dark fantasy novella about colonisation told through magic. Refugees arrive on new shores, clash with indigenous people who have power they don't, and a ten-year-old half-blood boy must choose between two worlds. Three parts, one story."
+                    "text": "A dark fantasy novella about colonisation told through magic. Refugees arrive on new shores and clash with indigenous people who wield power they do not have. A ten-year-old half-blood boy, son of a murdered leader, must choose between two worlds while an ancient evil consumes both sides. Three parts, 25,000 words."
                 }
             },
             {
                 "@type": "Question",
-                "name": "What AI developer tools does Kanchan Ghosh sell?",
+                "name": "How do I turn my website into an Android app without app development?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Production-ready code kits for developers: a RAG Research Assistant (Gemini + Flask + Docker) and an AI Voice Check-In System (ElevenLabs + Gemini + Flask). All MIT-licensed and ready to deploy."
+                    "text": "Use a PWA converter to generate manifest.json, a service worker, and app icons from your existing website. Upload those files to your site root, then use Microsoft PWA Builder to generate an Android APK, AAB for Google Play, iOS IPA, or Windows MSIX. No app development skills or frameworks needed."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is a RAG starter kit and who is it for?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "A RAG (Retrieval-Augmented Generation) starter kit is a pre-built codebase that lets developers create AI-powered question-answering systems over their own documents. Drop files into a folder, generate embeddings, and deploy a web app where users ask questions answered from the document content with source citations. Built for developers who want a working RAG pipeline without building from scratch."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does AI OCR data extraction work?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Upload an image or PDF of any document — invoice, receipt, business card, form, or table. AI vision reads the document and returns structured JSON data with all fields extracted. Results can be saved to a database, viewed in a history panel, and exported as CSV. Works with Google Gemini, OpenAI, or Anthropic Claude."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can AI screen CVs and call candidates automatically?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. ResumeReferee lets you upload CVs in bulk, AI scores and ranks each candidate against your job description, then auto-calls shortlisted candidates using an ElevenLabs AI voice agent. A dashboard tracks who answered, who is interested, and who declined."
                 }
             }
         ]
@@ -81,7 +191,7 @@
 
     <section id="code">
         <h2>Developer Tools</h2>
-        <p class="section-intro">Production-ready codebases. Clone, configure, deploy. MIT licence.</p>
+        <p class="section-intro">Production-ready codebases. Clone, configure, deploy. MIT licence. Every tool works with Gemini, OpenAI, or Claude — use whichever API key you already have.</p>
         <div id="code-list" class="product-grid"></div>
     </section>
 
@@ -104,23 +214,33 @@
 
 <script>
 function renderProduct(item) {
-    return `<article class="product-card">
-        <div class="product-info">
-            <span class="product-tag">${item.tag}</span>
-            <h3>${item.title}</h3>
-            ${item.series ? `<p class="product-series">${item.series}</p>` : ''}
-            <p>${item.description}</p>
-            <p class="product-meta">${item.meta}</p>
-            <a href="${item.url}" class="btn" target="_blank" rel="noopener">${item.button}</a>
-        </div>
-    </article>`;
+    var buttons = '';
+    if (item.url && item.url !== '#') {
+        buttons += '<a href="' + item.url + '" class="btn" target="_blank" rel="noopener">' + item.button + '</a>';
+    } else if (item.button) {
+        buttons += '<span class="btn btn-disabled">' + item.button + '</span>';
+    }
+    if (item.button2 && item.button2_url) {
+        buttons += ' <a href="' + item.button2_url + '" class="btn btn-secondary" target="_blank" rel="noopener">' + item.button2 + '</a>';
+    }
+
+    return '<article class="product-card">' +
+        '<div class="product-info">' +
+            '<span class="product-tag">' + item.tag + '</span>' +
+            '<h3>' + item.title + '</h3>' +
+            (item.series ? '<p class="product-series">' + item.series + '</p>' : '') +
+            '<p>' + item.description + '</p>' +
+            '<p class="product-meta">' + item.meta + '</p>' +
+            '<div class="product-buttons">' + buttons + '</div>' +
+        '</div>' +
+    '</article>';
 }
 
-async function loadSection(jsonPath, containerId, useGrid) {
+async function loadSection(jsonPath, containerId) {
     try {
-        const res = await fetch(jsonPath);
-        const items = await res.json();
-        const container = document.getElementById(containerId);
+        var res = await fetch(jsonPath);
+        var items = await res.json();
+        var container = document.getElementById(containerId);
         if (items.length === 0) {
             container.innerHTML = '<p class="muted">Coming soon.</p>';
             return;
@@ -133,21 +253,21 @@ async function loadSection(jsonPath, containerId, useGrid) {
 
 async function loadBlog() {
     try {
-        const res = await fetch('blog/posts.json');
-        const posts = await res.json();
-        const container = document.getElementById('blog-posts');
-        const latest = posts.slice(0, 3);
+        var res = await fetch('blog/posts.json');
+        var posts = await res.json();
+        var container = document.getElementById('blog-posts');
+        var latest = posts.slice(0, 3);
         if (latest.length === 0) {
             container.innerHTML = '<p class="muted">No posts yet.</p>';
             return;
         }
-        container.innerHTML = latest.map(post => `
-            <article class="blog-preview">
-                <time>${post.date}</time>
-                <h3><a href="blog/${post.slug}.html">${post.title}</a></h3>
-                <p>${post.excerpt}</p>
-            </article>
-        `).join('');
+        container.innerHTML = latest.map(function(post) {
+            return '<article class="blog-preview">' +
+                '<time>' + post.date + '</time>' +
+                '<h3><a href="blog/' + post.slug + '.html">' + post.title + '</a></h3>' +
+                '<p>' + post.excerpt + '</p>' +
+            '</article>';
+        }).join('');
     } catch (e) {
         document.getElementById('blog-posts').innerHTML = '<p class="muted">No posts yet.</p>';
     }
