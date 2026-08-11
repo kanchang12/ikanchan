@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanchan Ghosh — Author & AI Developer</title>
+    <meta name="description" content="Dark fantasy fiction on Amazon KDP and production-ready AI developer tools on Gumroad. Books, code, and a blog by Kanchan Ghosh.">
+    <meta name="keywords" content="Kanchan Ghosh, dark fantasy, The Channel of Power, Branchlore, AI developer tools, RAG, Flask, Gemini, indie author, Leeds">
+    <link rel="canonical" href="https://ikanchan.com/">
+    <meta property="og:title" content="Kanchan Ghosh — Author & AI Developer">
+    <meta property="og:description" content="Dark fantasy fiction and production-ready AI developer tools.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ikanchan.com/">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Kanchan Ghosh",
+        "url": "https://ikanchan.com",
+        "jobTitle": "Author & AI Developer",
+        "knowsAbout": ["Dark Fantasy Fiction", "AI Development", "RAG Systems", "Flask", "Python"]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is The Channel of Power about?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "A dark fantasy novella about colonisation told through magic. Refugees arrive on new shores, clash with indigenous people who have power they don't, and a ten-year-old half-blood boy must choose between two worlds. Three parts, one story."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What AI developer tools does Kanchan Ghosh sell?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Production-ready code kits for developers: a RAG Research Assistant (Gemini + Flask + Docker) and an AI Voice Check-In System (ElevenLabs + Gemini + Flask). All MIT-licensed and ready to deploy."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+    <div class="nav-inner">
+        <a href="/" class="nav-name">Kanchan Ghosh</a>
+        <div class="nav-links">
+            <a href="#books">Books</a>
+            <a href="#code">Code</a>
+            <a href="blog.html">Blog</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </div>
+</nav>
+
+<header class="hero">
+    <p class="hero-label">Author & AI Developer · Leeds, UK</p>
+    <h1>I write dark fantasy and build AI tools.</h1>
+    <p class="hero-sub">Books on Amazon KDP. Developer kits on Gumroad. Everything I ship, I built alone.</p>
+</header>
+
+<main>
+
+    <section id="books">
+        <h2>Books</h2>
+        <div id="books-list"></div>
+    </section>
+
+    <section id="code">
+        <h2>Developer Tools</h2>
+        <p class="section-intro">Production-ready codebases. Clone, configure, deploy. MIT licence.</p>
+        <div id="code-list" class="product-grid"></div>
+    </section>
+
+    <section id="blog">
+        <h2>Blog</h2>
+        <div id="blog-posts"></div>
+        <a href="blog.html" class="btn btn-secondary">All posts</a>
+    </section>
+
+    <section id="contact">
+        <h2>Contact</h2>
+        <p>For freelance work, publishing enquiries, or licensing: <a href="mailto:kanchan@ikanchan.com">kanchan@ikanchan.com</a></p>
+    </section>
+
+</main>
+
+<footer>
+    <p>LOVEUAD LTD · Leeds, UK · Company No. 16838046</p>
+</footer>
+
+<script>
+function renderProduct(item) {
+    return `<article class="product-card">
+        <div class="product-info">
+            <span class="product-tag">${item.tag}</span>
+            <h3>${item.title}</h3>
+            ${item.series ? `<p class="product-series">${item.series}</p>` : ''}
+            <p>${item.description}</p>
+            <p class="product-meta">${item.meta}</p>
+            <a href="${item.url}" class="btn" target="_blank" rel="noopener">${item.button}</a>
+        </div>
+    </article>`;
+}
+
+async function loadSection(jsonPath, containerId, useGrid) {
+    try {
+        const res = await fetch(jsonPath);
+        const items = await res.json();
+        const container = document.getElementById(containerId);
+        if (items.length === 0) {
+            container.innerHTML = '<p class="muted">Coming soon.</p>';
+            return;
+        }
+        container.innerHTML = items.map(renderProduct).join('');
+    } catch (e) {
+        document.getElementById(containerId).innerHTML = '<p class="muted">Coming soon.</p>';
+    }
+}
+
+async function loadBlog() {
+    try {
+        const res = await fetch('blog/posts.json');
+        const posts = await res.json();
+        const container = document.getElementById('blog-posts');
+        const latest = posts.slice(0, 3);
+        if (latest.length === 0) {
+            container.innerHTML = '<p class="muted">No posts yet.</p>';
+            return;
+        }
+        container.innerHTML = latest.map(post => `
+            <article class="blog-preview">
+                <time>${post.date}</time>
+                <h3><a href="blog/${post.slug}.html">${post.title}</a></h3>
+                <p>${post.excerpt}</p>
+            </article>
+        `).join('');
+    } catch (e) {
+        document.getElementById('blog-posts').innerHTML = '<p class="muted">No posts yet.</p>';
+    }
+}
+
+loadSection('data/books.json', 'books-list');
+loadSection('data/code.json', 'code-list');
+loadBlog();
+</script>
+
+</body>
+</html>

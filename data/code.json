@@ -1,0 +1,18 @@
+[
+    {
+        "title": "RAG Research Assistant",
+        "tag": "Python · Flask · Gemini · Docker",
+        "description": "Drop your documents in, run two commands, get a web app where users ask questions answered from your content with source citations. Semantic search with keyword fallback. Containerised, one-command deploy.",
+        "meta": "Flask app, document processor, embedding generator, Dockerfile, frontend",
+        "url": "#",
+        "button": "Get on Gumroad"
+    },
+    {
+        "title": "AI Voice Check-In System",
+        "tag": "Python · Flask · ElevenLabs · Gemini",
+        "description": "Multi-tenant automated voice calling. Phones users via ElevenLabs AI agent, receives transcripts via webhook, analyses them with Gemini for safety alerts. Dashboard, encryption, alert management built in.",
+        "meta": "Flask app, PostgreSQL schema, ElevenLabs integration, Gemini analysis, dashboard UI",
+        "url": "#",
+        "button": "Get on Gumroad"
+    }
+]
