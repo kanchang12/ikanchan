@@ -81,98 +81,90 @@
 async function loadPosts() {
     const container = document.getElementById('blog-list');
     const rssUrl = 'https://kanchang12.substack.com/feed';
-    const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(rssUrl);
+    
+    // Primary fetch via rss2json (fastest and handles CORS cleanly)
+    const apiUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(rssUrl);
 
     try {
-        const response = await fetch(proxyUrl);
-        if (!response.ok) throw new Error('Fetch failed');
-        
-        const xmlText = await response.text();
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+
+        if (data.status === 'ok' && data.items && data.items.length > 0) {
+            container.innerHTML = data.items.map(post => {
+                const date = post.pubDate ? post.pubDate.split(' ')[0] : '';
+                
+                // Parse thumbnail image from enclosure or description
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = post.description;
+                const firstImg = tempDiv.querySelector('img')?.src;
+                const imageUrl = post.thumbnail || post.enclosure?.link || firstImg || '';
+
+                // Extract clean text snippet
+                const excerpt = (tempDiv.textContent || tempDiv.innerText || '').substring(0, 200).trim() + '...';
+
+                const imgHTML = imageUrl ? `<a href="${post.link}" target="_blank" rel="noopener"><img src="${imageUrl}" alt="${post.title}" class="blog-card-img" /></a>` : '';
+
+                return `
+                    <article class="blog-card">
+                        ${imgHTML}
+                        <div class="blog-card-content">
+                            <time style="display:block; color:#666; font-size:0.875rem; margin-bottom:0.25rem;">${date}</time>
+                            <h3 style="margin: 0 0 0.5rem 0;"><a href="${post.link}" target="_blank" rel="noopener">${post.title}</a></h3>
+                            <p style="margin: 0; color: #444;">${excerpt}</p>
+                        </div>
+                    </article>
+                `;
+            }).join('');
+            return;
+        }
+    } catch (e) {
+        console.error('Primary RSS fetch failed, trying proxy...', e);
+    }
+
+    // Fallback if rss2json fails or limits
+    try {
+        const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(rssUrl);
+        const res = await fetch(proxyUrl);
+        const xmlText = await res.text();
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
         const items = xmlDoc.querySelectorAll('item');
 
-        if (!items || items.length === 0) {
-            container.innerHTML = '<p class="muted">No articles found.</p>';
+        if (items && items.length > 0) {
+            let html = '';
+            items.forEach(item => {
+                const title = item.querySelector('title')?.textContent || 'Untitled';
+                const link = item.querySelector('link')?.textContent || 'https://kanchang12.substack.com';
+                const pubDate = item.querySelector('pubDate')?.textContent || '';
+                const rawDescription = item.querySelector('description')?.textContent || '';
+                
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = rawDescription;
+                const imageUrl = item.querySelector('enclosure')?.getAttribute('url') || tempDiv.querySelector('img')?.src || '';
+                const excerpt = (tempDiv.textContent || tempDiv.innerText || '').substring(0, 200).trim() + '...';
+
+                let date = pubDate ? new Date(pubDate).toISOString().split('T')[0] : '';
+                const imgHTML = imageUrl ? `<a href="${link}" target="_blank" rel="noopener"><img src="${imageUrl}" alt="${title}" class="blog-card-img" /></a>` : '';
+
+                html += `
+                    <article class="blog-card">
+                        ${imgHTML}
+                        <div class="blog-card-content">
+                            <time style="display:block; color:#666; font-size:0.875rem; margin-bottom:0.25rem;">${date}</time>
+                            <h3 style="margin: 0 0 0.5rem 0;"><a href="${link}" target="_blank" rel="noopener">${title}</a></h3>
+                            <p style="margin: 0; color: #444;">${excerpt}</p>
+                        </div>
+                    </article>
+                `;
+            });
+            container.innerHTML = html;
             return;
         }
-
-        let html = '';
-        items.forEach(item => {
-            const title = item.querySelector('title')?.textContent || 'Untitled';
-            const link = item.querySelector('link')?.textContent || 'https://kanchang12.substack.com';
-            const pubDate = item.querySelector('pubDate')?.textContent || '';
-            const rawDescription = item.querySelector('description')?.textContent || '';
-            
-            // Extract cover image URL from enclosure or description <img>
-            let imageUrl = item.querySelector('enclosure')?.getAttribute('url') || '';
-            
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = rawDescription;
-
-            if (!imageUrl) {
-                const imgTag = tempDiv.querySelector('img');
-                if (imgTag) {
-                    imageUrl = imgTag.getAttribute('src') || '';
-                }
-            }
-
-            // Clean text for excerpt
-            const excerpt = (tempDiv.textContent || tempDiv.innerText || '').substring(0, 200).trim() + '...';
-
-            let formattedDate = '';
-            if (pubDate) {
-                const d = new Date(pubDate);
-                formattedDate = d.toISOString().split('T')[0];
-            }
-
-            const imgHTML = imageUrl ? `<a href="${link}" target="_blank" rel="noopener"><img src="${imageUrl}" alt="${title}" class="blog-card-img" /></a>` : '';
-
-            html += `
-                <article class="blog-card">
-                    ${imgHTML}
-                    <div class="blog-card-content">
-                        <time style="display:block; color:#666; font-size:0.875rem; margin-bottom:0.25rem;">${formattedDate}</time>
-                        <h3 style="margin: 0 0 0.5rem 0;"><a href="${link}" target="_blank" rel="noopener">${title}</a></h3>
-                        <p style="margin: 0; color: #444;">${excerpt}</p>
-                    </div>
-                </article>
-            `;
-        });
-
-        container.innerHTML = html;
-
-    } catch (e) {
-        // Fallback using rss2json if primary proxy fails
-        try {
-            const altRes = await fetch('https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(rssUrl));
-            const altData = await altRes.json();
-            if (altData.status === 'ok' && altData.items.length > 0) {
-                container.innerHTML = altData.items.map(post => {
-                    const date = post.pubDate ? post.pubDate.split(' ')[0] : '';
-                    const tempDiv = document.createElement('div');
-                    tempDiv.innerHTML = post.description;
-                    const excerpt = (tempDiv.textContent || tempDiv.innerText || '').substring(0, 200).trim() + '...';
-                    const imgUrl = post.thumbnail || post.enclosure?.link || tempDiv.querySelector('img')?.src || '';
-                    const imgHTML = imgUrl ? `<a href="${post.link}" target="_blank" rel="noopener"><img src="${imgUrl}" alt="${post.title}" class="blog-card-img" /></a>` : '';
-
-                    return `
-                        <article class="blog-card">
-                            ${imgHTML}
-                            <div class="blog-card-content">
-                                <time style="display:block; color:#666; font-size:0.875rem; margin-bottom:0.25rem;">${date}</time>
-                                <h3 style="margin: 0 0 0.5rem 0;"><a href="${post.link}" target="_blank" rel="noopener">${post.title}</a></h3>
-                                <p style="margin: 0; color: #444;">${excerpt}</p>
-                            </div>
-                        </article>
-                    `;
-                }).join('');
-                return;
-            }
-        } catch (err) {}
-
-        container.innerHTML = '<p class="muted">Read articles directly on <a href="https://kanchang12.substack.com" target="_blank">Substack</a>.</p>';
+    } catch (err) {
+        console.error('Fallback RSS fetch failed', err);
     }
+
+    container.innerHTML = '<p class="muted">Read articles directly on <a href="https://kanchang12.substack.com" target="_blank">Substack</a>.</p>';
 }
 
 loadPosts();
