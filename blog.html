@@ -53,14 +53,12 @@
 <script>
 async function loadPosts() {
     const container = document.getElementById('blog-list');
-    const rssUrl = 'https://mitgh.hashnode.dev/rss.xml';
-    
-    // CORS proxy to allow client-side XML reading directly from mitgh.hashnode.dev
+    const rssUrl = 'https://kanchang12.substack.com/feed';
     const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(rssUrl);
 
     try {
         const response = await fetch(proxyUrl);
-        if (!response.ok) throw new Error('Network response was not ok');
+        if (!response.ok) throw new Error('Fetch failed');
         
         const xmlText = await response.text();
         const parser = new DOMParser();
@@ -68,23 +66,22 @@ async function loadPosts() {
         const items = xmlDoc.querySelectorAll('item');
 
         if (!items || items.length === 0) {
-            container.innerHTML = '<p class="muted">No posts found on Hashnode.</p>';
+            container.innerHTML = '<p class="muted">No articles published yet on Substack.</p>';
             return;
         }
 
         let html = '';
         items.forEach(item => {
             const title = item.querySelector('title')?.textContent || 'Untitled';
-            const link = item.querySelector('link')?.textContent || 'https://mitgh.hashnode.dev';
+            const link = item.querySelector('link')?.textContent || 'https://kanchang12.substack.com';
             const pubDate = item.querySelector('pubDate')?.textContent || '';
             const rawDescription = item.querySelector('description')?.textContent || '';
             
-            // Strip HTML tags to make a clean excerpt
+            // Clean HTML tags from description to extract a preview snippet
             const tempDiv = document.createElement('div');
             tempDiv.innerHTML = rawDescription;
-            const excerpt = (tempDiv.textContent || tempDiv.innerText || '').substring(0, 200).trim() + '...';
+            const excerpt = (tempDiv.textContent || tempDiv.innerText || '').substring(0, 220).trim() + '...';
 
-            // Format date nicely (YYYY-MM-DD)
             let formattedDate = '';
             if (pubDate) {
                 const d = new Date(pubDate);
@@ -103,7 +100,7 @@ async function loadPosts() {
         container.innerHTML = html;
 
     } catch (e) {
-        // Fallback fetch via alternative CORS reader
+        // Fallback parser if primary proxy times out
         try {
             const altRes = await fetch('https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(rssUrl));
             const altData = await altRes.json();
@@ -112,7 +109,7 @@ async function loadPosts() {
                     const date = post.pubDate ? post.pubDate.split(' ')[0] : '';
                     const tempDiv = document.createElement('div');
                     tempDiv.innerHTML = post.description;
-                    const excerpt = (tempDiv.textContent || tempDiv.innerText || '').substring(0, 200).trim() + '...';
+                    const excerpt = (tempDiv.textContent || tempDiv.innerText || '').substring(0, 220).trim() + '...';
                     return `
                         <article class="blog-preview" style="margin-bottom: 2rem;">
                             <time style="display:block; color:#666; font-size:0.875rem; margin-bottom:0.25rem;">${date}</time>
@@ -125,12 +122,12 @@ async function loadPosts() {
             }
         } catch (err) {}
 
-        container.innerHTML = '<p class="muted">Read articles directly on <a href="https://mitgh.hashnode.dev" target="_blank">Hashnode</a>.</p>';
+        container.innerHTML = '<p class="muted">Read articles directly on <a href="https://kanchang12.substack.com" target="_blank">Substack</a>.</p>';
     }
 }
 
 loadPosts();
 </script>
-    
+
 </body>
 </html>
