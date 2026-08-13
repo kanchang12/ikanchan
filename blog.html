@@ -2,21 +2,21 @@
 <html lang="en">
 <head>
     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-M8PEHEFVDX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-M8PEHEFVDX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-  gtag('config', 'G-M8PEHEFVDX');
-</script>
+      gtag('config', 'G-M8PEHEFVDX');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog — Kanchan Ghosh</title>
-    <meta name="description" content="Writing about dark fantasy, AI development, indie publishing, and building things alone.">
+    <meta name="description" content="Writing about Android app development, AI tools, and custom software architecture.">
     <link rel="canonical" href="https://ikanchan.com/blog.html">
     <meta property="og:title" content="Blog — Kanchan Ghosh">
-    <meta property="og:description" content="Writing about dark fantasy, AI development, indie publishing, and building things alone.">
+    <meta property="og:description" content="Writing about Android app development, AI tools, and custom software architecture.">
     <meta property="og:type" content="website">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,7 +29,7 @@
     <div class="nav-inner">
         <a href="/" class="nav-name">Kanchan Ghosh</a>
         <div class="nav-links">
-            <a href="/#books">Books</a>
+            <a href="/#apps">Apps</a>
             <a href="/#code">Code</a>
             <a href="blog.html">Blog</a>
             <a href="/#contact">Contact</a>
@@ -39,7 +39,7 @@
 
 <div class="blog-post">
     <h1>Blog</h1>
-    <p class="blog-post-meta">Writing about dark fantasy, AI tools, and indie publishing.</p>
+    <p class="blog-post-meta">Writing about Android app development, AI systems, and software architecture.</p>
     <div id="blog-list"></div>
 </div>
 
@@ -49,23 +49,36 @@
 
 <script>
 async function loadPosts() {
+    const container = document.getElementById('blog-list');
+    const rssUrl = 'https://hashnode.com/@mitgh/rss.xml';
+    const apiUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(rssUrl);
+
     try {
-        const response = await fetch('blog/posts.json');
-        const posts = await response.json();
-        const container = document.getElementById('blog-list');
-        if (posts.length === 0) {
-            container.innerHTML = '<p class="muted">No posts yet.</p>';
-            return;
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+
+        if (data.status === 'ok' && data.items && data.items.length > 0) {
+            container.innerHTML = data.items.map(post => {
+                const date = post.pubDate ? post.pubDate.split(' ')[0] : '';
+                
+                // Strip HTML tags to extract a clean excerpt
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = post.description;
+                const excerpt = (tempDiv.textContent || tempDiv.innerText || '').substring(0, 200) + '...';
+
+                return `
+                    <article class="blog-preview">
+                        <time>${date}</time>
+                        <h3><a href="${post.link}" target="_blank" rel="noopener">${post.title}</a></h3>
+                        <p>${excerpt}</p>
+                    </article>
+                `;
+            }).join('');
+        } else {
+            container.innerHTML = '<p class="muted">No posts yet on Hashnode.</p>';
         }
-        container.innerHTML = posts.map(post => `
-            <article class="blog-preview">
-                <time>${post.date}</time>
-                <h3><a href="blog/${post.slug}.html">${post.title}</a></h3>
-                <p>${post.excerpt}</p>
-            </article>
-        `).join('');
     } catch (e) {
-        document.getElementById('blog-list').innerHTML = '<p class="muted">No posts yet.</p>';
+        container.innerHTML = '<p class="muted">Unable to load posts from Hashnode right now.</p>';
     }
 }
 loadPosts();
