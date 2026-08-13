@@ -54,29 +54,25 @@
 async function loadPosts() {
     const container = document.getElementById('blog-list');
     
-    // Query Hashnode by username mitgh
-    const query = `
-        query {
-            user(username: "mitgh") {
-                publications(first: 1) {
-                    edges {
-                        node {
-                            posts(first: 10) {
-                                edges {
-                                    node {
-                                        title
-                                        brief
-                                        url
-                                        publishedAt
-                                    }
-                                }
+    // Hashnode API query using your exact subdomain host
+    const query = JSON.stringify({
+        query: `
+            query {
+                publication(host: "mitgh.hashnode.dev") {
+                    posts(first: 10) {
+                        edges {
+                            node {
+                                title
+                                brief
+                                url
+                                publishedAt
                             }
                         }
                     }
                 }
             }
-        }
-    `;
+        `
+    });
 
     try {
         const response = await fetch('https://gql.hashnode.com', {
@@ -84,17 +80,14 @@ async function loadPosts() {
             headers: { 
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ query })
+            body: query
         });
         
         const resData = await response.json();
-        
-        // Extract post list from payload
-        const pubEdge = resData?.data?.user?.publications?.edges?.[0];
-        const posts = pubEdge?.node?.posts?.edges || [];
+        const posts = resData?.data?.publication?.posts?.edges || [];
 
         if (posts.length === 0) {
-            container.innerHTML = '<p class="muted">No posts published yet.</p>';
+            container.innerHTML = '<p class="muted">No posts published yet on Hashnode.</p>';
             return;
         }
 
@@ -102,16 +95,16 @@ async function loadPosts() {
             const post = item.node;
             const date = post.publishedAt ? post.publishedAt.split('T')[0] : '';
             return `
-                <article class="blog-preview" style="margin-bottom: 2rem;">
-                    <time style="display:block; color:#666; font-size:0.875rem; margin-bottom:0.25rem;">${date}</time>
-                    <h3 style="margin: 0 0 0.5rem 0;"><a href="${post.url}" target="_blank" rel="noopener">${post.title}</a></h3>
-                    <p style="margin: 0;">${post.brief}</p>
+                <article class="blog-preview">
+                    <time>${date}</time>
+                    <h3><a href="${post.url}" target="_blank" rel="noopener">${post.title}</a></h3>
+                    <p>${post.brief}</p>
                 </article>
             `;
         }).join('');
 
     } catch (e) {
-        container.innerHTML = '<p class="muted">Failed to parse feed. View directly on <a href="https://mitgh.hashnode.dev" target="_blank">Hashnode</a>.</p>';
+        container.innerHTML = '<p class="muted">Read articles directly on <a href="https://mitgh.hashnode.dev" target="_blank">Hashnode</a>.</p>';
     }
 }
 
