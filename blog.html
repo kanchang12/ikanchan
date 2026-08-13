@@ -12,16 +12,44 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog — Kanchan Ghosh | Neither Artificial Nor Intelligent</title>
-    <meta name="description" content="Writing about Android app development, AI tools, and custom software architecture.">
+    <title>Blog — Kanchan Ghosh</title>
+    <meta name="description" content="Writing by Kanchan Ghosh.">
     <link rel="canonical" href="https://ikanchan.com/blog.html">
     <meta property="og:title" content="Blog — Kanchan Ghosh">
-    <meta property="og:description" content="Writing about Android app development, AI tools, and custom software architecture.">
+    <meta property="og:description" content="Writing by Kanchan Ghosh.">
     <meta property="og:type" content="website">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <style>
+        .blog-card {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+            align-items: flex-start;
+        }
+        .blog-card-img {
+            width: 180px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 6px;
+            flex-shrink: 0;
+            background-color: #f0f0f0;
+        }
+        .blog-card-content {
+            flex: 1;
+        }
+        @media (max-width: 600px) {
+            .blog-card {
+                flex-direction: column;
+            }
+            .blog-card-img {
+                width: 100%;
+                height: 200px;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -39,9 +67,8 @@
 </nav>
 
 <div class="blog-post">
-    <h1>Neither Artificial Nor Intelligent</h1>
-    <p class="blog-post-meta">Demystifying software architecture, AI engines, and mobile engineering from the ground up.</p>
-    <div id="blog-list">
+    <h1>Blog</h1>
+    <div id="blog-list" style="margin-top: 2rem;">
         <p class="muted">Loading articles...</p>
     </div>
 </div>
@@ -66,7 +93,7 @@ async function loadPosts() {
         const items = xmlDoc.querySelectorAll('item');
 
         if (!items || items.length === 0) {
-            container.innerHTML = '<p class="muted">No articles published yet on Substack.</p>';
+            container.innerHTML = '<p class="muted">No articles found.</p>';
             return;
         }
 
@@ -77,10 +104,21 @@ async function loadPosts() {
             const pubDate = item.querySelector('pubDate')?.textContent || '';
             const rawDescription = item.querySelector('description')?.textContent || '';
             
-            // Clean HTML tags from description to extract a preview snippet
+            // Extract cover image URL from enclosure or description <img>
+            let imageUrl = item.querySelector('enclosure')?.getAttribute('url') || '';
+            
             const tempDiv = document.createElement('div');
             tempDiv.innerHTML = rawDescription;
-            const excerpt = (tempDiv.textContent || tempDiv.innerText || '').substring(0, 220).trim() + '...';
+
+            if (!imageUrl) {
+                const imgTag = tempDiv.querySelector('img');
+                if (imgTag) {
+                    imageUrl = imgTag.getAttribute('src') || '';
+                }
+            }
+
+            // Clean text for excerpt
+            const excerpt = (tempDiv.textContent || tempDiv.innerText || '').substring(0, 200).trim() + '...';
 
             let formattedDate = '';
             if (pubDate) {
@@ -88,11 +126,16 @@ async function loadPosts() {
                 formattedDate = d.toISOString().split('T')[0];
             }
 
+            const imgHTML = imageUrl ? `<a href="${link}" target="_blank" rel="noopener"><img src="${imageUrl}" alt="${title}" class="blog-card-img" /></a>` : '';
+
             html += `
-                <article class="blog-preview" style="margin-bottom: 2rem;">
-                    <time style="display:block; color:#666; font-size:0.875rem; margin-bottom:0.25rem;">${formattedDate}</time>
-                    <h3 style="margin: 0 0 0.5rem 0;"><a href="${link}" target="_blank" rel="noopener">${title}</a></h3>
-                    <p style="margin: 0;">${excerpt}</p>
+                <article class="blog-card">
+                    ${imgHTML}
+                    <div class="blog-card-content">
+                        <time style="display:block; color:#666; font-size:0.875rem; margin-bottom:0.25rem;">${formattedDate}</time>
+                        <h3 style="margin: 0 0 0.5rem 0;"><a href="${link}" target="_blank" rel="noopener">${title}</a></h3>
+                        <p style="margin: 0; color: #444;">${excerpt}</p>
+                    </div>
                 </article>
             `;
         });
@@ -100,7 +143,7 @@ async function loadPosts() {
         container.innerHTML = html;
 
     } catch (e) {
-        // Fallback parser if primary proxy times out
+        // Fallback using rss2json if primary proxy fails
         try {
             const altRes = await fetch('https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(rssUrl));
             const altData = await altRes.json();
@@ -109,12 +152,18 @@ async function loadPosts() {
                     const date = post.pubDate ? post.pubDate.split(' ')[0] : '';
                     const tempDiv = document.createElement('div');
                     tempDiv.innerHTML = post.description;
-                    const excerpt = (tempDiv.textContent || tempDiv.innerText || '').substring(0, 220).trim() + '...';
+                    const excerpt = (tempDiv.textContent || tempDiv.innerText || '').substring(0, 200).trim() + '...';
+                    const imgUrl = post.thumbnail || post.enclosure?.link || tempDiv.querySelector('img')?.src || '';
+                    const imgHTML = imgUrl ? `<a href="${post.link}" target="_blank" rel="noopener"><img src="${imgUrl}" alt="${post.title}" class="blog-card-img" /></a>` : '';
+
                     return `
-                        <article class="blog-preview" style="margin-bottom: 2rem;">
-                            <time style="display:block; color:#666; font-size:0.875rem; margin-bottom:0.25rem;">${date}</time>
-                            <h3 style="margin: 0 0 0.5rem 0;"><a href="${post.link}" target="_blank" rel="noopener">${post.title}</a></h3>
-                            <p style="margin: 0;">${excerpt}</p>
+                        <article class="blog-card">
+                            ${imgHTML}
+                            <div class="blog-card-content">
+                                <time style="display:block; color:#666; font-size:0.875rem; margin-bottom:0.25rem;">${date}</time>
+                                <h3 style="margin: 0 0 0.5rem 0;"><a href="${post.link}" target="_blank" rel="noopener">${post.title}</a></h3>
+                                <p style="margin: 0; color: #444;">${excerpt}</p>
+                            </div>
                         </article>
                     `;
                 }).join('');
