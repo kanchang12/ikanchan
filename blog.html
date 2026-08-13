@@ -1,88 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-M8PEHEFVDX"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-M8PEHEFVDX');
-    </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog — Kanchan Ghosh</title>
-    <meta name="description" content="Writing about Android app development, AI tools, and custom software architecture.">
-    <link rel="canonical" href="https://ikanchan.com/blog.html">
-    <meta property="og:title" content="Blog — Kanchan Ghosh">
-    <meta property="og:description" content="Writing about Android app development, AI tools, and custom software architecture.">
-    <meta property="og:type" content="website">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-<nav>
-    <div class="nav-inner">
-        <a href="/" class="nav-name">Kanchan Ghosh</a>
-        <div class="nav-links">
-            <a href="/#apps">Apps</a>
-            <a href="/#code">Code</a>
-            <a href="blog.html">Blog</a>
-            <a href="/#contact">Contact</a>
-        </div>
-    </div>
-</nav>
-
-<div class="blog-post">
-    <h1>Blog</h1>
-    <p class="blog-post-meta">Writing about Android app development, AI systems, and software architecture.</p>
-    <div id="blog-list"></div>
-</div>
-
-<footer>
-    <p>LOVEUAD LTD · Leeds, UK · Company No. 16838046</p>
-</footer>
-
 <script>
 async function loadPosts() {
     const container = document.getElementById('blog-list');
-    const rssUrl = 'https://hashnode.com/@mitgh/rss.xml';
-    const apiUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(rssUrl);
+    
+    // Updated query pointing directly to host "mitgh.hashnode.dev"
+    const query = `
+        query {
+            publication(host: "mitgh.hashnode.dev") {
+                posts(first: 10) {
+                    edges {
+                        node {
+                            title
+                            brief
+                            url
+                            publishedAt
+                        }
+                    }
+                }
+            }
+        }
+    `;
 
     try {
-        const response = await fetch(apiUrl);
-        const data = await response.json();
+        const response = await fetch('https://gql.hashnode.com', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ query })
+        });
+        
+        const resData = await response.json();
+        const posts = resData?.data?.publication?.posts?.edges || [];
 
-        if (data.status === 'ok' && data.items && data.items.length > 0) {
-            container.innerHTML = data.items.map(post => {
-                const date = post.pubDate ? post.pubDate.split(' ')[0] : '';
-                
-                // Strip HTML tags to extract a clean excerpt
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = post.description;
-                const excerpt = (tempDiv.textContent || tempDiv.innerText || '').substring(0, 200) + '...';
-
-                return `
-                    <article class="blog-preview">
-                        <time>${date}</time>
-                        <h3><a href="${post.link}" target="_blank" rel="noopener">${post.title}</a></h3>
-                        <p>${excerpt}</p>
-                    </article>
-                `;
-            }).join('');
-        } else {
-            container.innerHTML = '<p class="muted">No posts yet on Hashnode.</p>';
+        if (posts.length === 0) {
+            container.innerHTML = '<p class="muted">No posts found on Hashnode.</p>';
+            return;
         }
+
+        container.innerHTML = posts.map(item => {
+            const post = item.node;
+            const date = post.publishedAt ? post.publishedAt.split('T')[0] : '';
+            return `
+                <article class="blog-preview">
+                    <time>${date}</time>
+                    <h3><a href="${post.url}" target="_blank" rel="noopener">${post.title}</a></h3>
+                    <p>${post.brief}</p>
+                </article>
+            `;
+        }).join('');
+
     } catch (e) {
-        container.innerHTML = '<p class="muted">Unable to load posts from Hashnode right now.</p>';
+        container.innerHTML = '<p class="muted">Read articles directly on <a href="https://mitgh.hashnode.dev" target="_blank">Hashnode</a>.</p>';
     }
 }
+
 loadPosts();
 </script>
-
-</body>
-</html>
