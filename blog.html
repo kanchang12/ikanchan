@@ -53,57 +53,78 @@
 <script>
 async function loadPosts() {
     const container = document.getElementById('blog-list');
+    const rssUrl = 'https://mitgh.hashnode.dev/rss.xml';
     
-    // Hashnode API query using your exact subdomain host
-    const query = JSON.stringify({
-        query: `
-            query {
-                publication(host: "mitgh.hashnode.dev") {
-                    posts(first: 10) {
-                        edges {
-                            node {
-                                title
-                                brief
-                                url
-                                publishedAt
-                            }
-                        }
-                    }
-                }
-            }
-        `
-    });
+    // CORS proxy to allow client-side XML reading directly from mitgh.hashnode.dev
+    const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(rssUrl);
 
     try {
-        const response = await fetch('https://gql.hashnode.com', {
-            method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json'
-            },
-            body: query
-        });
+        const response = await fetch(proxyUrl);
+        if (!response.ok) throw new Error('Network response was not ok');
         
-        const resData = await response.json();
-        const posts = resData?.data?.publication?.posts?.edges || [];
+        const xmlText = await response.text();
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+        const items = xmlDoc.querySelectorAll('item');
 
-        if (posts.length === 0) {
-            container.innerHTML = '<p class="muted">No posts published yet on Hashnode.</p>';
+        if (!items || items.length === 0) {
+            container.innerHTML = '<p class="muted">No posts found on Hashnode.</p>';
             return;
         }
 
-        container.innerHTML = posts.map(item => {
-            const post = item.node;
-            const date = post.publishedAt ? post.publishedAt.split('T')[0] : '';
-            return `
-                <article class="blog-preview">
-                    <time>${date}</time>
-                    <h3><a href="${post.url}" target="_blank" rel="noopener">${post.title}</a></h3>
-                    <p>${post.brief}</p>
+        let html = '';
+        items.forEach(item => {
+            const title = item.querySelector('title')?.textContent || 'Untitled';
+            const link = item.querySelector('link')?.textContent || 'https://mitgh.hashnode.dev';
+            const pubDate = item.querySelector('pubDate')?.textContent || '';
+            const rawDescription = item.querySelector('description')?.textContent || '';
+            
+            // Strip HTML tags to make a clean excerpt
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = rawDescription;
+            const excerpt = (tempDiv.textContent || tempDiv.innerText || '').substring(0, 200).trim() + '...';
+
+            // Format date nicely (YYYY-MM-DD)
+            let formattedDate = '';
+            if (pubDate) {
+                const d = new Date(pubDate);
+                formattedDate = d.toISOString().split('T')[0];
+            }
+
+            html += `
+                <article class="blog-preview" style="margin-bottom: 2rem;">
+                    <time style="display:block; color:#666; font-size:0.875rem; margin-bottom:0.25rem;">${formattedDate}</time>
+                    <h3 style="margin: 0 0 0.5rem 0;"><a href="${link}" target="_blank" rel="noopener">${title}</a></h3>
+                    <p style="margin: 0;">${excerpt}</p>
                 </article>
             `;
-        }).join('');
+        });
+
+        container.innerHTML = html;
 
     } catch (e) {
+        // Fallback fetch via alternative CORS reader
+        try {
+            const altRes = await fetch('https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(rssUrl));
+            const altData = await altRes.json();
+            if (altData.status === 'ok' && altData.items.length > 0) {
+                container.innerHTML = altData.items.map(post => {
+                    const date = post.pubDate ? post.pubDate.split(' ')[0] : '';
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = post.description;
+                    const excerpt = (tempDiv.textContent || tempDiv.innerText || '').substring(0, 200).trim() + '...';
+                    return `
+                        <article class="blog-preview" style="margin-bottom: 2rem;">
+                            <time style="display:block; color:#666; font-size:0.875rem; margin-bottom:0.25rem;">${date}</time>
+                            <h3 style="margin: 0 0 0.5rem 0;"><a href="${post.link}" target="_blank" rel="noopener">${post.title}</a></h3>
+                            <p style="margin: 0;">${excerpt}</p>
+                        </article>
+                    `;
+                }).join('');
+                return;
+            }
+        } catch (err) {}
+
         container.innerHTML = '<p class="muted">Read articles directly on <a href="https://mitgh.hashnode.dev" target="_blank">Hashnode</a>.</p>';
     }
 }
