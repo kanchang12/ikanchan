@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin — Blog</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f9fa;
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+        nav {
+            background: white;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav a {
+            color: inherit;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        nav .nav-name {
+            font-weight: 600;
+        }
+        nav .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        .logout-btn {
+            background: #dc3545;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+        .logout-btn:hover {
+            opacity: 0.8;
+        }
+        header {
+            padding: 30px 0 20px;
+        }
+        header h1 {
+            font-size: 28px;
+        }
+        header p {
+            color: #666;
+        }
+        .admin-section {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .admin-section h2 {
+            font-size: 18px;
+            margin-bottom: 16px;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 200px;
+            font-family: 'Monaco', 'Courier New', monospace;
+        }
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #1a1a1a;
+        }
+        .btn {
+            padding: 10px 24px;
+            background: #1a1a1a;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .btn:hover {
+            opacity: 0.8;
+        }
+        .btn-secondary {
+            background: #6c757d;
+        }
+        .btn-danger {
+            background: #dc3545;
+        }
+        .btn-success {
+            background: #28a745;
+        }
+        .chapter-list {
+            list-style: none;
+        }
+        .chapter-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .chapter-item:last-child {
+            border-bottom: none;
+        }
+        .chapter-info {
+            flex: 1;
+        }
+        .chapter-title {
+            font-weight: 500;
+        }
+        .chapter-meta {
+            font-size: 13px;
+            color: #666;
+        }
+        .chapter-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .chapter-actions .btn {
+            padding: 4px 12px;
+            font-size: 12px;
+        }
+        .status-msg {
+            padding: 12px 16px;
+            border-radius: 4px;
+            margin-bottom: 16px;
+            display: none;
+        }
+        .status-msg.success {
+            display: block;
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status-msg.error {
+            display: block;
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="container">
+        <a href="/" class="nav-name">✎ Blog Admin</a>
+        <div class="nav-links">
+            <a href="/">View Blog</a>
+            <a href="/api/analytics">Analytics</a>
+            <a href="/logout" class="logout-btn">Logout</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <header>
+        <h1>Admin Panel</h1>
+        <p>Create and manage blog chapters.</p>
+    </header>
+
+    <div id="status" class="status-msg"></div>
+
+    <div class="admin-section">
+        <h2>📝 Write New Chapter</h2>
+        <form id="newChapterForm">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" id="title" placeholder="Chapter title" required>
+            </div>
+            <div class="form-group">
+                <label for="excerpt">Excerpt</label>
+                <input type="text" id="excerpt" placeholder="Short description (displayed on blog list)">
+            </div>
+            <div class="form-group">
+                <label for="content">Content (Markdown)</label>
+                <textarea id="content" placeholder="Write your chapter in Markdown..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-success">Publish Chapter</button>
+        </form>
+    </div>
+
+    <div class="admin-section">
+        <h2>📚 Existing Chapters</h2>
+        {% if chapters %}
+        <ul class="chapter-list">
+            {% for chapter in chapters %}
+            <li class="chapter-item">
+                <div class="chapter-info">
+                    <div class="chapter-title">{{ chapter.title }}</div>
+                    <div class="chapter-meta">{{ chapter.date }} · {{ chapter.reads }} reads · {{ chapter.slug }}</div>
+                </div>
+                <div class="chapter-actions">
+                    <a href="/chapter/{{ chapter.slug }}" class="btn btn-secondary" target="_blank">View</a>
+                    <button onclick="deleteChapter('{{ chapter.slug }}')" class="btn btn-danger">Delete</button>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p style="color: #666;">No chapters published yet.</p>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+const form = document.getElementById('newChapterForm');
+const status = document.getElementById('status');
+
+function showStatus(message, type) {
+    status.textContent = message;
+    status.className = 'status-msg ' + type;
+    setTimeout(() => {
+        status.className = 'status-msg';
+    }, 5000);
+}
+
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const title = document.getElementById('title').value.trim();
+    const excerpt = document.getElementById('excerpt').value.trim();
+    const content = document.getElementById('content').value.trim();
+    
+    if (!title || !content) {
+        showStatus('Please fill in title and content.', 'error');
+        return;
+    }
+    
+    try {
+        const response = await fetch('/api/upload-chapter', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ title, excerpt, content })
+        });
+        
+        const data = await response.json();
+        
+        if (data.status === 'ok') {
+            showStatus(`✅ "${title}" published successfully!`, 'success');
+            form.reset();
+            // Reload page to show new chapter in list
+            setTimeout(() => window.location.reload(), 1500);
+        } else {
+            showStatus('❌ Failed to publish: ' + (data.message || 'Unknown error'), 'error');
+        }
+    } catch (err) {
+        showStatus('❌ Error: ' + err.message, 'error');
+    }
+});
+
+async function deleteChapter(slug) {
+    if (!confirm(`Delete "${slug}"? This cannot be undone.`)) return;
+    
+    try {
+        const response = await fetch(`/admin/delete/${slug}`, {
+            method: 'POST'
+        });
+        
+        const data = await response.json();
+        
+        if (data.status === 'ok') {
+            showStatus('✅ Chapter deleted.', 'success');
+            setTimeout(() => window.location.reload(), 1000);
+        } else {
+            showStatus('❌ Failed to delete: ' + (data.message || 'Unknown error'), 'error');
+        }
+    } catch (err) {
+        showStatus('❌ Error: ' + err.message, 'error');
+    }
+}
+</script>
+
+</body>
+</html>
