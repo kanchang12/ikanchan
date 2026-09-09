@@ -4,6 +4,9 @@ Simple blog system: add chapters, track reads
 No payments. Just content + analytics.
 """
 
+from dotenv import load_dotenv
+load_dotenv()
+
 from flask import Flask, render_template, request, jsonify, send_from_directory, session, redirect, url_for
 from datetime import datetime
 import json
@@ -12,9 +15,17 @@ import markdown
 from pathlib import Path
 from functools import wraps
 import secrets
+import logging
+
+# Setup logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', secrets.token_hex(32))
+
+# Determine if running in production
+IS_PRODUCTION = os.environ.get('ENVIRONMENT', 'development') == 'production'
 
 # Setup directories
 CHAPTERS_DIR = Path('chapters')
@@ -27,7 +38,7 @@ READS_FILE = DATA_DIR / 'reads.json'
 
 # Admin credentials - read from environment variables
 ADMIN_USERNAME = os.environ.get('ADMIN_USERNAME', 'admin')
-ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'changeme123')  # Plain text password
+ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'changeme123')
 
 def load_reads():
     """Load read count data"""
@@ -148,7 +159,6 @@ def login():
         username = request.form.get('username', '')
         password = request.form.get('password', '')
         
-        # Direct comparison with plain text password
         if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
             session['logged_in'] = True
             return redirect(url_for('admin_panel'))
@@ -170,7 +180,7 @@ def admin_panel():
     chapters = get_chapter_metadata_only()
     return render_template('admin.html', chapters=chapters)
 
-@app.route('/admin/delete/<slug>',  methods=["POST", "GET"])
+@app.route('/admin/delete/<slug>', methods=["POST", "GET"])
 @login_required
 def delete_chapter(slug):
     """Delete a chapter"""
@@ -197,7 +207,7 @@ def api_chapters():
         'reads': c['reads']
     } for c in chapters])
 
-@app.route('/api/upload-chapter',  methods=["POST", "GET"])
+@app.route('/api/upload-chapter', methods=["POST", "GET"])
 @login_required
 def upload_chapter():
     """Save new chapter"""
@@ -251,5 +261,16 @@ def analytics():
         } for c in chapters], key=lambda x: x['reads'], reverse=True)
     })
 
+# Health check for monitoring
+@app.route('/health')
+def health():
+    return jsonify({'status': 'healthy', 'environment': os.environ.get('ENVIRONMENT', 'development')})
+
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    if IS_PRODUCTION:
+        logger.info("Running in production mode with Gunicorn")
+        # Don't run the dev server in production
+        pass
+    else:
+        logger.info("Running in development mode with Flask dev server")
+        app.run(debug=True, host='0.0.0.0', port=5000)
