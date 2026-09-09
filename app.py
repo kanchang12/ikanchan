@@ -11,8 +11,6 @@ import os
 import markdown
 from pathlib import Path
 from functools import wraps
-import hashlib
-import hmac
 import secrets
 
 app = Flask(__name__)
@@ -27,9 +25,9 @@ DATA_DIR.mkdir(exist_ok=True)
 # Read tracking file
 READS_FILE = DATA_DIR / 'reads.json'
 
-# Admin credentials - set these via environment variables in production
+# Admin credentials - read from environment variables
 ADMIN_USERNAME = os.environ.get('ADMIN_USERNAME', 'admin')
-ADMIN_PASSWORD_HASH = os.environ.get('ADMIN_PASSWORD_HASH', hashlib.sha256('changeme123'.encode()).hexdigest())
+ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'changeme123')  # Plain text password
 
 def load_reads():
     """Load read count data"""
@@ -150,10 +148,8 @@ def login():
         username = request.form.get('username', '')
         password = request.form.get('password', '')
         
-        # Hash the entered password
-        password_hash = hashlib.sha256(password.encode()).hexdigest()
-        
-        if username == ADMIN_USERNAME and password_hash == ADMIN_PASSWORD_HASH:
+        # Direct comparison with plain text password
+        if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
             session['logged_in'] = True
             return redirect(url_for('admin_panel'))
         else:
@@ -174,15 +170,13 @@ def admin_panel():
     chapters = get_chapter_metadata_only()
     return render_template('admin.html', chapters=chapters)
 
-@app.route('/admin/delete/<slug>', methods=['POST'])
+@app.route('/admin/delete/<slug>',  methods=["POST", "GET"])
 @login_required
 def delete_chapter(slug):
     """Delete a chapter"""
-    # Find and delete the file
     for md_file in CHAPTERS_DIR.glob('*.md'):
         if md_file.stem == slug:
             md_file.unlink()
-            # Remove read count
             reads = load_reads()
             if slug in reads:
                 del reads[slug]
@@ -203,7 +197,7 @@ def api_chapters():
         'reads': c['reads']
     } for c in chapters])
 
-@app.route('/api/upload-chapter', methods=['POST'])
+@app.route('/api/upload-chapter',  methods=["POST", "GET"])
 @login_required
 def upload_chapter():
     """Save new chapter"""
