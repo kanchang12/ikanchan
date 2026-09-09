@@ -129,8 +129,12 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-# Routes
 @app.route('/')
+def index():
+    return render_template('index.html')
+
+# Routes
+@app.route('/blog')
 def blog_home():
     """Main blog page - list all chapters"""
     chapters = get_all_chapters()
