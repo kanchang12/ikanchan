@@ -135,6 +135,7 @@ def index():
 
 # Routes
 @app.route('/blog')
+@app.route('/blog_home.html')
 def blog_home():
     """Main blog page - list all chapters"""
     chapters = get_all_chapters()
