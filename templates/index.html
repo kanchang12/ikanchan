@@ -1,465 +1,358 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-M8PEHEFVDX"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Play &amp; Care — Kanchan Ghosh</title>
+<meta name="description" content="I design and build accessible health tools and story-rich games.">
+<link rel="canonical" href="https://ikanchan.com/">
 
-      gtag('config', 'G-M8PEHEFVDX');
-    </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kanchan Ghosh — Custom Android App Development & AI Systems Engineering</title>
-    <meta name="description" content="Custom Android app development and AI engineering services by Kanchan Ghosh. Mobile architectures, pitch-detection algorithms, encrypted family platforms, and AI dev tools.">
-    <meta name="keywords" content="Kanchan Ghosh, Android App Developer, Custom App Engineering, Teenect, LoveUAD, The Raga Guru, Branchlore, If Only, SOFIA, KATHA, PWA converter, RAG starter kit, OCR extractor, AI developer tools, Flask, Gemini, Python, Leeds UK">
-    <link rel="canonical" href="https://ikanchan.com/">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-M8PEHEFVDX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-M8PEHEFVDX');
+</script>
 
-    <!-- Open Graph / Social -->
-    <meta property="og:title" content="Kanchan Ghosh — Custom Android App & AI Systems Engineer">
-    <meta property="og:description" content="B2B custom Android app engineering, audio/DSP engines, encrypted platforms, and production-grade AI tools.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://ikanchan.com/">
-    <meta property="og:site_name" content="Kanchan Ghosh">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Kanchan Ghosh — App Engineering & AI Tools">
-    <meta name="twitter:description" content="Custom Android software development, specialized mobile platforms, and AI starter kits.">
+<style>
+  :root{
+    --bg:#08090d;
+    --bg-2:#0e1016;
+    --line:#22252e;
+    --ink:#f3ede2;
+    --muted:#9a9ca6;
+    --teal:#3fe0c5;
+    --gold:#f2c063;
+    --red:#ff4a3d;
+    --serif:"Instrument Serif", Georgia, serif;
+    --sans:"Hanken Grotesk", system-ui, sans-serif;
+    --mono:"JetBrains Mono", ui-monospace, monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .wrap{max-width:1780px;margin:0 auto;padding:0 60px}
+  .eyebrow{font-family:var(--mono);font-size:13px;letter-spacing:.28em;text-transform:uppercase}
+  .serif{font-family:var(--serif);font-weight:400;letter-spacing:-.01em;line-height:1.02}
 
-    <!-- Schema Markup: Person & SameAs Authorities -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Kanchan Ghosh",
-        "url": "https://ikanchan.com",
-        "jobTitle": "Custom Android App Developer & AI Systems Engineer",
-        "worksFor": {"@type": "Organization", "name": "LOVEUAD LTD"},
-        "address": {"@type": "PostalAddress", "addressLocality": "Leeds", "addressCountry": "GB"},
-        "sameAs": [
-            "https://teenect.online/",
-            "https://loveuad.com/",
-            "https://ragaguru.online/",
-            "http://branchlore.online/",
-            "https://hashnode.com/@mitgh"
-        ],
-        "knowsAbout": [
-            "Custom Android App Development",
-            "Mobile Application Architecture",
-            "Real-time Digital Signal Processing (DSP)",
-            "Encrypted Family Communication Systems",
-            "RAG Pipelines & Vector Search",
-            "Python & Flask Backends",
-            "Gemini & AI Vision Integration"
-        ]
-    }
-    </script>
+  /* NAV */
+  nav{position:absolute;top:0;left:0;right:0;z-index:10}
+  nav .wrap{display:flex;justify-content:space-between;align-items:center;height:116px}
+  .logo{font-family:var(--serif);font-size:34px}
+  .logo i{color:var(--teal)}
+  nav ul{list-style:none;display:flex;gap:38px}
+  nav ul a{font-family:var(--mono);font-size:14px;letter-spacing:.3em;color:#c9c7c2;transition:color .2s}
+  nav ul a:hover{color:var(--ink)}
 
-    <!-- Schema Markup: Portfolio Projects -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@graph": [
-            {
-                "@type": "SoftwareApplication",
-                "name": "Teenect",
-                "applicationCategory": "MobileApplication",
-                "operatingSystem": "Android, Web",
-                "url": "https://teenect.online/",
-                "sameAs": "https://play.google.com/store/apps/details?id=com.teenect.app",
-                "description": "Responsive ecosystem and Android application built to map, organize, and support daily family routines effortlessly."
-            },
-            {
-                "@type": "SoftwareApplication",
-                "name": "LoveUAD",
-                "applicationCategory": "SecurityApplication",
-                "operatingSystem": "Android, iOS, Cloud",
-                "url": "https://loveuad.com/",
-                "sameAs": "https://apps.apple.com/gb/app/loveuad-love-you-always-dad/id6756029099",
-                "description": "Secure notification and routing platform designed for zero-trust family updates and data protection."
-            },
-            {
-                "@type": "SoftwareApplication",
-                "name": "The Raga Guru",
-                "applicationCategory": "MultimediaApplication",
-                "operatingSystem": "Android, Web",
-                "url": "https://ragaguru.online/",
-                "sameAs": "https://play.google.com/store/apps/details?id=com.loveuad.raga_guru",
-                "description": "Real-time algorithmic pitch tracking and phrase drilling engine for Indian classical music education."
-            },
-            {
-                "@type": "CreativeWork",
-                "name": "Branchlore Universe",
-                "url": "http://branchlore.online/",
-                "description": "Original fantasy web fiction series, lore, and narrative universe by Kanchan Ghosh."
-            },
-            {
-                "@type": "SoftwareApplication",
-                "name": "Chess Coach by Teachify",
-                "applicationCategory": "GameApplication",
-                "operatingSystem": "Web",
-                "url": "https://teachify.fit/",
-                "description": "AI chess tutor for children aged 6–14. Every move scored and explained before play. Weak moves blocked, alternatives shown, quiz-gated learning."
-            },
-            {
-                "@type": "SoftwareApplication",
-                "name": "If Only",
-                "applicationCategory": "LifestyleApplication",
-                "operatingSystem": "Android",
-                "sameAs": "https://play.google.com/store/apps/details?id=com.ifonly.if_only",
-                "description": "AI writing tool that turns spoken reflections into short creative pieces."
-            },
-            {
-                "@type": "SoftwareApplication",
-                "name": "SOFIA",
-                "applicationCategory": "MobileApplication",
-                "operatingSystem": "Android",
-                "sameAs": "https://play.google.com/store/apps/details?id=com.ikanchan.sofia2",
-                "description": "Android mobile application by Kanchan Ghosh."
-            },
-            {
-                "@type": "SoftwareApplication",
-                "name": "KATHA",
-                "applicationCategory": "MobileApplication",
-                "operatingSystem": "Android",
-                "sameAs": "https://play.google.com/store/apps/details?id=com.loveuad.katha",
-                "offers": {
-                    "@type": "Offer",
-                    "price": "3.59",
-                    "priceCurrency": "GBP"
-                }
-            }
-        ]
-    }
-    </script>
+  /* HERO */
+  .hero{position:relative;min-height:92vh;display:flex;align-items:center;padding:160px 0 100px;overflow:hidden;
+    background:
+      radial-gradient(900px 600px at 0% 20%, rgba(63,224,197,.10), transparent 60%),
+      radial-gradient(900px 600px at 100% 90%, rgba(255,74,61,.08), transparent 60%),
+      var(--bg)}
+  .hero .eyebrow{color:var(--muted);margin-bottom:34px}
+  .hero h1{font-size:clamp(56px,9vw,150px)}
+  .hero h1 em{font-style:italic}
+  .hero h1 .t{color:var(--teal)}
+  .hero h1 .g{color:var(--gold)}
+  .hero p{color:var(--muted);font-size:clamp(18px,1.7vw,28px);margin-top:48px;max-width:900px}
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  /* WORK */
+  .work{padding:40px 0 100px}
+  .card{position:relative;border:1px solid var(--line);border-radius:28px;overflow:hidden;background:var(--bg-2);display:block}
+  .card:hover .arrow{transform:translate(4px,-4px)}
+  .arrow{display:inline-block;transition:transform .2s}
+
+  .kuiper{min-height:760px;display:flex;align-items:flex-end;
+    background:
+      linear-gradient(0deg, rgba(8,9,13,.85) 0%, rgba(8,9,13,.15) 45%, rgba(8,9,13,0) 100%),
+      url("images/kuiper-war-wide.jpg") right center/cover no-repeat,
+      #070910}
+  .kuiper .inner{display:flex;justify-content:space-between;align-items:flex-end;width:100%;padding:70px 72px 80px;gap:40px;flex-wrap:wrap}
+  .kuiper .eyebrow{color:var(--red);margin-bottom:22px}
+  .kuiper h2{font-size:clamp(64px,8vw,150px)}
+  .kuiper .side{display:flex;gap:80px;align-items:flex-end;color:#c3c2bf;font-size:clamp(17px,1.4vw,24px);max-width:640px}
+  .kuiper .side .arrow{color:var(--red);font-size:28px}
+
+  .pair{display:grid;grid-template-columns:1fr 1fr;gap:36px;margin-top:36px}
+  .pair .card{min-height:820px;padding:24px 60px 0}
+  .ifonly{background:radial-gradient(700px 500px at 45% 30%, rgba(242,192,99,.22), transparent 70%), #12110e}
+  .asa{background:radial-gradient(700px 600px at 40% 40%, rgba(40,90,180,.35), transparent 70%), #0b1838}
+  .pair .eyebrow{display:block;margin-bottom:14px}
+  .ifonly .eyebrow{color:var(--gold)}
+  .asa .eyebrow{color:var(--teal)}
+  .pair h2{font-size:clamp(64px,7vw,128px)}
+  .pair p{color:#c4c3c0;font-size:clamp(17px,1.4vw,24px);margin-top:26px;max-width:520px}
+  .pair .art{position:absolute;bottom:0;left:0;right:0;height:60%;display:flex;justify-content:center;align-items:flex-end}
+  .phone{border-radius:28px;overflow:hidden;border:6px solid #1b1c22;box-shadow:0 30px 60px rgba(0,0,0,.55);background:#000}
+  .phone img{width:100%;height:auto}
+  .ifonly .art .phone{position:absolute;width:42%;max-width:300px}
+  .ifonly .art .p1{left:12%;bottom:-18%;transform:rotate(-4deg)}
+  .ifonly .art .p2{right:12%;bottom:-30%;transform:rotate(5deg)}
+  .asa .art{align-items:center}
+  .asa .art img{width:62%;max-width:420px;margin-bottom:6%;filter:drop-shadow(0 30px 60px rgba(0,0,0,.45))}
+
+  /* PROJECT DETAIL */
+  .detail{padding:110px 0;border-top:1px solid var(--line)}
+  .detail .head{display:grid;grid-template-columns:1fr 1.2fr;gap:60px;align-items:start;margin-bottom:70px}
+  .detail .eyebrow{display:block;margin-bottom:22px}
+  .detail h3{font-size:clamp(40px,4.2vw,68px)}
+  .detail .body p{color:var(--muted);font-size:clamp(16px,1.25vw,20px);line-height:1.75}
+  .detail .body p + p{margin-top:18px}
+  .detail .visit{display:inline-block;margin-top:28px;font-size:18px}
+  .shots{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;align-items:end}
+  .shots figure:nth-child(odd){transform:translateY(-24px)}
+  figcaption{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#6d707a;margin-top:16px}
+  .kw-art{display:grid;grid-template-columns:1.6fr 1fr;gap:28px;align-items:center}
+  .kw-art img{border-radius:22px;border:1px solid var(--line);width:100%}
+  .asa-feats{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .feat{border:1px solid var(--line);border-radius:20px;padding:30px;background:var(--bg-2)}
+  .feat h4{font-family:var(--serif);font-weight:400;font-size:30px;margin-bottom:10px}
+  .feat p{color:var(--muted);font-size:16px}
+
+  /* PRINCIPLES */
+  .principles{border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .principles .wrap{display:grid;grid-template-columns:1fr 1fr}
+  .principles .col{padding:20px 0 120px}
+  .principles .col + .col{border-left:1px solid var(--line);padding-left:60px}
+  .principles .eyebrow{display:block;margin-bottom:34px}
+  .principles h3{font-size:clamp(44px,4.5vw,76px);margin-bottom:34px}
+  .principles p{color:var(--muted);font-size:clamp(17px,1.4vw,24px);max-width:680px;line-height:1.75}
+  .principles .links{display:flex;gap:70px;margin-top:40px;font-size:clamp(17px,1.4vw,24px)}
+
+  /* CONTACT */
+  .contact{padding:110px 0}
+  .contact .eyebrow{color:var(--muted);display:block;margin-bottom:30px}
+  .contact h3{font-size:clamp(44px,5vw,84px);margin-bottom:40px}
+  .mails{display:flex;flex-direction:column;gap:14px}
+  .mails a{font-family:var(--serif);font-size:clamp(26px,3vw,46px);color:var(--ink);border-bottom:1px solid transparent;width:max-content;max-width:100%;overflow-wrap:anywhere;transition:color .2s,border-color .2s}
+  .mails a:hover{color:var(--teal);border-color:var(--teal)}
+
+  /* FOOTER */
+  footer{border-top:1px solid var(--line);padding:100px 0 80px}
+  footer .wrap{display:grid;grid-template-columns:1.25fr .85fr 1fr;gap:40px}
+  footer .tag{font-size:clamp(44px,4.6vw,76px)}
+  footer .tag .t{color:var(--teal);font-style:italic}
+  footer .tag .g{color:var(--gold);font-style:italic}
+  footer .eyebrow{color:var(--muted);font-size:14px;display:block;margin-bottom:30px;padding-top:16px}
+  footer ul{list-style:none;display:flex;flex-direction:column;gap:14px;font-size:22px}
+  footer ul a:hover{color:var(--teal)}
+  .copy{font-family:var(--mono);font-size:12px;letter-spacing:.2em;color:#5d606a;margin-top:80px}
+
+  @media (max-width:980px){
+    .wrap{padding:0 16px}
+    nav .wrap{height:84px}
+    nav ul{gap:16px}
+    nav ul a{font-size:11px;letter-spacing:.18em}
+    .logo{font-size:26px}
+    .hero{min-height:auto;padding:140px 0 70px}
+    .kuiper{min-height:520px}
+    .kuiper .inner{padding:40px 24px}
+    .kuiper .side{gap:24px}
+    .pair{grid-template-columns:1fr}
+    .pair .card{min-height:620px;padding:24px 24px 0}
+    .detail{padding:70px 0}
+    .detail .head{grid-template-columns:1fr;gap:24px;margin-bottom:40px}
+    .shots{grid-template-columns:repeat(2,1fr);gap:16px}
+    .shots figure:nth-child(odd){transform:none}
+    .kw-art,.asa-feats{grid-template-columns:1fr}
+    .principles .wrap{grid-template-columns:1fr}
+    .principles .col{padding:40px 0 60px}
+    .principles .col + .col{border-left:0;border-top:1px solid var(--line);padding-left:0}
+    .principles .links{gap:32px;flex-wrap:wrap}
+    footer .wrap{grid-template-columns:1fr}
+  }
+  @media (max-width:560px){
+    nav ul li:nth-child(-n+3){display:none}
+  }
+</style>
 </head>
 <body>
 
 <nav>
-    <div class="nav-inner">
-        <a href="/" class="nav-name">Kanchan Ghosh</a>
-        <div class="nav-links">
-            <a href="#services">Services</a>
-            <a href="#portfolio">Apps & Projects</a>
-            <a href="#shop">Shop</a>
-            <a href="#code">Dev Kits</a>
-            <a href="blog_home.html" target="_blank" rel="noopener">Blog</a>
-            <a href="#contact">Contact</a>
-        </div>
-    </div>
+  <div class="wrap">
+    <a class="logo" href="#top">Play <i>&amp;</i> Care</a>
+    <ul>
+      <li><a href="#kuiper-war">KUIPER WAR</a></li>
+      <li><a href="#if-only">IF ONLY</a></li>
+      <li><a href="#asa">ASA</a></li>
+      <li><a href="#contact">ABOUT</a></li>
+    </ul>
+  </div>
 </nav>
 
-<header class="hero">
-    <p class="hero-label">Custom Android Developer & AI Engineer · Leeds, UK</p>
-    <h1>I turn complex logic into production-grade Android apps and AI systems.</h1>
-    <p class="hero-sub">Specializing in native mobile development, real-time signal processing, encrypted architectures, and custom AI tools. From initial proof-of-concept to Google Play deployment.</p>
-    <div class="hero-cta">
-        <a href="#contact" class="btn">Hire for Custom Engineering</a>
-        <a href="#portfolio" class="btn btn-secondary">Explore Live Showcase</a>
-    </div>
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="eyebrow">Portfolio · Healthtech &amp; Game Development</div>
+    <h1 class="serif">Technology that <em class="t">cares</em>.<br>Games that <em class="g">stay with you</em>.</h1>
+    <p>I design and build accessible health tools and story-rich games</p>
+  </div>
 </header>
 
 <main>
-            <!-- Chess Coach by Teachify -->
-            <article class="product-card" style="border:2px solid #C9A84C">
-                <div class="product-info">
-                    <span class="product-tag">AI Chess Tutor · Live · Featured</span>
-                    <h3>Chess Coach by Teachify</h3>
-                    <p>AI chess tutor for children aged 6–14. Every move scored and explained before it's played. Weak moves blocked automatically. Quiz-gated learning with PDF reports for parents. £7.99/month.</p>
-                    <p class="product-meta">Domain: teachify.fit · Flask + Stockfish + Gemini · Stripe Billing</p>
-                    <div class="product-buttons">
-                        <a href="https://teachify.fit/" class="btn" target="_blank" rel="noopener">Try Chess Coach</a>
-                        <a href="https://www.youtube.com/watch?v=N4QzmJ8QhCU" class="btn btn-secondary" target="_blank" rel="noopener">Watch Demo</a>
-                    </div>
-                </div>
-            </article>
-    
-    <!-- Services Overview -->
-    <section id="services">
-        <h2>Engineering Services</h2>
-        <div class="product-grid">
-            <article class="product-card">
-                <div class="product-info">
-                    <span class="product-tag">Custom Android Development</span>
-                    <h3>Native & Hybrid App Building</h3>
-                    <p>End-to-end mobile development using modern Kotlin, Flutter, and optimized Web Containers (TWA). Clean UI execution with resilient offline capabilities and secure local state management.</p>
-                </div>
-            </article>
+  <section class="work">
+    <div class="wrap">
 
-            <article class="product-card">
-                <div class="product-info">
-                    <span class="product-tag">AI & Vector Search</span>
-                    <h3>RAG & On-Device ML Integration</h3>
-                    <p>Building semantic search, document analysis pipelines, and custom voice/agent workflows using Gemini, Claude, or OpenAI with strict privacy and low-latency performance.</p>
-                </div>
-            </article>
-
-            <article class="product-card">
-                <div class="product-info">
-                    <span class="product-tag">Systems & Infrastructure</span>
-                    <h3>Refactoring & Play Console Compliance</h3>
-                    <p>Audit and cleanup of fragile codebases, fixing Google Play Store compliance rejections, and setting up containerized (Docker/Flask/GCP) backend infrastructure.</p>
-                </div>
-            </article>
-
-            <article class="product-card">
-                <div class="product-info">
-                    <span class="product-tag">Market Research & Intelligence</span>
-                    <h3>Customer Insights & Market Reports</h3>
-                    <p>Qualitative research synthesized into actionable reports: customer feedback analysis, competitor intelligence, market sizing, and ecosystem mapping. Combining public data, interviews, and user insights into human-readable strategy documents.</p>
-                </div>
-            </article>
+      <a class="card kuiper" href="#kuiper-war" target="_blank" rel="noopener">
+        <div class="inner">
+          <div>
+            <div class="eyebrow">01 · Game Development</div>
+            <h2 class="serif">Kuiper War</h2>
+          </div>
+          <div class="side">
+            <span>Fleet combat at the cold edge of the solar system.</span>
+            <span class="arrow">↗</span>
+          </div>
         </div>
-    </section>
+      </a>
 
-    <!-- Live Portfolio & Websites Showcase -->
-    <section id="portfolio">
-        <h2>Live Apps & Featured Projects</h2>
-        <p class="section-intro">Production-grade systems and consumer platforms built and maintained from scratch:</p>
-        
-        <div class="product-grid">
-            
-            <!-- Teenect -->
-            <article class="product-card">
-                <div class="product-info">
-                    <span class="product-tag">Mobile Ecosystem · Live</span>
-                    <h3>Teenect</h3>
-                    <p>A smart mobile application and responsive ecosystem built to map, organize, and support daily family routines and connectivity seamlessly.</p>
-                    <p class="product-meta">Domain: teenect.online · Android App</p>
-                    <div class="product-buttons">
-                        <a href="https://teenect.online/" class="btn" target="_blank" rel="noopener">Visit Web Platform</a>
-                        <a href="https://play.google.com/store/apps/details?id=com.teenect.app" class="btn btn-secondary" target="_blank" rel="noopener">Google Play Store</a>
-                    </div>
-                </div>
-            </article>
+      <div class="pair">
+        <a class="card ifonly" href="#if-only">
+          <span class="eyebrow">02 · Game Development</span>
+          <h2 class="serif">If Only</h2>
+          <p>A mother, a demon, and a game of dice.</p>
+          <div class="art">
+            <div class="phone p1"><img src="images/ifonly-title.jpg" alt="If Only — title screen" loading="lazy"></div>
+            <div class="phone p2"><img src="images/ifonly-mid-game.jpg" alt="If Only — mid-game scorecard" loading="lazy"></div>
+          </div>
+        </a>
 
-            <!-- LoveUAD -->
-            <article class="product-card">
-                <div class="product-info">
-                    <span class="product-tag">Security & Family Sync · Live</span>
-                    <h3>LoveUAD</h3>
-                    <p>An encrypted notification architecture built to handle secure routing and privacy-first data synchronization for family networks.</p>
-                    <p class="product-meta">Domain: loveuad.com · Encrypted Pipeline</p>
-                    <div class="product-buttons">
-                        <a href="https://loveuad.com/" class="btn" target="_blank" rel="noopener">Visit LoveUAD</a>
-                        <a href="https://apps.apple.com/gb/app/loveuad-love-you-always-dad/id6756029099" class="btn btn-secondary" target="_blank" rel="noopener">App Store</a>
-                    </div>
-                </div>
-            </article>
+        <a class="card asa" href="#asa">
+          <span class="eyebrow">03 · Healthtech</span>
+          <h2 class="serif">ASA</h2>
+          <p>An accessibility app built around a single touch.</p>
+          <div class="art"><img src="images/asa-icon.png" alt="ASA app icon" loading="lazy"></div>
+        </a>
+      </div>
 
-            <!-- The Raga Guru -->
-            <article class="product-card">
-                <div class="product-info">
-                    <span class="product-tag">Music Tech & DSP Engine · Live</span>
-                    <h3>The Raga Guru</h3>
-                    <p>A specialized music education tool featuring real-time visual pitch detection algorithms and phrase-by-phrase drilling for Indian classical music.</p>
-                    <p class="product-meta">Domain: ragaguru.online · Audio Analytics</p>
-                    <div class="product-buttons">
-                        <a href="https://ragaguru.online/" class="btn" target="_blank" rel="noopener">Explore Raga Guru</a>
-                        <a href="https://play.google.com/store/apps/details?id=com.loveuad.raga_guru" class="btn btn-secondary" target="_blank" rel="noopener">Google Play Store</a>
-                    </div>
-                </div>
-            </article>
+    </div>
+  </section>
 
-            <!-- If Only -->
-            <article class="product-card">
-                <div class="product-info">
-                    <span class="product-tag">AI Writing Tool · Live</span>
-                    <h3>If Only</h3>
-                    <p>An AI-powered writing app that turns spoken reflections into short creative pieces. User accounts, credits system, and built-in blog.</p>
-                    <p class="product-meta">Flask + Gemini · Android App</p>
-                    <div class="product-buttons">
-                        <a href="https://play.google.com/store/apps/details?id=com.ifonly.if_only" class="btn" target="_blank" rel="noopener">Google Play Store</a>
-                    </div>
-                </div>
-            </article>
-
-            <!-- SOFIA -->
-            <article class="product-card">
-                <div class="product-info">
-                    <span class="product-tag">Mobile App · Live</span>
-                    <h3>SOFIA</h3>
-                    <p class="product-meta">Android App</p>
-                    <div class="product-buttons">
-                        <a href="https://play.google.com/store/apps/details?id=com.ikanchan.sofia2" class="btn" target="_blank" rel="noopener">Google Play Store</a>
-                    </div>
-                </div>
-            </article>
-
-            <!-- Branchlore -->
-            <article class="product-card">
-                <div class="product-info">
-                    <span class="product-tag">Creative Worldbuilding · Live</span>
-                    <h3>Branchlore Universe</h3>
-                    <p>Original fantasy fiction series and immersive worldbuilding platform. Explore stories, character lore, and standalone novella publications.</p>
-                    <p class="product-meta">Domain: branchlore.online · Creative Fiction</p>
-                    <div class="product-buttons">
-                        <a href="http://branchlore.online/" class="btn btn-secondary" target="_blank" rel="noopener">Visit Branchlore</a>
-                    </div>
-                </div>
-            </article>
-
+  <section class="detail" id="kuiper-war">
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <span class="eyebrow" style="color:var(--red)">Kuiper War · Overview</span>
+          <h3 class="serif">Small ships. Enormous odds.</h3>
         </div>
-    </section>
-
-    <!-- Shop -->
-    <section id="shop">
-        <h2>Shop</h2>
-        <div class="product-grid">
-
-            <!-- KATHA -->
-            <article class="product-card">
-                <div class="product-info">
-                    <span class="product-tag">Android App · £3.59</span>
-                    <h3>KATHA</h3>
-                    <p class="product-meta">Android App · £3.59</p>
-                    <div class="product-buttons">
-                        <a href="https://play.google.com/store/apps/details?id=com.loveuad.katha" class="btn" target="_blank" rel="noopener">Buy on Google Play · £3.59</a>
-                    </div>
-                </div>
-            </article>
-
+        <div class="body">
+          <p>A space combat game set in the Kuiper Belt. Small, fast ships thread asteroid fields to bring down vast fortress stations.</p>
+          <p>Beyond Neptune, the light is thin and the rock is everywhere. Players pilot agile ships through drifting asteroid fields, picking their moment to strike at heavily armed ring stations that glow red with power.</p>
+          <p>The visual language is built on contrast: cold blue engines for the player, hot red circuitry for the enemy. You always know who is who — even in the chaos of an asteroid field.</p>
+          <a class="visit" href="https://kuiperwar.space" target="_blank" rel="noopener" style="color:var(--red)">Visit kuiperwar.space <span class="arrow">↗</span></a>
         </div>
-    </section>
+      </div>
+      <div class="kw-art">
+        <figure><img src="images/kuiper-war-wide.jpg" alt="Kuiper War — a player ship approaching a ring fortress" loading="lazy"><figcaption>Key art · The approach</figcaption></figure>
+        <figure><img src="images/kuiper-war-station.jpg" alt="Kuiper War — ring fortress station" loading="lazy"><figcaption>The fortress</figcaption></figure>
+      </div>
+    </div>
+  </section>
 
-    <!-- Developer Starter Kits -->
-    <section id="code">
-        <h2>Developer Tools & Starter Kits</h2>
-        <p class="section-intro">Production-ready codebases to accelerate your build. MIT licensed. Fully compatible with Gemini, OpenAI, or Claude API keys.</p>
-        <div id="code-list" class="product-grid"></div>
-    </section>
+  <section class="detail" id="if-only">
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <span class="eyebrow" style="color:var(--gold)">If Only · Overview</span>
+          <h3 class="serif">Lose a game, and you play it again.</h3>
+        </div>
+        <div class="body">
+          <p>The Heavenly Game — a story driven dice game. A mother plays hand after hand against a demon, while somewhere behind her a monitor keeps counting.</p>
+          <p>Each level moves the story somewhere new. Between hands, the demon talks — teasing, bargaining, waiting. The rules are familiar dice-scoring; the stakes are not.</p>
+          <a class="visit" href="https://ifonly.blog" target="_blank" rel="noopener" style="color:var(--gold)">Visit ifonly.blog <span class="arrow">↗</span></a>
+        </div>
+      </div>
+      <div class="shots">
+        <figure class="phone-fig"><div class="phone"><img src="images/ifonly-title.jpg" alt="Title screen" loading="lazy"></div><figcaption>01 · Title</figcaption></figure>
+        <figure class="phone-fig"><div class="phone"><img src="images/ifonly-story.jpg" alt="Story screen with the demon" loading="lazy"></div><figcaption>02 · Story</figcaption></figure>
+        <figure class="phone-fig"><div class="phone"><img src="images/ifonly-first-roll.jpg" alt="First roll" loading="lazy"></div><figcaption>03 · First roll</figcaption></figure>
+        <figure class="phone-fig"><div class="phone"><img src="images/ifonly-mid-game.jpg" alt="Mid-game scorecard" loading="lazy"></div><figcaption>04 · Mid-game</figcaption></figure>
+      </div>
+    </div>
+  </section>
 
-   
+  <section class="detail" id="asa">
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <span class="eyebrow" style="color:var(--teal)">ASA · Overview</span>
+          <h3 class="serif">Technology should meet people where they are.</h3>
+        </div>
+        <div class="body">
+          <p>ASA is an accessibility app designed so that one tap is enough to be heard — turning simple gestures into communication and care.</p>
+          <p>The icon tells the story: a fingertip, a ripple of sound, a heart. ASA is built for people for whom everyday technology is too fiddly, too fast, or too small — and for the families and carers around them.</p>
+        </div>
+      </div>
+      <div class="asa-feats">
+        <div class="feat"><h4>One touch</h4><p>Every core action is reachable with a single, generous tap — no precise gestures required.</p></div>
+        <div class="feat"><h4>Be heard</h4><p>Clear feedback in sound and sight, so the person using it always knows they've been understood.</p></div>
+        <div class="feat"><h4>Built with care</h4><p>Calm colours, high contrast and no clutter — designed to reduce stress, not add to it.</p></div>
+      </div>
+    </div>
+  </section>
 
-    <!-- Contact & Consultation Form -->
-    <section id="contact">
-        <h2>Start a Project</h2>
-        <p>Have an Android app to build, an AI feature to integrate, a technical codebase to fix, or research to conduct? Send your project details below:</p>
-        
-        <form action="https://formsubmit.co/webtestkan@gmail.com" method="POST" class="contact-form">
-            <!-- FormSubmit Options -->
-            <input type="hidden" name="_subject" value="New Inquiry - ikanchan.com">
-            <input type="hidden" name="_template" value="table">
-            <input type="text" name="_honey" style="display:none"> <!-- Anti-Spam Honeypot -->
+  <section class="principles">
+    <div class="wrap">
+      <div class="col">
+        <span class="eyebrow" style="color:var(--teal)">Healthtech</span>
+        <h3 class="serif">Design for every body.</h3>
+        <p>Accessibility isn't a feature to add later. I build tools like ASA starting from the people who are usually left out — large targets, clear feedback, nothing assumed.</p>
+        <div class="links"><a href="#asa" style="color:var(--teal)">See ASA <span class="arrow">→</span></a></div>
+      </div>
+      <div class="col">
+        <span class="eyebrow" style="color:var(--red)">Game Development</span>
+        <h3 class="serif">Worlds with weight.</h3>
+        <p>From fleet battles in deep space to a quiet dice game with a demon, I make games that pair simple, satisfying play with a story worth sitting through.</p>
+        <div class="links">
+          <a href="https://kuiperwar.space" target="_blank" rel="noopener" style="color:var(--red)">Play Kuiper War <span class="arrow">↗</span></a>
+          <a href="https://ifonly.blog" target="_blank" rel="noopener" style="color:var(--gold)">Play If Only <span class="arrow">↗</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
 
-            <div class="form-group">
-                <label for="name">Your Name</label>
-                <input type="text" id="name" name="name" placeholder="Your name" required class="form-control">
-            </div>
-
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" placeholder="you@example.com" required class="form-control">
-            </div>
-
-            <div class="form-group">
-                <label for="service">Project Type</label>
-                <select id="service" name="service_type" class="form-control">
-                    <option value="Custom Android App">Custom Android App Development</option>
-                    <option value="AI / RAG Integration">AI Integration / RAG Pipeline</option>
-                    <option value="Play Store Fix / Code Audit">Google Play Store Fix / Codebase Audit</option>
-                    <option value="Market Research / Consulting">Market Research / Ecosystem Report</option>
-                    <option value="General Consulting">General Software Consulting</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="message">Project Overview</label>
-                <textarea id="message" name="message" rows="5" placeholder="Briefly describe your app idea, timeline, research scope, or technical bottleneck..." required class="form-control"></textarea>
-            </div>
-
-            <button type="submit" class="btn">Submit Inquiry</button>
-        </form>
-    </section>
-
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <span class="eyebrow">Contact</span>
+      <h3 class="serif">Get in touch.</h3>
+      <div class="mails">
+        <a href="mailto:kanchan@ikanchan.com">kanchan@ikanchan.com</a>
+        <a href="mailto:kanchanloveuad@gmail.com">kanchanloveuad@gmail.com</a>
+      </div>
+    </div>
+  </section>
 </main>
 
 <footer>
-    <p>LOVEUAD LTD · Leeds, UK · Company No. 16838046</p>
+  <div class="wrap">
+    <div class="serif tag">Building things people <span class="t">need</span>,<br>and things they <span class="g">remember</span>.</div>
+    <div>
+      <span class="eyebrow">Work</span>
+      <ul>
+        <li><a href="#kuiper-war">Kuiper War</a></li>
+        <li><a href="#if-only">If Only</a></li>
+        <li><a href="#asa">ASA</a></li>
+      </ul>
+    </div>
+    <div>
+      <span class="eyebrow">Play now</span>
+      <ul>
+        <li><a href="https://kuiperwar.space" target="_blank" rel="noopener">kuiperwar.space ↗</a></li>
+        <li><a href="https://ifonly.blog" target="_blank" rel="noopener">ifonly.blog ↗</a></li>
+        <li><a href="#contact">About &amp; contact</a></li>
+      </ul>
+      <div class="copy">© 2026 KANCHAN GHOSH</div>
+    </div>
+  </div>
 </footer>
-
-<script>
-function renderProduct(item) {
-    var buttons = '';
-    if (item.url && item.url !== '#') {
-        buttons += '<a href="' + item.url + '" class="btn" target="_blank" rel="noopener">' + item.button + '</a>';
-    } else if (item.button) {
-        buttons += '<span class="btn btn-disabled">' + item.button + '</span>';
-    }
-    if (item.button2 && item.button2_url) {
-        buttons += ' <a href="' + item.button2_url + '" class="btn btn-secondary" target="_blank" rel="noopener">' + item.button2 + '</a>';
-    }
-
-    return '<article class="product-card">' +
-        '<div class="product-info">' +
-            '<span class="product-tag">' + item.tag + '</span>' +
-            '<h3>' + item.title + '</h3>' +
-            '<p>' + item.description + '</p>' +
-            '<p class="product-meta">' + item.meta + '</p>' +
-            '<div class="product-buttons">' + buttons + '</div>' +
-        '</div>' +
-    '</article>';
-}
-
-async function loadSection(jsonPath, containerId) {
-    try {
-        var res = await fetch(jsonPath);
-        var items = await res.json();
-        var container = document.getElementById(containerId);
-        if (items.length === 0) return;
-        container.innerHTML = items.map(renderProduct).join('');
-    } catch (e) {
-        // Retains static HTML fallback
-    }
-}
-
-// Auto-fetch Hashnode blog posts from @mitgh via RSS
-async function loadHashnodeBlog() {
-    // Hashnode user RSS feed endpoint
-    var rssFeedUrl = 'https://hashnode.com/@mitgh/rss.xml';
-    var apiUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(rssFeedUrl);
-
-    try {
-        var res = await fetch(apiUrl);
-        var data = await res.json();
-        var container = document.getElementById('blog-posts');
-
-        if (!data.items || data.items.length === 0) {
-            container.innerHTML = '<p class="muted">New posts coming soon on Hashnode.</p>';
-            return;
-        }
-
-        var latest = data.items.slice(0, 3);
-        container.innerHTML = latest.map(function(post) {
-            var date = post.pubDate ? post.pubDate.split(' ')[0] : 'Recent';
-            
-            // Clean HTML tags from snippet
-            var tempDiv = document.createElement('div');
-            tempDiv.innerHTML = post.description;
-            var snippet = (tempDiv.textContent || tempDiv.innerText || '').substring(0, 150) + '...';
-
-            return '<article class="blog-preview">' +
-                '<time>' + date + '</time>' +
-                '<h3><a href="' + post.link + '" target="_blank" rel="noopener">' + post.title + '</a></h3>' +
-                '<p>' + snippet + '</p>' +
-            '</article>';
-        }).join('');
-    } catch (e) {
-        document.getElementById('blog-posts').innerHTML = '<p class="muted">Check out my latest articles directly on <a href="https://hashnode.com/@mitgh" target="_blank">Hashnode</a>.</p>';
-    }
-}
-
-// Initialize dynamic components
-loadSection('data/code.json', 'code-list');
-loadHashnodeBlog();
-</script>
 
 </body>
 </html>
