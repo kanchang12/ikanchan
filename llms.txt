@@ -1,0 +1,23 @@
+# Kanchan Ghosh — Play & Care
+
+> Portfolio of Kanchan Ghosh, founder of LOVEUAD LTD (Leeds, UK). He designs and builds accessible health tools and story-rich games. Tagline: "Technology that cares. Games that stay with you."
+
+Contact: kanchan@ikanchan.com, kanchanloveuad@gmail.com
+
+## Games
+
+- [Kuiper War](https://kuiperwar.space): A space combat game set in the Kuiper Belt. Small, fast ships thread asteroid fields to bring down vast fortress stations. Visual language built on contrast: cold blue engines for the player, hot red circuitry for the enemy. Plays in the browser.
+- [If Only — The Heavenly Game](https://ifonly.blog): A story driven dice game. A mother plays hand after hand against a demon, while somewhere behind her a monitor keeps counting. Each level moves the story somewhere new; between hands the demon talks — teasing, bargaining, waiting. Familiar dice-scoring rules. Web and mobile.
+
+## Healthtech
+
+- [ASA](https://ikanchan.com/#asa): An accessibility app designed so that one tap is enough to be heard — turning simple gestures into communication and care. Built for people for whom everyday technology is too fiddly, too fast, or too small, and for the families and carers around them. Principles: one touch (every core action reachable with a single, generous tap), be heard (clear feedback in sound and sight), built with care (calm colours, high contrast, no clutter).
+
+## Approach
+
+- Accessibility: tools are built starting from the people who are usually left out — large targets, clear feedback, nothing assumed.
+- Games: simple, satisfying play paired with a story worth sitting through.
+
+## Pages
+
+- [Home](https://ikanchan.com/): Portfolio overview with all three projects and contact details.
