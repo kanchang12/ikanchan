@@ -21,6 +21,19 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+import os
+from flask import send_from_directory, request
+
+@app.route("/images/<path:filename>")
+def site_images(filename):
+    return send_from_directory(os.path.join(app.root_path, "templates", "images"), filename)
+
+@app.route("/llms.txt")
+@app.route("/robots.txt")
+@app.route("/sitemap.xml")
+def root_files():
+    return send_from_directory(app.root_path, request.path.lstrip("/"))
+
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', secrets.token_hex(32))
 
