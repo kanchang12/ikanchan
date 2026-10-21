@@ -18,7 +18,7 @@
 <meta property="og:title" content="Technology that cares. Games that stay with you.">
 <meta property="og:description" content="Accessible health tools and story-rich games by Kanchan Ghosh: Kuiper War, If Only and ASA.">
 <meta property="og:url" content="https://ikanchan.com/">
-<meta property="og:image" content="https://ikanchan.com/images/kuiper-war-wide.jpg">
+<meta property="og:image" content="https://ikanchan.com/static/images/kuiper-war-wide.jpg">
 <meta property="og:image:width" content="1584">
 <meta property="og:image:height" content="672">
 <meta property="og:image:alt" content="Kuiper War — a small ship approaching a ring fortress in the Kuiper Belt">
@@ -28,7 +28,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Technology that cares. Games that stay with you.">
 <meta name="twitter:description" content="Accessible health tools and story-rich games by Kanchan Ghosh: Kuiper War, If Only and ASA.">
-<meta name="twitter:image" content="https://ikanchan.com/images/kuiper-war-wide.jpg">
+<meta name="twitter:image" content="https://ikanchan.com/static/images/kuiper-war-wide.jpg">
 
 <!-- Structured data (search engines + answer engines) -->
 <script type="application/ld+json">
@@ -76,7 +76,7 @@
       "description": "A space combat game set in the Kuiper Belt. Small, fast ships thread asteroid fields to bring down vast fortress stations.",
       "genre": "Space combat",
       "gamePlatform": "Web browser",
-      "image": "https://ikanchan.com/images/kuiper-war-wide.jpg",
+      "image": "https://ikanchan.com/static/images/kuiper-war-wide.jpg",
       "author": { "@id": "https://ikanchan.com/#person" }
     },
     {
@@ -88,7 +88,7 @@
       "description": "A story driven dice game. A mother plays hand after hand against a demon, while somewhere behind her a monitor keeps counting.",
       "genre": ["Narrative", "Dice game"],
       "gamePlatform": ["Web browser", "Mobile"],
-      "image": "https://ikanchan.com/images/ifonly-title.jpg",
+      "image": "https://ikanchan.com/static/images/ifonly-title.jpg",
       "author": { "@id": "https://ikanchan.com/#person" }
     },
     {
@@ -97,7 +97,7 @@
       "name": "ASA",
       "applicationCategory": "HealthApplication",
       "description": "An accessibility app designed so that one tap is enough to be heard — turning simple gestures into communication and care.",
-      "image": "https://ikanchan.com/images/asa-icon.png",
+      "image": "https://ikanchan.com/static/images/asa-icon.png",
       "accessibilityFeature": ["highContrastDisplay"],
       "author": { "@id": "https://ikanchan.com/#person" }
     }
@@ -172,7 +172,7 @@
   .kuiper{min-height:760px;display:flex;align-items:flex-end;
     background:
       linear-gradient(0deg, rgba(8,9,13,.85) 0%, rgba(8,9,13,.15) 45%, rgba(8,9,13,0) 100%),
-      url("/images/kuiper-war-wide.jpg") right center/cover no-repeat,
+      url("{{ url_for('static', filename='images/kuiper-war-wide.jpg') }}") right center/cover no-repeat,
       #070910}
   .kuiper .inner{display:flex;justify-content:space-between;align-items:flex-end;width:100%;padding:70px 72px 80px;gap:40px;flex-wrap:wrap}
   .kuiper .eyebrow{color:var(--red);margin-bottom:22px}
@@ -318,8 +318,8 @@
           <h2 class="serif">If Only</h2>
           <p>A mother, a demon, and a game of dice.</p>
           <div class="art">
-            <div class="phone p1"><img src="/images/ifonly-title.jpg" alt="If Only — title screen" loading="lazy"></div>
-            <div class="phone p2"><img src="/images/ifonly-mid-game.jpg" alt="If Only — mid-game scorecard" loading="lazy"></div>
+            <div class="phone p1"><img src="{{ url_for('static', filename='images/ifonly-title.jpg') }}" alt="If Only — title screen" loading="lazy"></div>
+            <div class="phone p2"><img src="{{ url_for('static', filename='images/ifonly-mid-game.jpg') }}" alt="If Only — mid-game scorecard" loading="lazy"></div>
           </div>
         </a>
 
@@ -327,7 +327,7 @@
           <span class="eyebrow">03 · Healthtech</span>
           <h2 class="serif">ASA</h2>
           <p>An accessibility app built around a single touch.</p>
-          <div class="art"><img src="/images/asa-icon.png" alt="ASA app icon" loading="lazy"></div>
+          <div class="art"><img src="{{ url_for('static', filename='images/asa-icon.png') }}" alt="ASA app icon" loading="lazy"></div>
         </a>
       </div>
 
@@ -349,8 +349,8 @@
         </div>
       </div>
       <div class="kw-art">
-        <figure><img src="/images/kuiper-war-wide.jpg" alt="Kuiper War — a player ship approaching a ring fortress" loading="lazy"><figcaption>Key art · The approach</figcaption></figure>
-        <figure><img src="/images/kuiper-war-station.jpg" alt="Kuiper War — ring fortress station" loading="lazy"><figcaption>The fortress</figcaption></figure>
+        <figure><img src="{{ url_for('static', filename='images/kuiper-war-wide.jpg') }}" alt="Kuiper War — a player ship approaching a ring fortress" loading="lazy"><figcaption>Key art · The approach</figcaption></figure>
+        <figure><img src="{{ url_for('static', filename='images/kuiper-war-station.jpg') }}" alt="Kuiper War — ring fortress station" loading="lazy"><figcaption>The fortress</figcaption></figure>
       </div>
     </div>
   </section>
@@ -369,10 +369,10 @@
         </div>
       </div>
       <div class="shots">
-        <figure class="phone-fig"><div class="phone"><img src="/images/ifonly-title.jpg" alt="Title screen" loading="lazy"></div><figcaption>01 · Title</figcaption></figure>
-        <figure class="phone-fig"><div class="phone"><img src="/images/ifonly-story.jpg" alt="Story screen with the demon" loading="lazy"></div><figcaption>02 · Story</figcaption></figure>
-        <figure class="phone-fig"><div class="phone"><img src="/images/ifonly-first-roll.jpg" alt="First roll" loading="lazy"></div><figcaption>03 · First roll</figcaption></figure>
-        <figure class="phone-fig"><div class="phone"><img src="/images/ifonly-mid-game.jpg" alt="Mid-game scorecard" loading="lazy"></div><figcaption>04 · Mid-game</figcaption></figure>
+        <figure class="phone-fig"><div class="phone"><img src="{{ url_for('static', filename='images/ifonly-title.jpg') }}" alt="Title screen" loading="lazy"></div><figcaption>01 · Title</figcaption></figure>
+        <figure class="phone-fig"><div class="phone"><img src="{{ url_for('static', filename='images/ifonly-story.jpg') }}" alt="Story screen with the demon" loading="lazy"></div><figcaption>02 · Story</figcaption></figure>
+        <figure class="phone-fig"><div class="phone"><img src="{{ url_for('static', filename='images/ifonly-first-roll.jpg') }}" alt="First roll" loading="lazy"></div><figcaption>03 · First roll</figcaption></figure>
+        <figure class="phone-fig"><div class="phone"><img src="{{ url_for('static', filename='images/ifonly-mid-game.jpg') }}" alt="Mid-game scorecard" loading="lazy"></div><figcaption>04 · Mid-game</figcaption></figure>
       </div>
     </div>
   </section>

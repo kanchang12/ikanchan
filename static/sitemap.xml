@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://ikanchan.com/</loc>
+    <lastmod>2026-10-21</lastmod>
+    <image:image><image:loc>https://ikanchan.com/static/images/kuiper-war-wide.jpg</image:loc></image:image>
+    <image:image><image:loc>https://ikanchan.com/static/images/kuiper-war-station.jpg</image:loc></image:image>
+    <image:image><image:loc>https://ikanchan.com/static/images/ifonly-title.jpg</image:loc></image:image>
+    <image:image><image:loc>https://ikanchan.com/static/images/ifonly-story.jpg</image:loc></image:image>
+    <image:image><image:loc>https://ikanchan.com/static/images/ifonly-first-roll.jpg</image:loc></image:image>
+    <image:image><image:loc>https://ikanchan.com/static/images/ifonly-mid-game.jpg</image:loc></image:image>
+    <image:image><image:loc>https://ikanchan.com/static/images/asa-icon.png</image:loc></image:image>
+  </url>
+</urlset>
