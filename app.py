@@ -9,6 +9,10 @@ def index():
     return render_template("index.html")
 
 
+@app.route("/App-ads.txt")
+def app-ads():
+    return render_template("App-ads.txt")
+    
 @app.route("/llms.txt")
 def llms():
     return send_from_directory(app.static_folder, "llms.txt", mimetype="text/plain")
