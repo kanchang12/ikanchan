@@ -11,7 +11,7 @@ def index():
 
 @app.route("/app-ads.txt")
 def appads():
-    return render_template("App-ads.txt")
+    return render_template("app-ads.txt")
     
 @app.route("/llms.txt")
 def llms():
