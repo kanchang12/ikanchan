@@ -9,7 +9,7 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/App-ads.txt")
+@app.route("/Appads.txt")
 def app-ads():
     return render_template("App-ads.txt")
     
